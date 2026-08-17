@@ -10,14 +10,14 @@
   import routes from '$lib/routes';
   import trackEvent from '$lib/util/track-plausible';
   import { PlausibleEvent } from '$lib/types/Plausible';
-  import type { GardenDraft } from '$lib/types/Garden';
+  import type { GardenSubmission } from '$lib/types/Garden';
   import * as Sentry from '@sentry/sveltekit';
   import { lr } from '$lib/util/translation-helpers';
   import logger from '$lib/util/logger';
 
   let updatingGarden = $state(false);
 
-  const submit = async (garden: GardenDraft) => {
+  const submit = async (garden: GardenSubmission) => {
     updatingGarden = true;
 
     try {

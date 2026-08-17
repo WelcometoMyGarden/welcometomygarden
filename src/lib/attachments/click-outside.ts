@@ -33,8 +33,8 @@ export type ClickOutsideEvent = CustomEvent<ClickOutsideParams>;
  * So for now, we just filter out this one observed bug scenario.
  */
 function isZoomRestrictionLinkWithGardenModalOpen(node: Node) {
-  let zoomRestrictionNode = document.querySelector('.zoom-restriction-notice-link');
-  let gardenDrawer = document.querySelector('.drawer');
+  const zoomRestrictionNode = document.querySelector('.zoom-restriction-notice-link');
+  const gardenDrawer = document.querySelector('.drawer');
   if (!zoomRestrictionNode || !gardenDrawer) {
     return false;
   }

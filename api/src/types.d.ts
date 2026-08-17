@@ -11,7 +11,17 @@ import type { ScheduledEvent as SE } from 'firebase-functions/v2/scheduler';
 declare global {
   type EResponse = import('express').Response;
 
-  // Shortcuts to often-used types
+  // Shortcuts to often-used types.
+  //
+  // The Firestore ref/query aliases below pass the model type as BOTH
+  // `AppModelType` and `DbModelType` (`<T, T>`). That second parameter is what
+  // makes `.update()` type-checked (see the plan / firestore docblock). It
+  // relies on `DbModelType extends DocumentData`, i.e. the model having an
+  // implicit index signature — which TypeScript grants to `type` aliases but
+  // NOT to `interface` declarations. Every model here (`UserPublic`,
+  // `FirebaseGarden`, `FirebaseChat`, …) is a `type` alias; converting one to an
+  // `interface` would break every `<T, T>` alias below.
+  type DocumentData = import('@google-cloud/firestore').DocumentData;
   type FirestoreEvent<T, Params = Record<string, string>> = FE<T, Params>;
   type FirestoreAuthEvent<T, Params = Record<string, string>> = FAE<T, Params>;
   type DocumentSnapshot<T = DocumentData> = DS<T, T>;
@@ -19,7 +29,8 @@ declare global {
     T,
     T
   >;
-  type CollectionReference<T> = import('firebase-admin/firestore').CollectionReference<T, T>;
+  type CollectionReference<T = DocumentData> =
+    import('firebase-admin/firestore').CollectionReference<T, T>;
   type Query<T = DocumentData> = import('firebase-admin/firestore').Query<T, T>;
   type QueryDocumentSnapshot<T = DocumentData> =
     import('@google-cloud/firestore').QueryDocumentSnapshot<T, T>;
@@ -33,11 +44,23 @@ declare global {
   type Garden = import('../../src/lib/types/Garden').FirebaseGarden;
   type Chat = import('../../src/lib/types/Chat').FirebaseChat;
   type LocalChat = import('../../src/lib/types/Chat').LocalChat;
-  type Message = import('../../src/lib/types/chat').FirebaseMessage;
+  type Message = import('../../src/lib/types/Chat').FirebaseMessage;
   type Trail = import('../../src/lib/types/Trail').FirebaseTrail;
   type PushRegistration = import('../../src/lib/types/PushRegistration').FirebasePushRegistration;
   type PushRegistrationStatus =
     import('../../src/lib/types/PushRegistration').PushRegistrationStatus;
+
+  /**
+   * A `stats/{id}` counter document (e.g. `stats/superfans`, `stats/campsites`,
+   * `stats/users`). Only ever holds a single incrementing count.
+   */
+  type StatCount = { count: number };
+
+  /**
+   * An `users-private/{uid}/unreads/{chatId}` document, tracking when the user
+   * was last notified about unread activity in a chat.
+   */
+  type Unread = { notifiedAt: Timestamp; chatId: string };
 
   type UserMeta = {
     /**
@@ -62,7 +85,7 @@ declare global {
   type WrappedFunction = <T extends (...args: any[]) => any>(
     guard: boolean,
     func: T
-  ) => (...args: Arguments<T>) => ReturnType<T> | undefined;
+  ) => (...args: Parameters<T>) => ReturnType<T> | null;
 
   type ContactCreationCheckData = {
     uid: string;
@@ -117,14 +140,14 @@ declare global {
   type SupportedLanguage = import('../../src/lib/types/general').SupportedLanguage;
   type MainLanguage = import('../../src/lib/types/general').MainLanguage;
 
-  declare namespace FV1 {
+  namespace FV1 {
     type CallableContext = CC;
   }
 
   /**
    * Functions v2
    */
-  declare namespace FV2 {
+  namespace FV2 {
     type CallableRequest<T = any> = CR<T>;
     type ScheduledEvent = SE;
     type Request = import('firebase-functions/https').Request;
@@ -142,7 +165,7 @@ declare global {
     reference: string | null;
   };
 
-  declare namespace Supabase {
+  namespace Supabase {
     /**
      * Multi-value single (non-set) responses return a null value for every column when no result is returned.
      */
@@ -156,7 +179,7 @@ declare global {
     }>;
   }
 
-  declare namespace SendGrid {
+  namespace SendGrid {
     type MailDataRequired = MDR;
 
     /**
@@ -205,7 +228,7 @@ ISO date strings
 
     type ParsedInboundRequest = {
       envelopeFromEmail?: string;
-      headerFrom?: addrparser.Address;
+      headerFrom?: import('@haraka/email-address').Address;
       responseText?: string;
       chatId?: string;
       dkimResult: {
@@ -245,7 +268,7 @@ ISO date strings
     };
   }
 
-  declare namespace Stripe {
+  namespace Stripe {
     type Subscription = import('stripe').Stripe.Subscription;
     type Event = import('stripe').Stripe.Event;
   }

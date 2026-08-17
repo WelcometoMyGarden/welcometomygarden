@@ -34,7 +34,7 @@ import logger from '$lib/util/logger';
 import nProgress from 'nprogress';
 import { rootModal } from '$lib/stores/app';
 import NativeNotificationsDeniedModal from '$lib/components/Notifications/NativeNotificationsDeniedModal.svelte';
-import { Capacitor } from '@capacitor/core';
+import { Capacitor, type PluginListenerHandle } from '@capacitor/core';
 import { page } from '$app/state';
 import { unlocalizePath } from '$lib/routes';
 import { PUBLIC_WTMG_HOST } from '$env/static/public';
@@ -236,29 +236,29 @@ export function setupAndroidChannels() {
 }
 export async function registerOrRefreshNativeRegistration() {
   DEV: logger.debug('Registering native push notifications due to creation or refresh');
-  // Set up listeners
-  const tokenPromise = new Promise<string>(async (resolve, reject) => {
-    // On success, we should be able to receive notifications
-    const successListener = await PushNotifications.addListener(
-      'registration',
-      async (token: Token) => {
-        await removeListeners();
-        DEV: logger.debug('Successfully registered native push with FCM token', token.value);
-        resolve(token.value);
-      }
-    );
-    const errorListener = await PushNotifications.addListener(
-      'registrationError',
-      async (error: any) => {
-        await removeListeners();
-        reject(error);
-      }
-    );
-    // To make sure that the register() method can be called multiple times, without invoking old
-    // listeners
-    const removeListeners = () => Promise.all([successListener.remove(), errorListener.remove]);
-  });
+  const tokenPromise = new Promise<string>((resolve, reject) => {
+    const listeners: (void | PluginListenerHandle)[] = [undefined, undefined];
+    const removeListeners = () => Promise.all(listeners.map((l) => l?.remove()));
+    const removeListenersAndReject = () => removeListeners().then(reject, reject);
+    // Continue despite rejection
+    const removeListenersSafely = () => removeListeners().catch((e) => logger.error(e));
 
+    // Set up listeners
+    Promise.all([
+      PushNotifications.addListener('registration', (token: Token) =>
+        removeListenersSafely().then(() => {
+          DEV: logger.debug('Successfully registered native push with FCM token', token.value);
+          resolve(token.value);
+        })
+      ).then((l) => (listeners[0] = l)),
+      PushNotifications.addListener('registrationError', (error: any) =>
+        removeListenersSafely().then(() => reject(error))
+      ).then((l) => (listeners[1] = l))
+    ])
+      // If a listener registration failed, attempt
+      // to remove the other listeners that if it exists, and reject
+      .catch(removeListenersAndReject);
+  });
   // Register with Apple / Google to receive push via APNS/FCM
   PushNotifications.register();
   return await tokenPromise;
@@ -374,14 +374,11 @@ async function registerNotifications() {
       await updateDoc(pushRegistrationDocRef(prWithSameToken.id), upsertProperties);
     } else {
       // Default: no existing PR with this token — add a fresh one.
-      await addDoc<FirebaseNativePushRegistration, FirebaseNativePushRegistration>(
-        pushRegistrationsColRef(),
-        {
-          fcmToken,
-          createdAt: serverTimestamp(),
-          ...upsertProperties
-        } satisfies FirebaseNativePushRegistration
-      );
+      await addDoc(pushRegistrationsColRef(), {
+        fcmToken,
+        createdAt: serverTimestamp(),
+        ...upsertProperties
+      } satisfies FirebaseNativePushRegistration);
     }
     // Success
     isEnablingLocalPushRegistration.set(false);

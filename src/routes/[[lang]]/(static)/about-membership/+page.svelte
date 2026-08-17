@@ -7,11 +7,11 @@
   import PaddedSection from '$lib/components/Marketing/PaddedSection.svelte';
   import InnerVideoSection from '$lib/components/Marketing/sections/MediaSection.svelte';
   import CollapsibleGroup from '$lib/components/CollapsibleGroup.svelte';
-  import Testimonials from '$lib/components/Marketing/Testimonials.svelte';
+  import Testimonials, { slideContentMapper } from '$lib/components/Marketing/Testimonials.svelte';
   import type { Slide } from '$lib/components/Marketing/Testimonials.svelte';
   import ProfilePicture from '$lib/components/Marketing/ProfilePicture.svelte';
   import { getNodeKeys } from '$lib/util/get-node-children';
-  import { onDestroy, onMount } from 'svelte';
+  import { onMount } from 'svelte';
   import smoothscroll from 'smoothscroll-polyfill';
 
   import lievenImg from '$lib/assets/testimonials/lieven.jpeg?as=run&w=1280';
@@ -49,45 +49,9 @@
     }
   });
 
-  let testimonials: Slide[] = $state();
-
-  const contentOfQuote = (quoteNumber: string) => {
-    const prefix = `about-superfan.superfan-quotes-section.quotes.${quoteNumber}`;
-    return {
-      name: $_(prefix + '.name'),
-      quote: $_(prefix + '.quote')
-    };
-  };
-
-  const setTestimonials = () => {
-    testimonials = [
-      {
-        ...contentOfQuote('0'),
-        image: lievenImg
-      },
-      {
-        ...contentOfQuote('1'),
-        image: borisImg
-      },
-      {
-        ...contentOfQuote('2'),
-        image: marieMarthImg
-      },
-      {
-        ...contentOfQuote('3'),
-        image: benoitHeleneImg
-      }
-    ];
-  };
-
-  setTestimonials();
-
-  const unsubscribeLocalization = _.subscribe(() => {
-    setTestimonials();
-  });
-  onDestroy(() => {
-    unsubscribeLocalization();
-  });
+  const testimonials: Slide[] = [lievenImg, borisImg, marieMarthImg, benoitHeleneImg].map(
+    slideContentMapper('about-superfan.superfan-quotes-section.quotes')
+  );
 </script>
 
 <MarketingStyleWrapper>

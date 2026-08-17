@@ -1,7 +1,7 @@
 const { logger } = require('firebase-functions/v2');
 const getFirebaseUserId = require('../getFirebaseUserId');
 const { stripeSubscriptionKeys } = require('../constants');
-const { db } = require('../../firebase');
+const { usersDoc, usersPrivateDoc } = require('../../collections');
 const stripe = require('../stripe');
 const { isWTMGInvoice } = require('./util');
 const { getLatestCharge } = require('./shared');
@@ -58,17 +58,13 @@ module.exports = async (event, res) => {
   }
 
   // Check if the invoice is related to a subscription
-  if (
-    !(
-      // when creating
-      (
-        invoice.billing_reason === 'subscription_create' ||
-        invoice.metadata?.billing_reason_override === 'subscription_create' ||
-        // when renewing
-        invoice.billing_reason === 'subscription_cycle'
-      )
-    )
-  ) {
+  if (!(
+    // when creating
+    invoice.billing_reason === 'subscription_create' ||
+    invoice.metadata?.billing_reason_override === 'subscription_create' ||
+    // when renewing
+    invoice.billing_reason === 'subscription_cycle'
+  )) {
     logger.log('Ignoring non-WTMG payment processing event');
     return res.sendStatus(200);
   }
@@ -76,11 +72,11 @@ module.exports = async (event, res) => {
   // --- Actually process the event ---
 
   // Get the Firebase user
-  const uid = await getFirebaseUserId(paymentIntent.customer);
-  const privateUserProfileDocRef = db.doc(`users-private/${uid}`);
+  const uid = await getFirebaseUserId(/** @type {string} */ (paymentIntent.customer));
+  const privateUserProfileDocRef = usersPrivateDoc(uid);
   const privateUserProfileData = (await privateUserProfileDocRef.get()).data();
 
-  const publicUserProfileDocRef = db.doc(`users/${uid}`);
+  const publicUserProfileDocRef = usersDoc(uid);
 
   // In case a previous sepa payment was processing (this should always be the case)
   // which now failed, mark it as such and unmake superfan

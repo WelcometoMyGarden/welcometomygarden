@@ -89,7 +89,9 @@ const refreshExistingSubscription = async (registration: LocalPushRegistration) 
       // (one stale and one not) to eachother.
       //
       fcmToken,
-      subscription: subscription ? { ...subscription } : null,
+      // Only web registrations carry a subscription; native ones don't have the
+      // field at all, so we only write it when we actually have one.
+      ...(subscription ? { subscription: { ...subscription } } : {}),
       deviceId: get(deviceId) ?? null,
       // In case we are able to refresh a registration, we should be able to assume that this registration is still active, or active _again_
       // after erroring. NOTE: not tested.
@@ -105,16 +107,14 @@ const MESSAGING_REFRESH_THRESHOLD = 1000 * 3600 * 24;
 
 export const createFirebasePushRegistrationObserver = () => {
   const q = query(
-    collection(
-      db(),
-      USERS_PRIVATE,
-      getUser().id,
-      PUSH_REGISTRATIONS
-    ) as CollectionReference<FirebasePushRegistration>
+    collection(db(), USERS_PRIVATE, getUser().id, PUSH_REGISTRATIONS) as CollectionReference<
+      FirebasePushRegistration,
+      FirebasePushRegistration
+    >
   );
 
   return onSnapshot(q, async (querySnapshot) => {
-    let syncedPushRegistrations = querySnapshot.docs.map((registration) => ({
+    const syncedPushRegistrations = querySnapshot.docs.map((registration) => ({
       ...registration.data({
         // Note that adding a doc with serverTimestamp() will call this listener already, before the server sees it.
         //

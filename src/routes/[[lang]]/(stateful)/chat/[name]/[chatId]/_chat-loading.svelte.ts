@@ -1,5 +1,5 @@
 import { observeMessagesForChat } from '$lib/api/chat';
-import type User from '$lib/models/User';
+import type { User } from '$lib/models/User';
 import { user } from '$lib/stores/auth';
 import type { LocalChat } from '$lib/types/Chat';
 

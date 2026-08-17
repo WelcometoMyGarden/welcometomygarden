@@ -7,6 +7,7 @@ const { sendSubscriptionUpcomingRenewalEmail } = require('../../mail');
 const getFirebaseUserId = require('../getFirebaseUserId');
 const { getUserDocRefsWithData } = require('../../firebase');
 const { createCustomerPortalUrl } = require('../manageSubscription');
+const fail = require('../../util/fail');
 
 /**
  * Current only purpose handles sending the [WTMG] Renewal 7 days before - Automatic email
@@ -37,9 +38,15 @@ module.exports = async (event, res) => {
   // Send the upcoming renewal email ([WTMG] Renewal 7 days before - Automatic)
 
   // Get public & private data
-  const { privateUserProfileData, publicUserProfileData } = await getUserDocRefsWithData(
-    await getFirebaseUserId(invoice.customer)
-  );
+  const userId = await getFirebaseUserId(/** @type {string} */ (invoice.customer));
+  if (!userId) {
+    logger.error('Firebase UID could not be found for customer', {
+      customer_id: invoice.customer
+    });
+    fail('not-found');
+  }
+
+  const { privateUserProfileData, publicUserProfileData } = await getUserDocRefsWithData(userId);
 
   const price = invoice.lines.data[0]?.price;
   if (!(typeof price?.unit_amount === 'number')) {

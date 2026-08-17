@@ -1,0 +1,61 @@
+name: External PR checks
+
+# Full lint + format + type check across frontend and api; the same gates core
+# contributors run locally via git hooks (lint/format on pre-commit, type checks
+# on pre-push). Those hooks can't be assumed to have run on PRs from forks, so CI
+# covers exactly those.
+#
+# Gated on the PR head repo differing from the base repo, i.e. cross-repo (fork)
+# PRs only. Internal contributors push branches to this repo and are covered by
+# the local hooks + the preview-deploy workflow, so they skip this. This mirrors
+# the inverse gate the preview-deploy workflow uses
+# (`head.repo.full_name == github.repository`).
+on:
+  pull_request:
+    branches:
+      - master
+
+permissions:
+  contents: read
+
+concurrency:
+  group: external-pr-checks-${{ github.event.pull_request.number }}
+  cancel-in-progress: true
+
+jobs:
+  checks:
+    name: Lint, format & type-check (frontend + api)
+    if: ${{ github.event.pull_request.head.repo.full_name != github.repository }}
+    runs-on: ubuntu-24.04
+    steps:
+      - uses: actions/checkout@v7
+      # Must run before setup-node: its `cache: yarn` probe shells out to `yarn`
+      # to resolve the cache folder, and without corepack that resolves to the
+      # runner's preinstalled Yarn 1 — which misdetects this repo (yarn@4, Berry).
+      - name: Enable Corepack
+        run: corepack enable
+      - uses: actions/setup-node@v7
+        with:
+          node-version: 24
+          cache: yarn
+          cache-dependency-path: |
+            yarn.lock
+            api/yarn.lock
+      - name: Install frontend dependencies
+        run: yarn install --immutable
+      - name: Install api dependencies
+        run: cd api && yarn install --immutable
+
+      # Format (whole repo, one shared Prettier config; respects .prettierignore).
+      - name: Prettier
+        run: yarn prettier --check .
+      # Lint (two separate ESLint configs — the frontend config ignores api/).
+      - name: ESLint (frontend)
+        run: yarn eslint .
+      - name: ESLint (api)
+        run: cd api && yarn lint
+      # Type checks (whole-project each).
+      - name: Type-check frontend
+        run: yarn check
+      - name: Type-check api/src
+        run: yarn check:api

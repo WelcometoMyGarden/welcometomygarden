@@ -27,12 +27,16 @@ if (browser) {
   // - ability to listen in on onpopstate to detect back navigation
   window.wtmgAnchorNav = (e: MouseEvent, plausibleParams: Parameters<typeof trackEvent>) => {
     const ev = e || window.event;
-    if (ev.target?.href) {
+    const target = ev?.target as HTMLAnchorElement | null;
+    if (target?.href) {
       // Warning: AnchorHtml.href returns the full URL despite a relative URL attribute.
-      const rawHref = ev.target?.getAttribute('href');
+      const rawHref = target.getAttribute('href');
+      if (rawHref == null) {
+        return;
+      }
       const isRelative = isRelativeURL(rawHref);
 
-      if (!isRelative || ev.target.target === '_blank') {
+      if (!isRelative || target.target === '_blank') {
         // TODO: support tracking here too?
         // Do nothing, allow native nav & newtab handling
         // This is needed, because since svelte v2, goto() should not be used for non-relative URLs.
@@ -59,7 +63,7 @@ if (browser) {
 }
 
 export const urlPathPrefix = (locale: string | null | undefined) => {
-  let supportedLocale = coerceToSupportedLanguage(locale);
+  const supportedLocale = coerceToSupportedLanguage(locale);
   if (supportedLocale === 'en') {
     return '';
   }
@@ -155,7 +159,7 @@ export const appleAppStoreUrl = derived(locale, ($locale) => {
     nl: 'nl',
     pl: 'pl',
     ro: 'ro',
-    se: ''
+    sv: ''
   };
 
   // Prefer to show the Belgian region if the language is available there. It has more reviews.
@@ -168,7 +172,7 @@ export const appleAppStoreUrl = derived(locale, ($locale) => {
     nl: 'be',
     pl: 'pl',
     ro: 'ro',
-    se: 'se'
+    sv: 'se'
   };
   const lang = coerceToSupportedLanguage($locale);
   return `https://apps.apple.com/${regionMap[lang]}/app/welcome-to-my-garden/id6759368622${langMap[lang] ? `?l=${langMap[lang]}` : ''}`;

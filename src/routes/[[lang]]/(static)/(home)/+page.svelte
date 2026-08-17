@@ -10,8 +10,10 @@
   import LandingSection from './_sections/LandingSection.svelte';
   import StepsSection from './_sections/StepsSection.svelte';
   import LearnMoreArrow from './_sections/LearnMoreArrowSection.svelte';
-  import Testimonials, { type Slide } from '$lib/components/Marketing/Testimonials.svelte';
-  import { onDestroy } from 'svelte';
+  import Testimonials, {
+    slideContentMapper,
+    type Slide
+  } from '$lib/components/Marketing/Testimonials.svelte';
   import katlijnFrankImg from '$lib/assets/testimonials/katlijn-frank.jpg?as=run&w=1280';
   import carolienFamilyImg from '$lib/assets/testimonials/carolien-family.jpg?as=run&w=1280';
   import gardenImg from '$lib/assets/testimonials/garden.jpeg?as=run&w=1280';
@@ -25,46 +27,13 @@
   import MarketingStyleWrapper from '$lib/components/Marketing/MarketingStyleWrapper.svelte';
   import CommunityVideo from '$lib/components/Marketing/CommunityVideo.svelte';
 
-  const contentOf = (quoteNumber: string) => {
-    const prefix = `index.wtmg-quotes.${quoteNumber}`;
-    return {
-      name: $_(prefix + '.name'),
-      quote: $_(prefix + '.quote')
-    };
-  };
-
   let membershipUrlWithParams = $derived(
     createUrl($lr(routes.ABOUT_MEMBERSHIP), {}, $user?.superfan ? '' : 'pricing')
   );
 
-  const setTestimonials = () => {
-    testimonials = [
-      {
-        ...contentOf('0'),
-        image: katlijnFrankImg
-      },
-      {
-        ...contentOf('1'),
-        image: carolienFamilyImg
-      },
-      {
-        ...contentOf('2'),
-        image: gardenImg
-      }
-    ];
-  };
-
-  // TODO: we're repeating this code
-  let testimonials: Slide[] = $state();
-  setTestimonials();
-
-  const unsubscribeLocalization = _.subscribe(() => {
-    setTestimonials();
-  });
-
-  onDestroy(() => {
-    unsubscribeLocalization();
-  });
+  const testimonials: Slide[] = [katlijnFrankImg, carolienFamilyImg, gardenImg].map(
+    slideContentMapper('index.wtmg-quotes')
+  );
 </script>
 
 <svelte:head>
@@ -150,7 +119,7 @@
         </p>
       </div>
       <div class="faq-questions">
-        <CollapsibleGroup collapsibleKey={'index.faq.questions'} />
+        <CollapsibleGroup collapsibleKey="index.faq.questions" />
       </div>
     </div>
   </PaddedSection>

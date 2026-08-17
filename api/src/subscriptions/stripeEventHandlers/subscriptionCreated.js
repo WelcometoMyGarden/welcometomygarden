@@ -24,7 +24,7 @@ module.exports = async (event, res) => {
   // Enqueue abandoned cart reminder check
   // Calculate the time at which we want to send the reminder email (in the 'Europe/Brussels' timezone)
 
-  const uid = await getFirebaseUserId(subscription.customer);
+  const uid = await getFirebaseUserId(/** @type {string} */ (subscription.customer));
   const subCreationTime = DateTime.fromSeconds(subscription.start_date).setZone('Europe/Brussels');
   const startOfDay = subCreationTime.startOf('day');
   const { hour } = subCreationTime;

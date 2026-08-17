@@ -56,7 +56,7 @@
         details ??
         JSON.stringify(
           {
-            sender: get(user)?.uid,
+            sender: get(user)?.id,
             chatId: page.params.chatId,
             idParam: page.url.searchParams.get('id'),
             partnerId: get(partner)?.id,
@@ -210,8 +210,7 @@
       // @ts-ignore
       target.style.height = state.textArea?.scrollHeight + 3 + 'px';
     }
-  }}
-></textarea>
+  }}></textarea>
 
 <style>
   textarea {

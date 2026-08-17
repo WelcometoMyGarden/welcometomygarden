@@ -63,7 +63,6 @@
    */
   const addPricingLevelCopy = (level: SuperfanLevelData) => {
     // remove copyKey & stripePriceId, of which the SuperfanLevel component needs no knowledge.
-    // eslint-disable-next-line @typescript-eslint/no-unused-vars
     const { copyKey, stripePriceId, ...rest } = level;
     const prefix = `become-superfan.pricing-section.pricing-levels.${level.copyKey}.`;
 
@@ -86,7 +85,6 @@
   };
 
   // Default: normal / plant
-  // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
   let selectedLevel = $state(superfanLevels.find((l) => l.slug === DEFAULT_MEMBER_LEVEL)!);
 
   // 0-indexed

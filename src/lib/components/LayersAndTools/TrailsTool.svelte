@@ -2,7 +2,7 @@
   import { _ } from 'svelte-i18n';
 
   import { LabeledCheckbox, MultiActionLabel, Button, Icon } from '$lib/components/UI';
-  import { cyclistIcon, hikerIcon, routesIcon } from '$lib/images/icons';
+  import { crossIcon, cyclistIcon, hikerIcon, routesIcon } from '$lib/images/icons';
   import { fileDataLayers } from '$lib/stores/file';
   import { colorForRoute } from '$lib/util/map/util';
   import { cleanName } from '$lib/util/slugify';
@@ -48,7 +48,7 @@
 <div class="data-layers" class:in-modal={inModal}>
   {#each $fileDataLayers as layer, index (layer.id)}
     <MultiActionLabel
-      icon={routesIcon}
+      icon={crossIcon}
       name={layer.id}
       label={cleanName(layer.originalFileName)}
       bind:checked={layer.visible}

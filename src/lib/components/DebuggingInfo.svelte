@@ -7,7 +7,7 @@
   import { App } from '@capacitor/app';
   import { dev } from '$app/environment';
   import { rootModal } from '$lib/stores/app';
-  import { bind } from 'svelte-simple-modal';
+  import { bind } from '$lib/util/modal';
   import ServerChannelModal from './ServerChannelModal.svelte';
   const { onclose }: { onclose: () => void } = $props();
 

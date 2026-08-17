@@ -111,7 +111,7 @@
           {$_('account.notifications.last-seen')}
           {new Intl.DateTimeFormat($coercedLocale, {
             dateStyle: 'medium'
-          }).format(refreshedAt.toDate())}
+          }).format((refreshedAt as import('firebase/firestore').Timestamp).toDate())}
         {/if}
       </div>
     </div>

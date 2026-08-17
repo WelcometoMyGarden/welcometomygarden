@@ -88,7 +88,7 @@ module.exports = async (event, res) => {
   }
 
   // Get required data
-  const uid = await getFirebaseUserId(subscription.customer);
+  const uid = await getFirebaseUserId(/** @type {string} */ (subscription.customer));
   const { customer: customerId, current_period_end } = subscription;
   if (!uid) {
     logger.error(`Could not find a Firebase UID for customer ${customerId}`);
@@ -99,9 +99,6 @@ module.exports = async (event, res) => {
     await getUserDocRefsWithData(uid);
 
   // Save updated subscription state in Firebase
-  /**
-   * @type {DocumentReference<UserPrivate>}
-   */
   await privateUserProfileDocRef.update(
     removeUndefined({
       [statusKey]: subscription.status,

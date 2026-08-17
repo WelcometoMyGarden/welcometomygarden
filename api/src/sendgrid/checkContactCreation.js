@@ -1,7 +1,8 @@
 const { logger } = require('firebase-functions/v2');
 const fail = require('../util/fail');
 const { sendgrid: sendgridClient } = require('./sendgrid');
-const { auth, db } = require('../firebase');
+const { auth } = require('../firebase');
+const { usersPrivateDoc } = require('../collections');
 const { createSendgridContact } = require('./createSendgridContact');
 const getContactByEmail = require('./getContactByEmail');
 const { sendgridCreationLanguageFieldIdParam } = require('../sharedConfig');
@@ -187,7 +188,7 @@ module.exports = async function checkContactCreation(req) {
 
   // Add the sendgrid contact ID to firebase
   try {
-    await db.doc(`users-private/${firebaseUser.uid}`).update({
+    await usersPrivateDoc(firebaseUser.uid).update({
       sendgridId: contactId
     });
     logger.info(`Updated uid ${firebaseUser.uid} with sendgridId ${contactId}`);

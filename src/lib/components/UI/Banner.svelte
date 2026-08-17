@@ -25,11 +25,7 @@
       <p>
         {@render children?.()}
       </p>
-      <button
-        onclick={closeBanner}
-        aria-label="Close banner"
-        class="button-container close-banner"
-      >
+      <button onclick={closeBanner} aria-label="Close banner" class="button-container close-banner">
         <Icon icon={crossIcon} />
       </button>
     </div>

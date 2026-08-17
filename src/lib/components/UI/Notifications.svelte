@@ -1,7 +1,12 @@
 <script lang="ts">
   /* Reworked version of https://github.com/beyonk-adventures/svelte-notifications */
-  import { notification } from '$lib/stores/notification';
+  import {
+    notification,
+    type Notification,
+    type NotificationOptions
+  } from '$lib/stores/notification';
   import { onDestroy } from 'svelte';
+  import type { TransitionConfig } from 'svelte/transition';
 
   interface Props {
     timeout?: number;
@@ -9,18 +14,35 @@
 
   let { timeout = 5000 }: Props = $props();
 
-  let count = 0;
-  let toasts: any[] = $state([]);
-  let unsubscribe;
+  interface Toast {
+    id: number;
+    msg: string;
+    intent: Notification['type'];
+    timeout: number;
+    width: string;
+    click: (() => void) | null;
+  }
 
-  const animateOut = (_node, { delay = 0, duration = 300 }) => ({
+  let count = 0;
+  let toasts: Toast[] = $state([]);
+  let unsubscribe: () => void;
+
+  const animateOut = (
+    _node: Element,
+    { delay = 0, duration = 300 }: { delay?: number; duration?: number } = {}
+  ): TransitionConfig => ({
     delay,
     duration,
-    css: (t) =>
+    css: (t: number) =>
       `opacity: ${(t - 0.5) * 1}; transform-origin: top right; transform: scaleX(${(t - 0.5) * 1});`
   });
 
-  const createToast = (msg, intent, to, options) => {
+  const createToast = (
+    msg: string,
+    intent: Notification['type'],
+    to: number,
+    options: NotificationOptions
+  ) => {
     toasts = [
       {
         id: count,
@@ -38,12 +60,12 @@
   unsubscribe = notification.subscribe((value) => {
     if (!value) return;
     createToast(value.message, value.type, value.timeout, value.options);
-    notification.set();
+    notification.set(undefined);
   });
 
   onDestroy(unsubscribe);
 
-  const removeToast = (id) => {
+  const removeToast = (id: number) => {
     toasts = toasts.filter((t) => t.id != id);
   };
 </script>

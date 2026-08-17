@@ -52,7 +52,7 @@
    * Called when one of the address fields is defocussed (blurred).
    */
   const setAddressField = async (event: FocusEvent) => {
-    let target = event.target as unknown as TextInput;
+    const target = event.target as HTMLInputElement;
     if (!target?.name) {
       // Shouldn't happen
       return;

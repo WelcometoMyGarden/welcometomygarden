@@ -10,11 +10,6 @@ const { sendMessageFromEmail } = require('../src/chat');
 const { clearAuth, clearFirestore } = require('./util/util');
 const { parseUnpackedInboundEmail } = require('../src/sendgrid/parseInboundEmail');
 
-const pauseForManualCheck = async () => {
-  this.timeout(0);
-  await new Promise((res, rej) => setTimeout(() => res, 10 * 60 * 1000));
-};
-
 describe('the server-side message sending function `sendMessageFromEmail` ', () => {
   let seedResult;
   let secondChatId;
@@ -42,7 +37,7 @@ describe('the server-side message sending function `sendMessageFromEmail` ', () 
     // The message was sent
     assert.strictEqual(lastMessage.data().content, validTestMessage);
 
-    // For a manual test/check
+    // For a manual test/check, uncomment this:
     // await pauseForManualCheck()
   });
 
@@ -58,8 +53,7 @@ describe('the server-side message sending function `sendMessageFromEmail` ', () 
 
   it('throws when an existing chat ID is used that the user is not part of ', async () => {
     const {
-      users: [, user2, user3],
-      chats: [firstChatId]
+      users: [, user2, user3]
     } = seedResult;
     const thirdChatId = await createChat(user2.uid, user3.uid, 'This is a chat between user 2 & 3');
 
@@ -200,6 +194,8 @@ Juni 2024, 18:56:
 Welcome To My Garden <support@welcometomygarden.org> schrieb am Di., 18.
 Juni 2024, 18:56:`
     );
+
+    assert.strictEqual(parsed.headerFrom.address, 'testemail@gmail.com');
 
     assert.strictEqual(parsed.chatId, 'ea2SDFfsea213eafsf');
   });

@@ -51,9 +51,12 @@ export type Garden = {
 export type GardenPhoto = { id: string; photo: string };
 
 /**
- * A work-in-progress garden that is edited by the garden add/manage form
+ * A work-in-progress garden that is edited by the garden add/manage form.
+ * While editing, `location` may be `null` (no coordinate picked yet); the form
+ * guarantees it is set before submitting — see {@link GardenSubmission}.
  */
-export type GardenDraft = Omit<FirebaseGarden, 'photo'> & {
+export type GardenDraft = Omit<FirebaseGarden, 'photo' | 'location'> & {
+  location: LongLat | null;
   photo: {
     /**
      * Should contain a File reference to the only selected photo in the first array position.
@@ -65,6 +68,13 @@ export type GardenDraft = Omit<FirebaseGarden, 'photo'> & {
     data: string | null;
   };
 };
+
+/**
+ * A {@link GardenDraft} that has passed the form's runtime validation, so its
+ * `location` is guaranteed to be set. This is what the add/manage form emits on
+ * submit (see `Form.svelte`'s `handleSubmit`).
+ */
+export type GardenSubmission = GardenDraft & { location: LongLat };
 
 /**
  * A garden to add or update. It has a File reference in case the garden photo should be changed.

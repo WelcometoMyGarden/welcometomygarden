@@ -9,24 +9,25 @@ const {
 } = require('firebase-functions/v2/firestore');
 const { projectID } = require('firebase-functions/params');
 
-const admin = require('firebase-admin');
+// firebase-admin 14 removed the legacy `admin.apps` namespace; use the modular app API.
+const { getApps, initializeApp } = require('firebase-admin/app');
 
 // Initialization conflicts may arise with seeders/app.js
-if (!admin.apps.length) {
+if (!getApps().length) {
   // this will warn: params.PROJECT_ID.value() invoked during function deployment, instead of during runtime
   // This is usually a mistake. In configs, use Params directly without calling .value().
   if (projectID.value().startsWith('demo-')) {
     // This is used as a potentially hacky way to make getFunctions.taskQueue(...).enqueue(...)
     // work locally in an emulator (or in CI) _without_ requiring a log-in to Firebase/Google
     // The admin SDK also does this internally, but still hangs on an auth attempt.
-    admin.initializeApp({
+    initializeApp({
       serviceAccountId: 'emulated-service-acct@email.com',
       // both below properties have to be made explicit if the serviceAccountId option is given
       projectId: 'demo-test',
       storageBucket: 'demo-test.appspot.com'
     });
   } else {
-    admin.initializeApp();
+    initializeApp();
   }
 }
 
@@ -49,6 +50,7 @@ const onCampsitesWriteReplicate = require('./replication/onCampsitesWrite');
 const {
   executeFirestoreTriggersConcurrently,
   seralizeFirestoreTriggers,
+  widenTrigger,
   guardOn
 } = require('./replication/shared');
 const onUsersWriteReplicate = require('./replication/onUsersWrite');
@@ -76,11 +78,26 @@ onInit(() => {
   initSupabase();
 });
 
+/**
+ * Only run `func` when Supabase replication is enabled at runtime. Preserves
+ * `func`'s signature so wrapped handlers stay typed (the return adds `| null`
+ * for the guarded-off case, per {@link WrappedFunction}).
+ * @template {(...args: any[]) => any} T
+ * @param {T} func
+ * @returns {(...args: Parameters<T>) => ReturnType<T> | null}
+ */
 const whenSupabaseReplicating =
   (func) =>
   (...args) =>
     guardOn(shouldReplicateRuntime(), func)(...args);
 
+/**
+ * Only run `func` when SendGrid contact sync is enabled. Preserves `func`'s
+ * signature so wrapped handlers stay typed.
+ * @template {(...args: any[]) => any} T
+ * @param {T} func
+ * @returns {(...args: Parameters<T>) => ReturnType<T> | null}
+ */
 const whenSendGridSyncing =
   (func) =>
   (...args) =>
@@ -160,7 +177,7 @@ exports.onUserPrivateWriteV2 = onDocumentWritten(
 );
 
 exports.onUserWriteV2 = onDocumentWritten(
-  { document: 'users/{userId}', resetFunctionsV2DefaultHttpsOptions },
+  { document: 'users/{userId}', ...resetFunctionsV2DefaultHttpsOptions },
   executeFirestoreTriggersConcurrently([
     onUserWrite,
     whenSupabaseReplicating(onUsersWriteReplicate)
@@ -168,14 +185,23 @@ exports.onUserWriteV2 = onDocumentWritten(
 );
 
 // Firestore triggers: campsites
-exports.onCampsiteCreateV2 = onDocumentCreated('campsites/{campsiteId}', onCampsiteCreate);
-exports.onCampsiteDeleteV2 = onDocumentDeleted('campsites/{campsiteId}', onCampsiteDelete);
+exports.onCampsiteCreateV2 = onDocumentCreated(
+  'campsites/{campsiteId}',
+  widenTrigger(onCampsiteCreate)
+);
+exports.onCampsiteDeleteV2 = onDocumentDeleted(
+  'campsites/{campsiteId}',
+  widenTrigger(onCampsiteDelete)
+);
 
 // Firestore triggers: chats
-exports.onChatCreateV2 = onDocumentCreatedWithAuthContext('chats/{chatId}', onChatCreate);
+exports.onChatCreateV2 = onDocumentCreatedWithAuthContext(
+  'chats/{chatId}',
+  widenTrigger(onChatCreate)
+);
 exports.onMessageCreateV2 = onDocumentCreated(
   'chats/{chatId}/{messages}/{messageId}',
-  onMessageCreate
+  widenTrigger(onMessageCreate)
 );
 
 // Additional replication triggers not covered above.
@@ -189,7 +215,10 @@ exports.onCampsiteWriteV2 = onDocumentWritten(
     whenSendGridSyncing(syncCampsiteStatus)
   ])
 );
-exports.onChatWriteV2 = onDocumentWritten('chats/{chatId}', whenSupabaseReplicating(onChatsWrite));
+exports.onChatWriteV2 = onDocumentWritten(
+  'chats/{chatId}',
+  widenTrigger(whenSupabaseReplicating(onChatsWrite))
+);
 exports.onMessageWriteV2 = onDocumentWritten(
   'chats/{chatId}/messages/{messageId}',
   whenSupabaseReplicating(onMessagesWriteReplicate)

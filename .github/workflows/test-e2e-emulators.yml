@@ -4,7 +4,9 @@ on:
     branches:
       - master
     paths-ignore:
-      # Because the build of this Dockerfile will always need to precede this workflow
+      # The image is pinned by tag below and only rebuilt from the
+      # ci-image-build branch (build-ci-e2e-image.yml), so editing the
+      # Dockerfile here doesn't change what these tests run in.
       - ci/Dockerfile.ci
       - .gitignore
       - docs/**
@@ -18,7 +20,9 @@ on:
     branches:
       - master
     paths-ignore:
-      # Because the build of this Dockerfile will always need to precede this workflow
+      # The image is pinned by tag below and only rebuilt from the
+      # ci-image-build branch (build-ci-e2e-image.yml), so editing the
+      # Dockerfile here doesn't change what these tests run in.
       - ci/Dockerfile.ci
       - .gitignore
       - docs/**
@@ -35,7 +39,7 @@ jobs:
       should_skip: ${{ steps.skip_check.outputs.should_skip }}
     steps:
       - id: skip_check
-        uses: fkirc/skip-duplicate-actions@v5.3.1
+        uses: fkirc/skip-duplicate-actions@v5.3.2
         with:
           skip_after_successful_duplicate: 'true'
   playwright:
@@ -45,8 +49,17 @@ jobs:
     runs-on: ubuntu-24.04
     environment: e2e-test-emulators
     container:
-      image: ghcr.io/welcometomygarden/wtmg-e2e-ci:24
+      image: ghcr.io/welcometomygarden/wtmg-e2e-ci:24-trixie
       options: --user root
+      # The inputs to ci/fill-envs.sh — see ci/.env.local.example for what each
+      # one is for and which of them are required.
+      #
+      # Careful: these are all empty on a `pull_request` run from a *fork*.
+      # GitHub passes no secrets (nor environment-scoped vars, so SENTRY_DSN
+      # goes too) to fork PRs, and every value here comes from the
+      # e2e-test-emulators environment. Nothing below can work in that case —
+      # see the guard step. Push the branch to this repo instead of a fork if
+      # you need these tests on a PR.
       env:
         SENTRY_DSN: ${{vars.SENTRY_DSN}}
         SENTRY_AUTH_TOKEN: ${{secrets.SENTRY_AUTH_TOKEN}}
@@ -55,24 +68,55 @@ jobs:
         STRIPE_PUBLISHABLE_KEY: ${{secrets.STRIPE_PUBLISHABLE_KEY}}
     # Gotchas: https://docs.github.com/en/actions/reference/workflows-and-actions/dockerfile-support
     steps:
-      - uses: actions/checkout@v6
-      - uses: actions/setup-node@v6
+      - uses: actions/checkout@v7
         with:
-          # We don't supply a node version here, because we want to use the one in wtmg-e2e-ci
-          # We do want the caching though
-          cache: yarn
+          # src/lib/assets is stored in Git LFS; fetch it during checkout.
+          lfs: true
+      # First thing after the checkout: it needs nothing else, and an unset
+      # secret would otherwise surface much later as an unexplained test
+      # failure. The list of what is required lives in ci/.env.local.example.
+      - name: Check required secrets are available
+        run: ./ci/check-envs.sh '${{ github.event.pull_request.head.repo.full_name || github.repository }}'
+      # Caches are deliberately split into restore/save pairs instead of the
+      # all-in-one `actions/cache` (or `setup-node`'s `cache: yarn`).
+      # Some effects of this:
+      # - also failed runs write to the cache (no `post-if: success()` like in the above mechanisms)
+      #   -> half/corrupt cache writes will also be restored and can't be corrected (must be manually deleted)
+      # - also the api/ modules are cached (the default cache setup only looks at the root)
+      - name: Restore Yarn caches
+        id: yarn-cache
+        uses: actions/cache/restore@v6
+        with:
+          path: |
+            .yarn/cache
+            api/.yarn/cache
+          key: yarn-${{ runner.os }}-${{ hashFiles('yarn.lock', 'api/yarn.lock', '.yarnrc.yml', 'api/.yarnrc.yml') }}
+          restore-keys: |
+            yarn-${{ runner.os }}-
       - name: Install dependencies
         run: yarn install --immutable && cd api && yarn install --immutable && cd ..
-      ###### TODO: replace this, and its prepare-source equivalent, by GIT-LFS
-      - name: Set up Cloud SDK
-        uses: google-github-actions/setup-gcloud@v1
+      - name: Save Yarn caches
+        if: ${{ success() && steps.yarn-cache.outputs.cache-hit != 'true' }}
+        uses: actions/cache/save@v6
         with:
-          version: '>= 363.0.0'
-          project_id: 'wtmg-production'
-      - name: Use gcloud CLI
-        run: gsutil -m cp -r gs://wtmg-static/assets src/lib
-        shell: bash
-      ######
+          path: |
+            .yarn/cache
+            api/.yarn/cache
+          key: ${{ steps.yarn-cache.outputs.cache-primary-key }}
+      # Source images (src/lib/assets) now come from the Git LFS checkout above
+      # (lfs: true) instead of being fetched from the gs://wtmg-static GCS bucket.
+      #
+      # Keep this after `yarn install`: Yarn's node-modules linker prunes
+      # directories it does not recognise under node_modules/, so restoring
+      # earlier would risk the install throwing the cache away again.
+      - name: Restore responsive image transforms
+        id: imagetools-cache
+        uses: actions/cache/restore@v6
+        with:
+          path: node_modules/.cache/imagetools
+          key: imagetools-${{ runner.os }}-${{ hashFiles('src/lib/assets/**/*.jpg', 'src/lib/assets/**/*.jpeg', 'src/lib/assets/**/*.png') }}
+          restore-keys: |
+            imagetools-${{ runner.os }}-
       - name: Set up environment
         run: |
           sed -i -z \
@@ -81,12 +125,24 @@ jobs:
           ./ci/fill-envs.sh
       - name: Build emulator frontend
         run: yarn build:demo
+      - name: Save responsive image transforms
+        if: ${{ success() && steps.imagetools-cache.outputs.cache-hit != 'true' }}
+        uses: actions/cache/save@v6
+        with:
+          path: node_modules/.cache/imagetools
+          key: ${{ steps.imagetools-cache.outputs.cache-primary-key }}
       - name: Run your tests
         run: npx playwright test --project Mobile
-      - name: Upload Playwright artifacts
-        uses: actions/upload-artifact@v4
+      # The HTML report. It embeds the traces written on first retry (see
+      # `trace: 'on-first-retry'` in playwright.config.ts) under its data/ dir,
+      # so the raw `test-results/` output does not need uploading separately.
+      # View it with `npx playwright show-report <dir>` — opening index.html
+      # over file:// cannot load the embedded traces.
+      - name: Upload Playwright HTML report
+        uses: actions/upload-artifact@v7
         if: ${{ !cancelled() }}
         with:
           name: playwright-report
           path: playwright-report/
+          if-no-files-found: warn
           retention-days: 30

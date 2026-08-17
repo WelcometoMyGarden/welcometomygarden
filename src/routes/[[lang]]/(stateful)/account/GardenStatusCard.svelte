@@ -1,5 +1,5 @@
 <script lang="ts">
-  import { _, locale } from 'svelte-i18n';
+  import { _ } from 'svelte-i18n';
   import { Switch } from '$lib/components/UI';
   import { formatLongDate, formatRelativeDate } from '$lib/util/format-date';
   import { coercedLocale } from '$lib/stores/app';

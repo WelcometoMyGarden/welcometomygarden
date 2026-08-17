@@ -1,6 +1,6 @@
 import { httpsCallable, type Functions, type HttpsCallable } from 'firebase/functions';
 import { FIREBASE_WARNING } from './firebase';
-import type { EmailPreferences, User } from '$lib/models/User';
+import type { EmailPreferences } from '$lib/models/User';
 
 // Single ref for the bundle — initialized in initializeEuropeWest1Functions below.
 let indexCallableRef: HttpsCallable<{ fn: string; data: unknown }, unknown> | null = null;

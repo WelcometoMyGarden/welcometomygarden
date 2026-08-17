@@ -1,7 +1,6 @@
 import logger from '$lib/util/logger';
-import pkg from 'mapbox-gl';
-import type { IControl, Map } from 'mapbox-gl';
-const { Evented } = pkg;
+import { Evented } from 'mapbox-gl/esm';
+import type { IControl, Map } from 'mapbox-gl/esm';
 
 // mapbox-gl-js's FullscreenControl (v3.x) does not anymore expose `fullscreenstart` and `fullscreenend` events (does not extend Evented anymore)
 //   (snapshot: https://github.com/mapbox/mapbox-gl-js/blob/7a72385de5c7400647ea7d3539637145fdf616a7/src/ui/control/fullscreen_control.ts)
@@ -18,7 +17,11 @@ const { Evented } = pkg;
 //// "polyfill" implementations
 const DOM = {
   // https://github.com/maplibre/maplibre-gl-js/blob/c03607bad8a0d6574e9738b23fa84f3620713df5/src/util/dom.ts#L22
-  create(tagName: string, className?: string, container?: HTMLElement) {
+  create<K extends keyof HTMLElementTagNameMap>(
+    tagName: K,
+    className?: string,
+    container?: HTMLElement
+  ): HTMLElementTagNameMap[K] {
     const el = window.document.createElement(tagName);
     if (className !== undefined) el.className = className;
     if (container) container.appendChild(el);
@@ -50,16 +53,6 @@ export function extend(dest: any, ...sources: Array<any>): any {
     }
   }
   return dest;
-}
-
-// https://github.com/maplibre/maplibre-gl-js/blob/c03607bad8a0d6574e9738b23fa84f3620713df5/src/util/evented.ts#L24
-class Event {
-  readonly type: string;
-
-  constructor(type: string, data: any = {}) {
-    extend(this, data);
-    this.type = type;
-  }
 }
 
 function warnOnce(message: string) {
@@ -121,13 +114,13 @@ type FullscreenOptions = {
  */
 
 class FullscreenControl extends Evented implements IControl {
-  _map: Map;
-  _controlContainer: HTMLElement;
+  _map!: Map;
+  _controlContainer!: HTMLElement;
   _fullscreen: boolean;
-  _fullscreenchange: string;
-  _fullscreenButton: HTMLButtonElement;
-  _container: HTMLElement;
-  _prevCooperativeGestures: boolean | GestureOptions;
+  _fullscreenchange!: string;
+  _fullscreenButton!: HTMLButtonElement;
+  _container!: HTMLElement;
+  _prevCooperativeGestures?: boolean;
 
   constructor(options: FullscreenOptions = {}) {
     super();
@@ -162,7 +155,7 @@ class FullscreenControl extends Evented implements IControl {
 
   onRemove() {
     DOM.remove(this._controlContainer);
-    this._map = null;
+    this._map = null!;
     window.document.removeEventListener(this._fullscreenchange, this._onFullscreenChange);
   }
 
@@ -214,13 +207,13 @@ class FullscreenControl extends Evented implements IControl {
     this._updateTitle();
 
     if (this._fullscreen) {
-      this.fire(new Event('fullscreenstart'));
+      this.fire('fullscreenstart');
       if (this._map._cooperativeGestures) {
         this._prevCooperativeGestures = this._map._cooperativeGestures;
-        this._map.setCooperativeGestures();
+        this._map.setCooperativeGestures(false);
       }
     } else {
-      this.fire(new Event('fullscreenend'));
+      this.fire('fullscreenend');
       if (this._prevCooperativeGestures) {
         this._map.setCooperativeGestures(this._prevCooperativeGestures);
         delete this._prevCooperativeGestures;
@@ -237,7 +230,7 @@ class FullscreenControl extends Evented implements IControl {
   };
 
   _exitFullscreen() {
-    if (window.document.exitFullscreen) {
+    if ('exitFullscreen' in window.document) {
       (window.document as any).exitFullscreen();
     } else if ((window.document as any).mozCancelFullScreen) {
       (window.document as any).mozCancelFullScreen();

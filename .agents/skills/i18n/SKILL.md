@@ -159,7 +159,7 @@ Scans the source tree (`--src`, default `src`) for every i18n reference and comp
 Output is sorted into confidence tiers:
 
 - **Likely unused** — no static or dynamic-template reference. The real removal candidates.
-- **Possibly dynamic** — matched only by a dynamic template glob; the interpolation *might* produce them. Verify before touching.
+- **Possibly dynamic** — matched only by a dynamic template glob; the interpolation _might_ produce them. Verify before touching.
 - **Dynamic key templates** and **Indirect references** — listed with locations so you can reason about which keys they actually generate (the glob over-/under-matches, so this human/AI reasoning step is required). It also reports static references that resolve to no key in `en.json` (typos / stale refs).
 
 ```bash

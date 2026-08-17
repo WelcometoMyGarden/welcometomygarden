@@ -59,11 +59,13 @@
 
   let isLabel = $derived(!!isLabelFor);
   let is = $derived(isLabel ? 'label' : 'div');
+  // `for` is only a valid attribute when the element renders as a <label>. Because
+  // <svelte:element this={is}> can't narrow the dynamic tag, the type-checker widens to
+  // a generic HTMLAttributes that lacks `for`. Spread it as a loose attribute record so
+  // it type-checks while keeping the runtime behaviour identical.
+  let dynamicAttributes = $derived<Record<string, unknown>>(isLabel ? { for: isLabelFor } : {});
 </script>
 
-<!-- TODO: report the for={} TS error
- Similar problem: https://github.com/sveltejs/language-tools/issues/1576
--->
 <svelte:element
   this={is}
   class:full
@@ -75,7 +77,7 @@
   {onkeypress}
   role={isLabel ? undefined : 'radio'}
   aria-checked={isLabel ? undefined : selected}
-  for={isLabel ? isLabelFor : undefined}
+  {...dynamicAttributes}
 >
   <!-- https://stackoverflow.com/a/61812443 -->
 

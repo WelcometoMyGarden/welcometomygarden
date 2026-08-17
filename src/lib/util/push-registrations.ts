@@ -1,5 +1,5 @@
 import { rootModal } from '$lib/stores/app';
-import { bind } from 'svelte-simple-modal';
+import { bind } from '$lib/util/modal';
 import ErrorModal, { type Props } from '$lib/components/UI/ErrorModal.svelte';
 import { isEnablingLocalPushRegistration, pushRegistrations } from '$lib/stores/pushRegistrations';
 import { derived, get } from 'svelte/store';
@@ -56,18 +56,15 @@ export const pushRegistrationsColRef = () =>
   collection(
     db(),
     USERS_PRIVATE,
-    getUser().uid,
+    getUser().id,
     PUSH_REGISTRATIONS
   ) as unknown as CollectionReference<FirebasePushRegistration, FirebasePushRegistration>;
 
 export const pushRegistrationDocRef = (id: string) =>
-  doc(
-    db(),
-    USERS_PRIVATE,
-    getUser().uid,
-    PUSH_REGISTRATIONS,
-    id
-  ) as DocumentReference<FirebasePushRegistration>;
+  doc(db(), USERS_PRIVATE, getUser().id, PUSH_REGISTRATIONS, id) as DocumentReference<
+    FirebasePushRegistration,
+    FirebasePushRegistration
+  >;
 
 export const isWebPushRegistration = (
   pr: LocalPushRegistration | undefined | null

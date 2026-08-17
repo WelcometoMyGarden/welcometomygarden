@@ -10,6 +10,7 @@
   import { Modal } from '../UI';
   import Button from '../UI/Button.svelte';
   import { isMobile } from '$lib/stores/ui.svelte';
+  import { escapeHtml } from '$lib/util/escapeHtml';
 
   let { chat: chatToConfirm }: { chat: LocalChat } = $props();
 
@@ -52,9 +53,8 @@
   {/snippet}
   {#snippet body()}
     <p class="body">
-      <!-- TODO insecure -->
       {@html $_('chat.confirm-archive.body', {
-        values: { name: `<strong>${chatToConfirm?.partner.firstName}</strong>` }
+        values: { name: `<strong>${escapeHtml(chatToConfirm?.partner.firstName ?? '')}</strong>` }
       })}
     </p>
   {/snippet}

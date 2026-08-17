@@ -35,7 +35,7 @@
   // MODAL
   let ariaLabelledBy = 'route-modal-title';
   let stickToBottom = $state(false);
-  let phase: 'SELECTING' | 'DONE' = $state('SELECTING');
+  let phase = $state<'SELECTING' | 'DONE'>('SELECTING');
 
   let buttonText = $derived(phase !== 'DONE' ? 'Next' : 'Show Route');
   let buttonDisabled = $derived(phase !== 'DONE' ? files.length === 0 : false);
@@ -140,6 +140,12 @@
               ondrop={(e) => addFiles(e.files)}
               accept={[
                 ...VALID_FILETYPE_EXTENSIONS.map((ft) => '.' + ft),
+                /*
+                 * Note, these MIME types are NOT in file-selectors default list
+                 * https://github.com/react-dropzone/file-selector/blob/48a0ed5dafb52edbb294d8506cd27f8ae59f1615/src/mime-default.ts#L11
+                 * and browsers/OSs may not know about them.
+                 * Which is why it's good that we add the extensions here above, to matching by extension name.
+                 */
                 ...EXTRA_ACCEPT_VALUES
               ].join(',')}
               multiple

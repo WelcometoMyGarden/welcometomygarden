@@ -53,16 +53,24 @@ declare interface Window {
    */
   plausible: Plausible;
   Tally: Tally;
+  /**
+   * Programmatic SPA navigation handler referenced by the inline `onclick`
+   * handlers generated in `translation-helpers.ts` (`anchorText`).
+   */
+  wtmgAnchorNav: (
+    e: MouseEvent,
+    plausibleParams: Parameters<typeof import('./lib/util/track-plausible').default>
+  ) => void;
 }
 
 // https://github.com/zerodevx/svelte-img#install
 // Squelch warnings of image imports from your assets dir
 declare module '$lib/assets/*' {
-  const meta: Object[];
+  let meta;
   export default meta;
 }
 // We also import some images from the following folder, so we apply the same:
 declare module '$lib/images/*' {
-  const meta: Object[];
+  let meta;
   export default meta;
 }

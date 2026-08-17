@@ -1,8 +1,7 @@
 <script lang="ts">
   import routes from '$lib/routes';
   import { lr } from '$lib/util/translation-helpers';
-  const elementOptions = ['h1', 'h2', 'span'] as const;
-  type Option = (typeof elementOptions)[number];
+  type Option = 'h1' | 'h2' | 'span';
   interface Props {
     is?: Option;
   }

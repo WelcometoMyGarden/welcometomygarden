@@ -2,6 +2,7 @@
 
 declare module 'svelte/elements' {
   // add a new global attribute that is available on all html elements
+  // eslint-disable-next-line @typescript-eslint/no-unused-vars -- `T` must match Svelte's HTMLAttributes<T> signature for declaration merging
   export interface HTMLAttributes<T> {
     onclickoutside?: (event: CustomEvent) => void;
   }

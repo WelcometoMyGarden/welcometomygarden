@@ -1,0 +1,18 @@
+# Whole-project type checks run here (pre-push), not pre-commit: svelte-check is
+# ~10s and the api gate ~3s — together ~8x a lint/format-only commit, annoying on
+# every commit. Running them before code leaves the machine keeps commits
+# fast while still gating types locally. Both are whole-project, so they ignore which files
+# changed. Bypass in a pinch with `git push --no-verify`.
+echo "› Type-checking frontend (svelte-check)…"
+yarn check || exit 1
+echo "› Type-checking api/src…"
+yarn check:api || exit 1
+
+# src/lib/assets is stored in Git LFS. husky owns core.hooksPath, so git-lfs's own
+# pre-push hook (.git/hooks/pre-push) is bypassed — without this, `git push` would
+# publish the LFS pointer commits but NOT their backing objects. Delegate to git-lfs.
+command -v git-lfs >/dev/null 2>&1 || {
+  printf >&2 "\ngit-lfs was not found on your PATH. Install it and run 'git lfs install' — src/lib/assets is stored in Git LFS.\n\n"
+  exit 2
+}
+git lfs pre-push "$@"
