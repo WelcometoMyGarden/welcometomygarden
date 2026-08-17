@@ -176,7 +176,7 @@ exports.createDataMapper = createDataMapper;
  * @prop {string[]} [pick] subset of Firestore document properties to preserve.
  *  Does not have to include 'id', since that is taken automatically from the Firebase document ID.
  *  Must be supplied with values for createTime and updateTime if these internal Firebase properties should be be synced with the SQL table
- * @prop {string[][]} [extraDeletionFilters] extra identifying conditions that should be applied for deletion changes, when the `id` column alone does not
+ * @prop {[string, any][]} [extraDeletionFilters] extra identifying `[column, value]` conditions that should be applied for deletion changes, when the `id` column alone does not
  *  uniquely represent the (composite) primary key of the table. These extra filters should "fill in" the primary key.
  */
 
@@ -281,7 +281,7 @@ exports.replicate = async (options) => {
         if (extraDeletionFilters.length > 0) {
           for (let i = 0; i < extraDeletionFilters.length; i += 1) {
             const filterPair = extraDeletionFilters[i];
-            query = query.eq.call(query, ...filterPair);
+            query = query.eq(...filterPair);
           }
         }
         result = await query;
