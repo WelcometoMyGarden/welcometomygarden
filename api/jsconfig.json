@@ -4,13 +4,14 @@
     "target": "es2022",
     "checkJs": true,
     "skipLibCheck": true,
-    "strictFunctionTypes": true
-    // TODO: deferred stricter flags (each a separate project):
-    //   - "strictNullChecks": true — the higher-value one (+~135 errors). `event.data`
-    //     genuinely can be `undefined` and the repo destructures it unguarded in many
-    //     triggers; enabling this is what enforces the `| undefined` half of the
-    //     trigger-composition typing (see replication/shared.js).
-    //   - "noImplicitAny": true     — +~54 errors.
+    "strictFunctionTypes": true,
+    // TODO: turn this on and fix possible null values (+~135 errors)
+    // `event.data` genuinely can be `undefined` and the repo destructures it unguarded in many
+    // triggers; enabling this is what enforces the `| undefined` half of the
+    // trigger-composition typing (see replication/shared.js).
+    "strictNullChecks": false,
+    // TODO: turn this on and resolve +~54 errors.
+    "noImplicitAny": false
   },
   "include": ["src"],
   "exclude": ["node_modules", "test"]
