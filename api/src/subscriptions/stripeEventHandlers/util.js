@@ -11,7 +11,8 @@ const priceIdsObj = () => ({
   solidarity: stripePriceIdSolidarity.value()
 });
 
-exports.wtmgPriceIds = () => Object.values(priceIdsObj());
+const wtmgPriceIds = () => Object.values(priceIdsObj());
+exports.wtmgPriceIds = wtmgPriceIds;
 
 /**
  * @type {() => {[key: string]: number}}
@@ -24,9 +25,8 @@ exports.wtmgPriceIdToPrice = () =>
     ])
   );
 
-exports.isWTMGPriceId = function (priceId) {
-  return this.wtmgPriceIds().includes(priceId);
-};
+const isWTMGPriceId = (priceId) => wtmgPriceIds().includes(priceId);
+exports.isWTMGPriceId = isWTMGPriceId;
 
 /**
  * @param {Omit<import('stripe').Stripe.Invoice, "id">} invoice
@@ -60,7 +60,7 @@ exports.isWTMGInvoice = async (invoice) => {
   }
 
   const priceId = price?.id;
-  if (this.isWTMGPriceId(priceId)) {
+  if (isWTMGPriceId(priceId)) {
     return true;
   }
   return false;
@@ -71,7 +71,7 @@ exports.isWTMGInvoice = async (invoice) => {
  */
 exports.isWTMGSubscription = (subscription) => {
   const priceId = subscription.items.data[0].price.id;
-  if (this.isWTMGPriceId(priceId)) {
+  if (isWTMGPriceId(priceId)) {
     return true;
   }
   return false;
