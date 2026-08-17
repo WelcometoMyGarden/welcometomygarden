@@ -113,7 +113,14 @@
   /**
    * Whether this page was loaded from a URL with a garden in it
    *
-   * Note: only captures the initial value, does not updat eon goto() calls to the same layout
+   * Note: intentionally only captures the initial value of the gardenId param ("on init").
+   * This does not update on goto() calls to the same layout, which would set the gardenId.
+
+   * It probably needs to be a $state(), since it is explictly set back to false on the first client-side nav
+   * and passed down (reactively) to the <Map> component to avoid unwanted reactive side-effects.
+   * TODO: verify whether the update to false is _not_ passed down to <Map> if this is _not_ a state.
+   * If it is passed down, then we can probably avoid some svelte-ignore statements downstream from this.
+   * Check if we can generally clean this up architecturally as well.
    */
   let isShowingGardenOnInit = $state(!!page.params.gardenId);
 
@@ -121,7 +128,9 @@
   let selectedMeetupId = $derived(page.params.meetupId);
   let selectedMeetup = $derived(meetups.find((m) => m.id === selectedMeetupId));
 
+  // svelte-ignore state_referenced_locally - see above, we really only care about the inital value here
   let zoom = $state(isShowingGardenOnInit ? ZOOM_LEVELS.ROAD : ZOOM_LEVELS.WESTERN_EUROPE);
+  // svelte-ignore state_referenced_locally - see above, we really only care about the inital value here
   let applyZoom = $state(isShowingGardenOnInit ? true : false);
 
   // Garden to preload when we are loading the app on its permalink URL
