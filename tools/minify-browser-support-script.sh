@@ -1,5 +1,4 @@
 #!/usr/bin/env bash
-# Optional argument: "build", to force a rebuild of the UglifyJS container
 set -e
 
 # The point of the feature-detect script is that it works in old browsers
@@ -10,26 +9,17 @@ set -e
 # while Uglify 2.x can generate IE6+ compatible code.
 # See https://www.npmjs.com/package/uglify-js/v/2.8.29
 #
-# We run Uglify JS using the Node engine (6) that existed at the time in Docker.
+# The UglifyJS version is pinned to 2.8.29, which still runs fine on current
+# Node (verified on Node 24), so no separate toolchain is needed.
 
 ABSOLUTE_SRC="$(cd "$(dirname "$0")/../src" && pwd)"
-# Resolve absolute paths (important for Docker volume mounts)
 INPUT_FILE="$ABSOLUTE_SRC/browser-support.js"
 OUTPUT_FILE="$ABSOLUTE_SRC/browser-support.min.js"
 
-# Build the UglifyJS Node image
-if [[ ! "$(docker images -q wtmg-uglifyjs2:latest 2>/dev/null)" ]] || [[ "$1" == "build" ]]; then
-  docker build -t wtmg-uglifyjs2:latest -f "$(dirname "$0")/uglifyjs2.Dockerfile" .
-fi
+yarn dlx uglify-js@2.8.29 "$INPUT_FILE" \
+  --compress \
+  --mangle \
+  --ie \
+  --output "$OUTPUT_FILE"
 
-docker run --rm \
-  -v "$(dirname "$INPUT_FILE"):/input" \
-  -v "$(dirname "$OUTPUT_FILE"):/output" \
-  wtmg-uglifyjs2:latest \
-  sh -c "/usr/local/lib/node_modules/uglify-js/bin/uglifyjs /input/$(basename "$INPUT_FILE") \
-      --compress \
-      --mangle \
-      --ie \
-      --output /output/$(basename "$OUTPUT_FILE") \
-      && echo 'Done' \
-  "
+echo "Done"

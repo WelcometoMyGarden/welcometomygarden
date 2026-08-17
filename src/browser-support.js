@@ -4,7 +4,7 @@
   2. it can try to apply some modifications to the DOM to make static pages more presentable, or degrade
      more cleanly on (mostly recent) unsupported browsers.
 
-  It is minified by tools/minify-feature-detect.js to ./browser-support.min.js, which is comitted to version control,
+  It is minified by tools/minify-browser-support-script.sh to ./browser-support.min.js, which is comitted to version control,
   since it is not large nor expected to change often.
   The minified script is loaded by Vite in ./hooks.server.ts, and injected at the top of the <head>
   of all (static) page templates via app.html
