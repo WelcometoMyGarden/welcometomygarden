@@ -1,3 +1,18 @@
+## Deferred dependency upgrades
+
+### frontend: typescript@v7
+
+At the time of writing, v7 is out of range for every TS-consuming dev dependency we can't also upgrade:
+
+- typescript-eslint peer `typescript >=4.8.4 <6.1.0`
+- svelte-check peer `typescript ^5 || ^6`
+- svelte2tsx peer `typescript ^4.9.4 || ^5 || ^6`
+- svelte-preprocess peer `typescript ^5 || ^6`
+
+### Pinned GH actions runner version
+
+At the time of writing, `ubuntu-26.04` is still flagged _preview_ in actions/runner-images, and ubuntu-latest is still 24.04.
+
 ## Risks to watch out for
 
 ### mapbox-gl/esm worker support
