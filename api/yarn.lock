@@ -129,8 +129,8 @@ __metadata:
   linkType: hard
 
 "@firebase/database-compat@npm:^2.1.4":
-  version: 2.1.5
-  resolution: "@firebase/database-compat@npm:2.1.5"
+  version: 2.1.6
+  resolution: "@firebase/database-compat@npm:2.1.6"
   dependencies:
     "@firebase/component": "npm:0.7.4"
     "@firebase/database": "npm:1.1.4"
@@ -146,7 +146,7 @@ __metadata:
       optional: true
     "@firebase/app-compat":
       optional: true
-  checksum: 10/02de92b397b0f4bc01f43482c1fff25da4394857e75bcfd649dfe9dd99372af4aa8843ded6a361aee9d230fc1c933f6a28dddbd3744908516d6fccd353c9c6ca
+  checksum: 10/6a77cac8fc259d3b5e648603a0ac652ebb8047047c562ee580ab94248d11a2609062e1a9f33ef4d51897976226c64615171b8287e0b14994dc0b823b95311787
   languageName: node
   linkType: hard
 
