@@ -28,49 +28,11 @@
     return 'noModule' in document.createElement('script');
   }
 
-  // Module worker support (new Worker(url, { type: 'module' })) is required: the map
-  // (mapbox-gl v3) loads its Web Worker this way. Detected with the "type getter" trick —
-  // only browsers that support module workers read the `type` option while constructing
-  // the Worker, which flips the flag. Roughly Chrome >= 80, Safari >= 15, Firefox >= 114.
-  function supportsModuleWorker() {
-    if (
-      !('Worker' in window) ||
-      !('Blob' in window) ||
-      !('URL' in window) ||
-      !URL.createObjectURL
-    ) {
-      return false;
-    }
-    // The "type getter" probe relies on ES5 object-literal getter syntax
-    // (`{ get type() {} }`), which IE8 and older cannot PARSE — and a parse error
-    // anywhere in this file aborts the whole script, so those browsers would never even
-    // reach the unsupported-browser banner (which we still target — see the IE8 note
-    // below). Keeping the probe inside a `new Function` string means only engines that
-    // evaluate it ever parse the getter, the same technique as the ?? / ??= check below;
-    // it also keeps the getter out of TypeScript's view (no type cast/suppression needed).
-    // The built function returns whether the `type` getter fired, i.e. whether the engine
-    // read the module-worker option while constructing the Worker.
-    try {
-      var readModuleType = new Function(
-        'var r = false;' +
-          'var u = URL.createObjectURL(new Blob([""], { type: "text/javascript" }));' +
-          'try { new Worker(u, { get type() { r = true; return "module"; } }).terminate(); } catch (e) {}' +
-          'if (URL.revokeObjectURL) { URL.revokeObjectURL(u); }' +
-          'return r;'
-      );
-      return !!readModuleType();
-    } catch (e) {
-      return false;
-    }
-  }
-
   if (
     !supportsESModules() ||
     !('Proxy' in window) ||
     // ResizeObserver is Chrome >= 64
-    !('ResizeObserver' in window) ||
-    // Module workers are required by the map (mapbox-gl); Chrome >= 80, Safari >= 15, Firefox >= 114
-    !supportsModuleWorker()
+    !('ResizeObserver' in window)
   ) {
     isUnsupportedBrowser = true;
   }
