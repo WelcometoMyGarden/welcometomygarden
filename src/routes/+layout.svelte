@@ -5,7 +5,7 @@
 
   import { onMount, tick } from 'svelte';
   import { page } from '$app/state';
-  import Modal from 'svelte-simple-modal';
+  import { Modal } from '$lib/util/modal';
   import { onNavigate } from '$app/navigation';
   import trackEvent, { registerCustomPropertyTracker } from '$lib/util/track-plausible';
   import { Notifications, Progress } from '$lib/components/UI';
