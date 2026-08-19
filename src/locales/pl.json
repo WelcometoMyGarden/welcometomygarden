@@ -1135,6 +1135,7 @@
     "all-conversations": "Wszystkie rozmowy",
     "type-message": "Wpisz treść wiadomości...",
     "new": "nowa",
+    "draft-prefix": "Wersja robocza:",
     "notify": {
       "unverified": "Zweryfikuj swój e-mail przed rozpoczęciem czatowania",
       "empty-message": "Wiadomość nie może być pusta",

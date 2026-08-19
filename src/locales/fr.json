@@ -1131,6 +1131,7 @@
     },
     "type-message": "Tapez votre message…",
     "new": "nouveau",
+    "draft-prefix": "Brouillon :",
     "title-conversation": "Discuter avec {partnerName}",
     "title": "Discussion",
     "go-to-garden": "Aller au jardin",

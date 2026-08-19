@@ -1135,6 +1135,7 @@
     "all-conversations": "Alla konversationer",
     "type-message": "Skriv ditt meddelande...",
     "new": "nytt",
+    "draft-prefix": "Utkast:",
     "notify": {
       "unverified": "Verifiera din e-postadress innan du börjar chatta",
       "empty-message": "Ditt meddelande kan inte vara tomt",

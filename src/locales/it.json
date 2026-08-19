@@ -1135,6 +1135,7 @@
     "all-conversations": "Tutte le conversazioni",
     "type-message": "Scrivi un messaggio...",
     "new": "nuovo",
+    "draft-prefix": "Bozza:",
     "notify": {
       "unverified": "Verifica la tua email prima di iniziare a chattare",
       "empty-message": "Il tuo messaggio non può essere vuoto",

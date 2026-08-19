@@ -1,4 +1,5 @@
 <script module lang="ts">
+  import { onDestroy, tick, untrack } from 'svelte';
   import { page } from '$app/state';
   import { createChat, sendMessage } from '$lib/api/chat';
   import routes from '$lib/routes';
@@ -19,6 +20,16 @@
   import { deviceId, pushRegistrations } from '$lib/stores/pushRegistrations';
   import { isNativePushRegistration } from '$lib/util/push-registrations';
   import { PushRegistrationStatus } from '$lib/types/PushRegistration';
+  import {
+    clearDraft,
+    clearDraftIfBlank,
+    draftKey,
+    flushDrafts,
+    getDraft,
+    holdDraftListing,
+    releaseDraftListing,
+    setDraft
+  } from '$lib/stores/chatDrafts.svelte';
 
   export const MAX_MESSAGE_LENGTH = 800;
 
@@ -46,6 +57,22 @@
   let { typedMessage, sendWasSuccessful } = $derived(state);
 
   export const normalizeWhiteSpace = (message: string) => message.replace(/\n\s*\n\s*\n/g, '\n\n');
+
+  /**
+   * Grows/shrinks the message box to fit its contents. Also needed after a
+   * programmatic value change (restoring a draft), which doesn't fire `input`.
+   */
+  const autoSize = (textArea: HTMLTextAreaElement | undefined) => {
+    if (!textArea) return;
+    // Reset the height, which helps with scaling down when removing content
+    // https://stackoverflow.com/a/25621277/4973029
+    textArea.style.height = '0';
+    // The 3px helps avoid showing a scrollbar when the content shouldn't be scrollable
+    textArea.style.height = textArea.scrollHeight + 3 + 'px';
+  };
+
+  /** The draft key of the chat that is currently open, if any. */
+  const currentDraftKey = () => draftKey(page.params.chatId, page.url.searchParams.get('id'));
 
   const showChatError = (exception: unknown, details?: string) => {
     logger.error(exception);
@@ -84,6 +111,8 @@
     }
     state.isSending = true;
     state.hint = '';
+    // A new chat goto()s to its created chat id below, which changes the key.
+    const draftKeyBeforeSend = currentDraftKey();
     const chat = get(sharedChat);
     if (!chat) {
       try {
@@ -127,6 +156,11 @@
     // Reset the text area on success
     if (sendWasSuccessful) {
       state.typedMessage = '';
+      // The message is out: there is nothing left to keep as a draft. Sending is
+      // one of the moments the chat list line is re-decided, so hold it again -
+      // at the now empty draft.
+      clearDraft(draftKeyBeforeSend);
+      holdDraftListing(draftKeyBeforeSend);
       if (state.textArea) {
         state.textArea.style.height = '0';
       }
@@ -172,7 +206,55 @@
   };
 </script>
 
-<script>
+<script lang="ts">
+  // ── Per-chat drafts ───────────────────────────────────────────────────────
+  // The message box holds one chat's text at a time, but its state is shared
+  // across chats (module scope, and it outlives navigation). Switching chats
+  // therefore has to hand the typed text over to the draft of the chat we leave,
+  // and load the draft of the chat we open.
+  let activeDraftKey = $derived(draftKey(page.params.chatId, page.url.searchParams.get('id')));
+  // The chat whose draft is in the box right now. Not reactive on purpose: it
+  // only records which handover has already been applied.
+  let loadedDraftKey: string | null = null;
+
+  /** Hands the box over from the chat we were on to the one that is now open. */
+  const loadDraftIntoBox = (key: string | null) => {
+    if (key === loadedDraftKey) return;
+    // Text typed for the chat we're leaving was stored on every input already;
+    // only a draft of pure whitespace/newlines is not worth keeping.
+    clearDraftIfBlank(loadedDraftKey);
+    loadedDraftKey = key;
+    state.typedMessage = getDraft(key);
+    // Keep this chat's list line on the draft it has right now: opening a chat
+    // doesn't take its draft off the list, and typing doesn't move it either.
+    holdDraftListing(key);
+    // A programmatic value change doesn't fire `input`, so size the box ourselves
+    // once the new value has rendered.
+    tick().then(() => autoSize(state.textArea));
+  };
+
+  // Restore before the first render: the box' state is shared and outlives
+  // navigation, so it can still hold the text of the chat we came from.
+  // Read through currentDraftKey() here — the derived above is only meant to be
+  // read reactively.
+  loadDraftIntoBox(currentDraftKey());
+
+  // And hand it over again on every switch to another chat, which keeps this
+  // component mounted. Only the open chat is a dependency here — the drafts
+  // themselves change on every keystroke.
+  $effect(() => {
+    const key = activeDraftKey;
+    untrack(() => loadDraftIntoBox(key));
+  });
+
+  onDestroy(() => {
+    // Leaving the chat routes entirely (the drafts themselves are kept)
+    clearDraftIfBlank(loadedDraftKey);
+    releaseDraftListing();
+    flushDrafts();
+    loadedDraftKey = null;
+  });
+
   // TODO: is this the right place of this effect?
   // It's here because the post-send NotificationPrompt logic is here too
   $effect(() => {
@@ -199,17 +281,11 @@
   bind:this={state.textArea}
   disabled={state.isSending}
   onkeydown={keydownHandler}
-  oninput={({ target }) => {
-    // @ts-ignore
-    if (target?.style) {
-      // Reset the height, which helps with scaling down when removing content
-      // https://stackoverflow.com/a/25621277/4973029
-      // @ts-ignore
-      target.style.height = 0;
-      // The 3px helps avoid showing a scrollbar when the content shouldn't be scrollable
-      // @ts-ignore
-      target.style.height = state.textArea?.scrollHeight + 3 + 'px';
-    }
+  oninput={({ currentTarget }) => {
+    autoSize(currentTarget);
+    // Store the draft of this chat while typing. Persisting it to localStorage
+    // is debounced inside setDraft().
+    setDraft(activeDraftKey, currentTarget.value);
   }}></textarea>
 
 <style>

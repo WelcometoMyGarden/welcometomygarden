@@ -1149,6 +1149,7 @@
     "all-conversations": "Todas las conversaciones",
     "type-message": "Escribe tu mensaje...",
     "new": "nuevo",
+    "draft-prefix": "Borrador:",
     "notify": {
       "unverified": "Por favor, verifica tu correo electrónico antes de empezar a chatear",
       "empty-message": "Tu mensaje no puede estar vacío",

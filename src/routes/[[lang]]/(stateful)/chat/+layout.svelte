@@ -44,6 +44,7 @@
   import logger from '$lib/util/logger';
   import { wait } from '$lib/util/timeout';
   import { EMPTY_FADE_DURATION } from './_shared';
+  import { draftKey, getListedDraft } from '$lib/stores/chatDrafts.svelte';
 
   interface Props {
     children?: import('svelte').Snippet;
@@ -260,6 +261,18 @@
     }
   };
 
+  // ── Drafts in the list ────────────────────────────────────────────────────
+  /**
+   * The draft to show on a conversation card, or undefined if it has none to show.
+   *
+   * Note that the line of the chat that is open is held by the message box (see
+   * `heldListing`): what it shows doesn't follow along while the user types.
+   */
+  const draftExcerpt = (key: string | null) => {
+    // Newlines and runs of spaces would show up as gaps in the single-line excerpt
+    return getListedDraft(key).replace(/\s+/g, ' ').trim() || undefined;
+  };
+
   let selectedConversation = $derived($chats[$page.params.chatId ?? '']);
   let conversations = $derived(
     Object.keys($visibleChats)
@@ -399,6 +412,7 @@
                   onclick={() => selectConversation('new')}
                   recipient={$newConversation.name}
                   lastMessage=""
+                  draft={draftExcerpt(draftKey('new', $newConversation.partnerId))}
                   selected={$page.params.chatId === 'new'}
                 />
               </article>
@@ -455,6 +469,7 @@
                   <ConversationCard
                     recipient={$chats[conversation.id].partner.firstName}
                     lastMessage={conversation.lastMessage}
+                    draft={draftExcerpt(conversation.id)}
                     lastActivityMs={conversation.lastActivity.toMillis()}
                     selected={selectedConversation && selectedConversation.id === conversation.id}
                     seen={isConversationSeen(conversation)}

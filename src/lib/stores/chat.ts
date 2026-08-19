@@ -7,6 +7,7 @@ import { isNative } from '$lib/util/uaInfo';
 import * as Sentry from '@sentry/sveltekit';
 import { localNativeRegistrationFCMToken } from './pushRegistrations';
 import logger from '$lib/util/logger';
+import { wipeDrafts } from './chatDrafts.svelte';
 
 export const hasInitialized = writable(false);
 export const creatingNewChat = writable(false);
@@ -142,6 +143,9 @@ export const resetChatStores = () => {
   messages.set({});
   isArchivedView.set(false);
   lastArchiveAction.set(null);
+  // Unsent text is stored locally: wipe it, storage key included, so nothing of
+  // this user lingers on the device for whoever logs in next.
+  wipeDrafts();
 };
 
 /**
