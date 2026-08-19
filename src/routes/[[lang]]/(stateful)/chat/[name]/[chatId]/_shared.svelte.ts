@@ -57,7 +57,7 @@ export const state = $state<{
   membershipModalClosedByOutsideClick: false
 });
 
-let msgContCurr = $derived(state.messageContainer);
+const msgContCurr = $derived(state.messageContainer);
 
 export const scrollDownMessages = () => {
   if (msgContCurr) {

@@ -1,7 +1,7 @@
 # This sets up E2E tests with emulators in a contained environment, based on the wtmg-e2e-ci container
 # The idea is to locally test the required steps that would need to be taken in a Github Action Runner VM on each new deploy/CI run
 
-FROM wtmg-e2e-ci:24
+FROM wtmg-e2e-ci:24-trixie
 
 # Simulate the "Checkout step"
 

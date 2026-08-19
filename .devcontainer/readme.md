@@ -1,7 +1,7 @@
 # WTMG Dev Container
 
 A full-stack, isolated development environment that reuses the CI/E2E base image
-([`ci/Dockerfile.ci`](../ci/Dockerfile.ci) → `ghcr.io/welcometomygarden/wtmg-e2e-ci:24`)
+([`ci/Dockerfile.ci`](../ci/Dockerfile.ci) → `ghcr.io/welcometomygarden/wtmg-e2e-ci:24-trixie`)
 and extends it with interactive tooling: **git, lazygit, zellij, zsh (default
 shell), nvm & Claude Code**. Useful for unsupervised agentic coding sessions/tasks.
 
@@ -20,7 +20,8 @@ persistent [zellij](https://zellij.dev) session.
 
 Requirement: the devcontainers CLI: https://github.com/devcontainers/cli (or VS Code, with the caveats below). Then run these from the repo root:
 
-1. Copy the env template and fill in the secrets (same 5 as `ci/.env.local`):
+1. Copy the env template and fill in the secrets (the ones documented in
+   [`ci/.env.local.example`](../ci/.env.local.example)):
 
    ```sh
    # Copy the environment of the compose file interpolation
@@ -64,10 +65,10 @@ COMPOSE_ENV_FILES=./.devcontainer/.env.compose devcontainer up --workspace-folde
 
 - **postCreateCommand** → [`bootstrap-repo.sh`](bootstrap-repo.sh) — clones
   `REPO_URL` (default: the public WTMG repo; `GITHUB_PAT` injected if set) into
-  the `wtmg-src` volume, downloads the public static assets from
-  `gs://wtmg-static/assets` (gitignored, required by the source; mirrors the CI
-  workflow), and installs dependencies. **Idempotent**: re-running it after a
-  rebuild never re-clones or overwrites an existing working copy.
+  the `wtmg-src` volume, ensures the `src/lib/assets` source images are present
+  via Git LFS (`git lfs pull`; git-lfs is installed in the image), and installs
+  dependencies. **Idempotent**: re-running it after a rebuild never re-clones or
+  overwrites an existing working copy.
 - **postStartCommand** → [`start-dev.sh`](start-dev.sh) — runs `ci/fill-envs.sh`,
   applies the configured server ports (see below), then launches a headless
   zellij session **`dev`** with two side-by-side panes

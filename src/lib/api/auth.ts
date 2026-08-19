@@ -21,7 +21,7 @@ import {
   resolveOnUserLocaleLoaded,
   firebaseCustomToken
 } from '$lib/stores/auth';
-import User, { type UserPrivate, type UserPublic } from '$lib/models/User';
+import { buildUser, type User, type UserPrivate, type UserPublic } from '$lib/models/User';
 import { createUser, resendAccountVerification as resendAccVerif } from '$lib/api/functions';
 import { CAMPSITES, USERS, USERS_PRIVATE } from './collections';
 import {
@@ -112,7 +112,7 @@ export const createAuthObserver = (): Unsubscribe => {
   // re-login. See code below.
   // https://firebase.google.com/docs/reference/node/firebase.auth.Auth#onidtokenchanged
   const unsubscribeFromAuthObserver = auth().onIdTokenChanged(async (firebaseUser) => {
-    logger.info(`auth/token changed (${!!firebaseUser ? 'truthy' : 'falsy'})`);
+    logger.info(`auth/token changed (${firebaseUser ? 'truthy' : 'falsy'})`);
 
     // Update the auth state cache
     latestAuthUserState = firebaseUser;
@@ -133,7 +133,7 @@ export const createAuthObserver = (): Unsubscribe => {
         startLoadingNewUser();
         justLoggedIn = true;
       }
-      if (oldStoredUser && oldStoredUser.uid !== firebaseUser.uid) {
+      if (oldStoredUser && oldStoredUser.id !== firebaseUser.uid) {
         logger.info('The Firebase account was changed.');
         // A new user is loading if the user was changed.
         startLoadingNewUser();
@@ -247,7 +247,7 @@ export const createAuthObserver = (): Unsubscribe => {
         justLoggedIn &&
         getCurrentRoute() === routes.SIGN_IN
       ) {
-        let continueUrl = get(page).url.searchParams.get('continueUrl');
+        const continueUrl = get(page).url.searchParams.get('continueUrl');
         if (continueUrl) {
           if (
             getBaseRouteIn(continueUrl) === routes.ADD_GARDEN &&
@@ -411,7 +411,7 @@ const updateUserIfPossible = async () => {
       garden: latestCampsiteState,
       email: email || undefined,
       emailVerified,
-      // overlap with id on Garden...
+      // In the front-end User type, we use `id` and not `uid`
       id: uid
     };
 
@@ -421,18 +421,17 @@ const updateUserIfPossible = async () => {
     // which would cause more loading than we want.
 
     const currentUser = get(user);
-    let newUser: User;
-    if (!currentUser) {
-      newUser = new User(updateProperties);
-    } else {
-      newUser = currentUser.copyWith(updateProperties);
-    }
+    // Rebuild the local user, applying defaults. When one already exists, merge
+    // the new fields over it (this replaces the former `User.copyWith`).
+    const newUser: User = currentUser
+      ? buildUser({ ...currentUser, ...updateProperties })
+      : buildUser(updateProperties);
 
     user.set(newUser);
 
     // User initialization is done
     if (get(isUserLoading)) {
-      logger.log(`User fully loaded: ${newUser.uid}`);
+      logger.log(`User fully loaded: ${newUser.id}`);
       isUserLoading.set(false);
     }
 
@@ -520,8 +519,6 @@ export const login = async (email: string, password: string): Promise<void> => {
     }
     trackEvent(PlausibleEvent.SIGN_IN);
     await resolveOnUserLoaded();
-  } catch (e) {
-    throw e;
   } finally {
     isSigningIn.set(false);
   }
@@ -592,8 +589,6 @@ export const register = async ({
     await signInWithEmailAndPassword(auth(), email, password);
     await resolveOnUserLoaded();
     trackEvent(PlausibleEvent.CREATE_ACCOUNT);
-  } catch (e) {
-    throw e;
   } finally {
     isSigningIn.set(false);
   }

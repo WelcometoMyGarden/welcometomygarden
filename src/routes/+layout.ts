@@ -40,7 +40,7 @@ export const load: LayoutLoad = async ({ params: { lang: pathLang }, url }) => {
 
     // https://docs.uaparser.dev/api/submodules/helpers/is-bot.html
     // https://github.com/faisalman/ua-parser-js/blob/d84ba1888b500ce2ba345f05885d5beef4d259c6/src/helpers/ua-parser-helpers.js#L163
-    let canRedirectBasedOnBrowserLang = !isBot(navigator.userAgent);
+    const canRedirectBasedOnBrowserLang = !isBot(navigator.userAgent);
     let candidateLangOverride;
     if (localeCookie) {
       // First priority, override target locale based on cookies

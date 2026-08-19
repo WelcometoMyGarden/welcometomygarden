@@ -1,7 +1,7 @@
 # WTMG Dev Container image.
 #
 # Extends the CI/E2E base image (built from ci/Dockerfile.ci, published as
-# ghcr.io/welcometomygarden/wtmg-e2e-ci:24) with interactive developer tooling:
+# ghcr.io/welcometomygarden/wtmg-e2e-ci:24-trixie) with interactive developer tooling:
 # git, lazygit, zellij, zsh (default shell), nvm and Claude Code.
 #
 # Runs as root, matching the CI workflow (.github/workflows/test-e2e-emulators.yml
@@ -17,9 +17,9 @@
 #
 # Build context is the .devcontainer/ directory (see docker-compose.yml).
 
-# Override with BASE_IMAGE=wtmg-e2e-ci:24 to use a locally-built base
+# Override with BASE_IMAGE=wtmg-e2e-ci:24-trixie to use a locally-built base
 # (see ci/local-build.sh) instead of pulling the published one.
-ARG BASE_IMAGE=ghcr.io/welcometomygarden/wtmg-e2e-ci:24
+ARG BASE_IMAGE=ghcr.io/welcometomygarden/wtmg-e2e-ci:24-trixie
 FROM ${BASE_IMAGE}
 
 # The base image already runs as root; everything below builds on that.
@@ -33,16 +33,13 @@ RUN apt-get update && apt-get install -y --no-install-recommends \
       curl \
     && rm -rf /var/lib/apt/lists/*
 
-# Google Cloud SDK (gsutil) — used by bootstrap-repo.sh to fetch the public
-# static assets from gs://wtmg-static, mirroring the CI e2e workflow (which
-# installs it via google-github-actions/setup-gcloud). apt-transport-https + gpg
-# come from the base image.
-RUN curl -fsSL https://packages.cloud.google.com/apt/doc/apt-key.gpg \
-      | gpg --dearmor -o /usr/share/keyrings/cloud.google.gpg \
-    && echo "deb [signed-by=/usr/share/keyrings/cloud.google.gpg] https://packages.cloud.google.com/apt cloud-sdk main" \
-      > /etc/apt/sources.list.d/google-cloud-sdk.list \
-    && apt-get update && apt-get install -y --no-install-recommends google-cloud-cli \
-    && rm -rf /var/lib/apt/lists/*
+# Git LFS — src/lib/assets (the source images processed by svelte-img) is stored in
+# Git LFS (see .gitattributes). bootstrap-repo.sh clones the repo; with git-lfs
+# installed, the clone/checkout automatically smudges the LFS pointers into real
+# files.
+RUN apt-get update && apt-get install -y --no-install-recommends git-lfs \
+    && rm -rf /var/lib/apt/lists/* \
+    && git lfs install --system --skip-repo
 
 # lazygit — static binary from GitHub releases (arch-aware).
 RUN ARCH="$(uname -m)" \

@@ -7,7 +7,7 @@ import routes from '$lib/routes';
 import { lr } from '$lib/util/translation-helpers';
 import type { LocalChat } from '$lib/types/Chat';
 import { rootModal } from '$lib/stores/app';
-import { bind } from 'svelte-simple-modal';
+import { bind } from '$lib/util/modal';
 import { ConfirmArchiveModal } from '$lib/components/Chat';
 
 export const isConversationSeen = (conversation: LocalChat): boolean =>

@@ -1,23 +1,27 @@
 /// <reference types="vitest/config" />
 import { sveltekit } from '@sveltejs/kit/vite';
 import { defineConfig, loadEnv, type UserConfig } from 'vite';
-import { imagetools } from '@zerodevx/svelte-img/vite';
+import { imagetools } from './plugins/svelteImgCached.js';
 import mkcert from 'vite-plugin-mkcert';
-import envIsTrue from './src/lib/util/env-is-true';
+import envIsTrue from './src/lib/util/env-is-true.js';
 import { sentrySvelteKit } from '@sentry/sveltekit';
-import dynamicBuildTarget from './plugins/dynamicBuildTarget';
-import stripCSSWhereSelectors from './plugins/stripCSSWhereSelectors';
+import dynamicBuildTarget from './plugins/dynamicBuildTarget.js';
+import stripCSSWhereSelectors from './plugins/stripCSSWhereSelectors.js';
 import { readFileSync } from 'node:fs';
 import { execSync } from 'node:child_process';
 import os from 'os';
 
-/* eslint-env node */
 export default defineConfig(({ command, mode }): UserConfig => {
   // Careful: this will not include the "always available" env vars (https://vitejs.dev/guide/env-and-mode.html#env-variables)
   // like MODE and DEV; those are available from the UserConfig somehow.
   process.env = { ...process.env, ...loadEnv(mode, process.cwd()) };
   const isProductionBuild = command === 'build' && (mode === 'production' || mode === 'staging');
   const useHTTPS = envIsTrue(process.env.VITE_USE_DEV_HTTPS) ?? false;
+
+  // TODO: temporarily disabled — the Sentry/GlitchTip source-map upload integration is
+  // currently broken and activates during builds. Re-enable (set to true) once our
+  // self-hosted GlitchTip backend has been updated and the upload flow is debugged.
+  const ENABLE_SENTRY_SOURCEMAPS = false;
 
   const sentryUrl =
     typeof process.env.PUBLIC_SENTRY_DSN === 'string' && process.env.PUBLIC_SENTRY_DSN.length > 0
@@ -57,7 +61,7 @@ export default defineConfig(({ command, mode }): UserConfig => {
   const commitMessage = tryGit(`${gitWithSafeDirOption} log -1 --pretty=%B`).split('\n')[0];
 
   const httpsOptions =
-    useHTTPS && process.env.VITE_HTTPS_CERT_PATH
+    useHTTPS && process.env.VITE_HTTPS_CERT_PATH && process.env.VITE_HTTPS_KEY_PATH
       ? {
           https: {
             cert: readFileSync(process.env.VITE_HTTPS_CERT_PATH),
@@ -67,7 +71,18 @@ export default defineConfig(({ command, mode }): UserConfig => {
       : {};
   return {
     build: {
-      minify: isProductionBuild ? 'esbuild' : false
+      // Vite 8 uses the Oxc minifier by default (esbuild was the Vite 7 default).
+      minify: isProductionBuild ? 'oxc' : false,
+      rolldownOptions: {
+        // Drop DEV-labeled logger.debug calls from wtmg-production builds. In Vite 8
+        // (Rolldown/Oxc) label-dropping is a bundler-level transform option, applied
+        // across the whole module graph (incl. Svelte-compiled output) — unlike the
+        // Vite 7 top-level `esbuild.dropLabels`, which no longer takes effect.
+        // See https://github.com/evanw/esbuild/issues/3656#issuecomment-3996489063
+        transform: {
+          dropLabels: mode === 'production' ? ['DEV'] : []
+        }
+      }
     },
     define: {
       __COMMIT_HASH__: JSON.stringify(commitHash),
@@ -76,7 +91,7 @@ export default defineConfig(({ command, mode }): UserConfig => {
       __BUILD_DATE__: JSON.stringify(dateFormat.format(new Date()))
     },
     plugins: [
-      ...(sentryUrl && process.env.SENTRY_AUTH_TOKEN
+      ...(ENABLE_SENTRY_SOURCEMAPS && sentryUrl && process.env.SENTRY_AUTH_TOKEN
         ? [
             sentrySvelteKit({
               sourceMapsUploadOptions: {
@@ -103,11 +118,6 @@ export default defineConfig(({ command, mode }): UserConfig => {
           ]
         : [])
     ],
-    esbuild: {
-      // Intended to drop logger.debug calls from wtmg-production builds
-      // See https://github.com/evanw/esbuild/issues/3656#issuecomment-3996489063
-      dropLabels: mode === 'production' ? ['DEV'] : []
-    },
     server: {
       // Includes localhost by default, check is skipped when HTTPS is used (see mkcert() and below)
       allowedHosts: [os.hostname().toLocaleLowerCase(), ...extraLocalHosts],

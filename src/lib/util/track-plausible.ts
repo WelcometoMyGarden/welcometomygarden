@@ -164,7 +164,6 @@ function trackEvent(
         });
       }
       // We can be certain that the debounced logger exists due to section above.
-      // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
       return debouncedLoggers[eventName]!(eventName, customProperties);
     }
   } catch (e) {
@@ -223,13 +222,7 @@ export const registerCustomPropertyTracker = (
     } else if ('getInstalledRelatedApps' in navigator) {
       // See https://developer.mozilla.org/en-US/docs/Web/API/Navigator/getInstalledRelatedApps
       type Platforms =
-        | 'webapp'
-        | 'play'
-        | 'chrome_web_store'
-        | 'chromeos_play'
-        | 'windows'
-        | 'f-droid'
-        | 'amazon';
+        'webapp' | 'play' | 'chrome_web_store' | 'chromeos_play' | 'windows' | 'f-droid' | 'amazon';
       (
         navigator as {
           getInstalledRelatedApps: () => Promise<

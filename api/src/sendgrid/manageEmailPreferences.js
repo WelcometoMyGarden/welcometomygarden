@@ -1,8 +1,9 @@
 const { logger } = require('firebase-functions');
 const fail = require('../util/fail');
 const verifyBySecret = require('../user/verifyBySecret');
-const { db } = require('../firebase');
+const { usersPrivateDoc } = require('../collections');
 const querystring = require('node:querystring');
+const maskSecret = require('../util/maskSecret');
 
 /**
  * @param {FV2.CallableRequest<import("../../../src/lib/api/functions").ManageEmailPreferencesRequest>} request
@@ -40,9 +41,7 @@ async function manageEmailPreferences({ data, auth: callAuth }) {
     }
   }
 
-  const userPrivateRef = /** @type {DocumentReference<UserPrivate>} */ (
-    db.collection('users-private').doc(uid)
-  );
+  const userPrivateRef = usersPrivateDoc(uid);
   const docSnap = await userPrivateRef.get();
   if (!docSnap.exists) {
     fail('failed-precondition');
@@ -117,7 +116,7 @@ async function handleUnsubscribePost(req, res) {
   if (typeof email !== 'string' || typeof secret !== 'string') {
     logger.warn(
       'Attempted to unsubscribe a user with a POST request, but the email or secret are missing',
-      { email, secret }
+      { email, secret: maskSecret(secret) }
     );
     return res.sendStatus(400);
   }
@@ -128,15 +127,13 @@ async function handleUnsubscribePost(req, res) {
   } catch (e) {
     logger.error(
       'Attempted to unsubscribe a user with a POST request, but the secret can not be verified',
-      { email, secret }
+      { email, secret: maskSecret(secret) }
     );
     return res.sendStatus(400);
   }
 
   // Apply the unsubscribe
-  const userPrivateRef = /** @type {DocumentReference<UserPrivate>} */ (
-    db.collection('users-private').doc(uid)
-  );
+  const userPrivateRef = usersPrivateDoc(uid);
   const docSnap = await userPrivateRef.get();
   if (!docSnap.exists) {
     logger.warn(`Trying to unsubscribe an account without users-private data`, {

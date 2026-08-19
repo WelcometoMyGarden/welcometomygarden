@@ -1,7 +1,8 @@
 const { logger } = require('firebase-functions/v2');
 const { Timestamp } = require('firebase-admin/firestore');
 const { DateTime } = require('luxon');
-const { db, getGardenWithData, getUserDocRefsWithData } = require('../firebase');
+const { getGardenWithData, getUserDocRefsWithData } = require('../firebase');
+const { usersPrivateCol } = require('../collections');
 const { getUser } = require('../queued/util');
 const { sendGardenRelistedEmail } = require('../mail');
 
@@ -24,8 +25,7 @@ module.exports = async () => {
   const start = startOfDay.toJSDate();
   const end = startOfDay.plus({ days: 1 }).toJSDate();
 
-  const snapshot = await db
-    .collection('users-private')
+  const snapshot = await usersPrivateCol()
     .where('relistGardenAt', '>=', Timestamp.fromDate(start))
     .where('relistGardenAt', '<', Timestamp.fromDate(end))
     .get();

@@ -25,7 +25,7 @@ export const checkPermission = async (): Promise<
     }
     switch (status) {
       case 'prompt':
-      // TODO: I'm not sure when this applies, and how to add the rational to the prompt when needed
+      // falls through — TODO: I'm not sure when this applies, and how to add the rationale to the prompt when needed
       case 'prompt-with-rationale':
         return 'prompt';
       default:

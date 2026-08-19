@@ -1,12 +1,29 @@
 import { writable } from 'svelte/store';
 
-export const notification = writable();
+export type NotificationType = 'danger' | 'warning' | 'info' | 'success';
 
-const send = (message: string, type = 'info', timeout: number, options = {}) => {
+export interface NotificationOptions {
+  /** Optional click handler invoked when the toast is clicked. */
+  click?: (() => void) | null;
+}
+
+export interface Notification {
+  type: NotificationType;
+  message: string;
+  timeout: number;
+  options: NotificationOptions;
+}
+
+export const notification = writable<Notification | undefined>();
+
+const send = (
+  message: string,
+  type: NotificationType = 'info',
+  timeout: number,
+  options: NotificationOptions = {}
+) => {
   notification.set({ type, message, timeout, options });
 };
-
-type NotificationType = 'danger' | 'warning' | 'info' | 'success';
 
 /**
  * Sends a notification
@@ -14,12 +31,9 @@ type NotificationType = 'danger' | 'warning' | 'info' | 'success';
  * @param timeout the timeout until the message disappears in milliseconds
  * @param options
  */
-type SendFunction = (message: string, timeout?: number, options?: any) => void;
+type SendFunction = (message: string, timeout?: number, options?: NotificationOptions) => void;
 
-const createSendF: (
-  type: NotificationType
-  // TODO: type opts
-) => SendFunction = (type) => {
+const createSendF: (type: NotificationType) => SendFunction = (type) => {
   return (msg, timeout = 8000, opts) => {
     send(msg, type, timeout, opts);
   };

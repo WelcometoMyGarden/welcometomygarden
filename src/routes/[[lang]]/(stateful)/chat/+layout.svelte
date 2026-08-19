@@ -398,7 +398,7 @@
                 <ConversationCard
                   onclick={() => selectConversation('new')}
                   recipient={$newConversation.name}
-                  lastMessage={''}
+                  lastMessage=""
                   selected={$page.params.chatId === 'new'}
                 />
               </article>

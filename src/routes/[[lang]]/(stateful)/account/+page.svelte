@@ -36,10 +36,10 @@
     goto($lr(`${routes.SIGN_IN}?continueUrl=${encodeURIComponent($lr(routes.ACCOUNT))}`));
   }
 
-  const onMailPreferenceChanged = async (event) => {
+  const onMailPreferenceChanged = async (event: Event) => {
     try {
-      const { name, checked } = event.target;
-      await updateMailPreferences(name, checked);
+      const { name, checked } = event.target as HTMLInputElement;
+      await updateMailPreferences(name as 'newChat' | 'news', checked);
       notify.success($_('account.notify.preferences-update'), 3500);
     } catch (ex) {
       logger.log(ex);
@@ -47,7 +47,7 @@
     }
   };
 
-  let isResendingEmail: boolean = $state();
+  let isResendingEmail = $state(false);
   let hasResentEmail = $state(false);
   const doResendEmail = async () => {
     try {
@@ -63,7 +63,7 @@
           12000
         );
       } else {
-        notify.danger(ex, 15000);
+        notify.danger(`${ex}`, 15000);
       }
       Sentry.captureException(ex, {
         extra: { context: 'Resending account verification email' }

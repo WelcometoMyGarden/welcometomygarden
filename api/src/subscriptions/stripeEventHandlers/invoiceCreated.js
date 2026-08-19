@@ -33,7 +33,7 @@ module.exports = async (event, res) => {
     return res.sendStatus(200);
   }
 
-  const uid = await getFirebaseUserId(invoice.customer);
+  const uid = await getFirebaseUserId(/** @type {string} */ (invoice.customer));
 
   // Finalize the invoice
   /** @type {import('stripe').Stripe.Invoice} */
@@ -90,17 +90,15 @@ module.exports = async (event, res) => {
     })
   );
 
-  if (
-    !(
-      publicUserProfileData &&
-      // Note: if a superfan has deleted their account during their active period, `privateUserProfileData` should be
-      // `undefined`, blocking the renewal email. This is important, because the rest of the data will likely still exist.
-      privateUserProfileData &&
-      finalizedInvoice.customer_email &&
-      finalizedInvoice.hosted_invoice_url &&
-      typeof price?.unit_amount === 'number'
-    )
-  ) {
+  if (!(
+    publicUserProfileData &&
+    // Note: if a superfan has deleted their account during their active period, `privateUserProfileData` should be
+    // `undefined`, blocking the renewal email. This is important, because the rest of the data will likely still exist.
+    privateUserProfileData &&
+    finalizedInvoice.customer_email &&
+    finalizedInvoice.hosted_invoice_url &&
+    typeof price?.unit_amount === 'number'
+  )) {
     res.status(500);
     return res.send('Missing parameters to send a subscription renewal email');
   }

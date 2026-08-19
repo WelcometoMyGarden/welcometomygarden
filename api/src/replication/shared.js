@@ -5,30 +5,80 @@ const { supabase } = require('../supabase');
 const { wait } = require('../util/time');
 
 /**
- * @typedef {<T extends Change<DocumentSnapshot<any>>>
- *  (event: FirestoreEvent<T, Record<string, string>>) => Promise<any>} FirestoreEventHandler
+ * A concrete Firestore document-write trigger handler: it receives an event for
+ * a specific document model `T` and the path wildcard params `P`.
+ *
+ * @template {DocumentData} T
+ * @template {Record<string, string>} P
+ * @typedef {(event: FirestoreEvent<Change<DocumentSnapshot<T>>, P>) => any} WriteHandler
  */
 
 /**
- * @type {(handlers: FirestoreEventHandler[]) => FirestoreEventHandler}
+ * Runs the given write-trigger handlers concurrently against a single event.
+ *
+ * Completes work in other handlers if any handler fails, but also rejects if any handler fails.
+ *
+ * @template {DocumentData} T
+ * @template {Record<string, string>} P
+ * @param {WriteHandler<T, P>[]} handlers
+ * @returns {(event: FirestoreEvent<Change<DocumentSnapshot> | undefined, P>) => Promise<any>} makes this writable to Firestore event handler registrars
  */
-exports.executeFirestoreTriggersConcurrently = (handlers) => async (event) =>
-  Promise.allSettled(handlers.map((handler) => handler(event)));
+exports.executeFirestoreTriggersConcurrently = (handlers) => async (event) => {
+  const typedEvent = /** @type {FirestoreEvent<Change<DocumentSnapshot<T>>, P>} */ (event);
+  return Promise.allSettled(handlers.map((handler) => handler(typedEvent))).then((statuses) => {
+    if (statuses.some(({ status }) => status === 'rejected')) {
+      throw 'One or more concurrent handlers failed';
+    } else {
+      return Promise.resolve('All concurrent handlers fulfilled');
+    }
+  });
+};
 
 /**
- * @type {(handlers: FirestoreEventHandler[]) => FirestoreEventHandler}
+ * Runs the given write-trigger handlers serially against a single event.
+ * Same widening/cast rationale as {@link executeFirestoreTriggersConcurrently}.
+ * @template {DocumentData} T
+ * @template {Record<string, string>} P
+ * @param {WriteHandler<T, P>[]} handlers
+ * @returns {(event: FirestoreEvent<Change<DocumentSnapshot> | undefined, P>) => Promise<any>}
  */
 exports.seralizeFirestoreTriggers = (handlers) => async (event) => {
+  const typedEvent = /** @type {FirestoreEvent<Change<DocumentSnapshot<T>>, P>} */ (event);
   for (const handler of handlers) {
-    // eslint-ignore
-    await handler(event);
+    await handler(typedEvent);
   }
 };
 
 /**
+ * Cast Firestore trigger handlers to (event: any) => any.
+ *
+ * This does nothing (identity) at runtime; the cast exists only to satisfy
+ * `strictFunctionTypes`.
+ *
+ * This example shows why:
+ *
+ * ```js
+ * // onCampsiteCreate is annotated to take only:
+ * //   FirestoreEvent<QueryDocumentSnapshot<Garden>, { campsiteId: string }>
+ * // onDocumentCreated insists on a handler taking:
+ * //   FirestoreEvent<QueryDocumentSnapshot<DocumentData>, Record<string, string>>
+ *
+ * onDocumentCreated('campsites/{campsiteId}', onCampsiteCreate);
+ * //                                          ^ TS2769: No overload matches this call
+ *
+ * onDocumentCreated('campsites/{campsiteId}', widenTrigger(onCampsiteCreate)); // ok
+ * ```
+ *
+ * `campsites/{campsiteId}` only ever yields gardens, so the widening is sound,
+ * and the handler stays fully type-checked at its own definition.
+ * @param {(event: any) => any} handler
+ * @returns {(event: any) => any}
+ */
+exports.widenTrigger = (handler) => handler;
+
+/**
  * Only call the function if the guard is true, otherwise do nothing
  * @type {WrappedFunction}
-}
  */
 exports.guardOn = function wrappedFunc(guard, func) {
   return (...args) => {
@@ -108,7 +158,10 @@ const createDataMapper = (mapper, pick) => (data) =>
       })
       .filter((v) => !!v)
       // flatten double-nested arrays, but leave single-nested arrays
-      .reduce((acc, e) => (Array.isArray(e[0]) ? [...acc, ...e] : [...acc, e]), [])
+      .reduce(
+        (acc, e) => (Array.isArray(e[0]) ? [...acc, ...e] : [...acc, e]),
+        /** @type {any[]} */ ([])
+      )
   );
 
 exports.createDataMapper = createDataMapper;
@@ -123,7 +176,7 @@ exports.createDataMapper = createDataMapper;
  * @prop {string[]} [pick] subset of Firestore document properties to preserve.
  *  Does not have to include 'id', since that is taken automatically from the Firebase document ID.
  *  Must be supplied with values for createTime and updateTime if these internal Firebase properties should be be synced with the SQL table
- * @prop {string[][]} [extraDeletionFilters] extra identifying conditions that should be applied for deletion changes, when the `id` column alone does not
+ * @prop {[string, any][]} [extraDeletionFilters] extra identifying `[column, value]` conditions that should be applied for deletion changes, when the `id` column alone does not
  *  uniquely represent the (composite) primary key of the table. These extra filters should "fill in" the primary key.
  */
 
@@ -175,7 +228,11 @@ exports.replicate = async (options) => {
   const { before, after } = change;
   let changeType;
   /**
-   * @type {null | ({id: string} & import('firebase/firestore').DocumentData)}
+   * `after.data()` comes from the Firebase Admin SDK, so this is the
+   * `@google-cloud/firestore` `DocumentData` (the api-wide global type), not the
+   * `firebase/firestore` client type — that package is a frontend-only dep and
+   * isn't installed for the api typecheck.
+   * @type {null | ({id: string} & DocumentData)}
    */
   let afterDocWithData = null;
   if (after.exists) {
@@ -224,7 +281,7 @@ exports.replicate = async (options) => {
         if (extraDeletionFilters.length > 0) {
           for (let i = 0; i < extraDeletionFilters.length; i += 1) {
             const filterPair = extraDeletionFilters[i];
-            query = query.eq.call(query, ...filterPair);
+            query = query.eq(...filterPair);
           }
         }
         result = await query;

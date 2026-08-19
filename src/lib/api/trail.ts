@@ -27,7 +27,7 @@ import {
 } from '$lib/stores/file';
 import logger from '$lib/util/logger';
 
-const getFileRef = (fileId: string) => ref(storage(), `trails/${getUser().uid}/${fileId}`);
+const getFileRef = (fileId: string) => ref(storage(), `trails/${getUser().id}/${fileId}`);
 
 /**
  * The visibility we last saw persisted in Firestore, per trail id. The snapshot listener in
@@ -46,7 +46,10 @@ const setTrailVisibility = (id: string, visible: boolean) => {
 
 export const createTrailObserver = () => {
   const q = query(
-    collection(db(), USERS_PRIVATE, getUser().id, TRAILS) as CollectionReference<FirebaseTrail>
+    collection(db(), USERS_PRIVATE, getUser().id, TRAILS) as CollectionReference<
+      FirebaseTrail,
+      FirebaseTrail
+    >
   );
 
   const unsubscribeSnapshot = onSnapshot(q, async (querySnapshot) => {
@@ -151,9 +154,10 @@ export const createTrail = async ({
   }
 
   // First, create a local Firestore doc reference explicitly, so it's ID can be used
-  const docRef = doc(
-    collection(db(), USERS_PRIVATE, uid, TRAILS)
-  ) as DocumentReference<FirebaseTrail>;
+  const docRef = doc(collection(db(), USERS_PRIVATE, uid, TRAILS)) as DocumentReference<
+    FirebaseTrail,
+    FirebaseTrail
+  >;
 
   // Timestamp used to order trails (earliest first) consistently across reloads.
   const createdAt = Timestamp.now();

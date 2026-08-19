@@ -53,7 +53,7 @@ export class GardenEditTest extends GenericFlow {
     await page.goto(`${this.baseURL}/garden/edit`);
     // Wait for the redirect to /account, because we're not verified yet
     await page.waitForURL('**/account');
-    // Check that the verification toast appears
+    // Check that the verification toast appears, close the register page
     await expect(page.locator('body')).toContainText(this.l('verification-toast'));
     await page.close();
 
@@ -71,11 +71,10 @@ export class GardenEditTest extends GenericFlow {
 
     await mailpitPage.close();
 
-    page = openedLinkPage;
-
-    await page.goto(`${this.baseURL}/garden/edit`);
+    // Manually navigate to /garden/edit (instead of clicking the garden add button)
+    await openedLinkPage.goto(`${this.baseURL}/garden/edit`);
     // Wait for the redirect to /garden/add, because we don't have a garden yet
-    await page.waitForURL('**/garden/add');
+    await openedLinkPage.waitForURL('**/garden/add');
 
     // Fill address
     await openedLinkPage.getByLabel(this.l('street-label'), { exact: true }).click();
@@ -104,9 +103,10 @@ export class GardenEditTest extends GenericFlow {
     // Wait for redirect to to the explore page
     await openedLinkPage.waitForURL('**/explore/**');
     // Check that the "Your Garden copy is visible"
-    await expect(page.getByText(this.l('your-garden'), { exact: true })).toHaveCount(1);
+    await expect(openedLinkPage.getByText(this.l('your-garden'), { exact: true })).toHaveCount(1);
 
-    await page.close();
+    await openedLinkPage.close();
+
     page = await context.newPage();
     // Manually open a new page on /garden/add
     await page.goto(`${this.baseURL}/garden/add`);
@@ -131,11 +131,7 @@ export class GardenEditTest extends GenericFlow {
       .getByRole('textbox', { name: this.l('description') })
       .fill('This is my new description, I hope you like it.');
     // Disable electricity
-    await page
-      .locator('div')
-      .filter({ hasText: this.l('electricity') })
-      .nth(3)
-      .click();
+    await page.getByRole('checkbox', { name: this.l('electricity') }).uncheck();
     // Enable Bonfire
     await page.getByRole('checkbox', { name: this.l('bonfire') }).check();
     await page.getByRole('spinbutton', { name: this.l('capacity-label') }).click();
@@ -143,7 +139,8 @@ export class GardenEditTest extends GenericFlow {
     await page.getByRole('button', { name: this.l('update-garden') }).click();
 
     // Wait for redirect to to the explore page
-    await openedLinkPage.waitForURL(`**/explore/**`);
+    // Note: `openedLinkPage` was closed above, the edit happens on the current `page`.
+    await page.waitForURL(`**/explore/**`);
     // Check that the "Your Garden copy is visible"
     await expect(page.getByText(this.l('your-garden'), { exact: true })).toHaveCount(1);
     await expect(page.getByText('This is my new description, I')).toHaveCount(1);

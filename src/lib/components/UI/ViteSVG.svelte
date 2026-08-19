@@ -11,7 +11,7 @@
   import Spinner from './Spinner.svelte';
 
   type Props = {
-    icon: string | Object[];
+    icon: string | object[];
     placeholderWidth?: string;
     placeholderHeight?: string;
     placeholderColor?: string;

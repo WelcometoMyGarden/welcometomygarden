@@ -1,6 +1,6 @@
 <script lang="ts">
   import type { ContextType } from './Map.svelte';
-  import type { ExpressionSpecification, GeoJSONSource } from 'mapbox-gl';
+  import type { ExpressionSpecification, GeoJSONSource } from 'mapbox-gl/esm';
   import { fileDataLayers } from '$lib/stores/file';
   import { getContext, onDestroy } from 'svelte';
   import { get } from 'svelte/store';

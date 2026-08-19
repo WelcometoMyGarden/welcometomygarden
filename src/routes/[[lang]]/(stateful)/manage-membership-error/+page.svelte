@@ -7,11 +7,16 @@
   import { lr, anchorText } from '$lib/util/translation-helpers';
   import { emailAsLink } from '$lib/constants';
   import { questionMarkIcon } from '$lib/images/icons';
+  import { escapeHtml } from '$lib/util/escapeHtml';
 
   /**
    * This works because it is a stateful descendant page
    */
   let email = $derived(page.url.searchParams.get('email') ?? '');
+
+  // The email comes from a URL query param and is rendered via {@html} below, so
+  // HTML-escape it to prevent injection. signInLink is app-generated markup.
+  const escapedEmail = $derived(escapeHtml(email));
 
   // Once the user is loaded, decide which follow-up action to present.
   const showAccountLink = $derived(!!email && $user?.email === email);
@@ -49,7 +54,9 @@
     </p>
   {:else if showSignInLink}
     <p>
-      {@html $_('manage-membership-error.logged-out', { values: { email, signInLink } })}
+      {@html $_('manage-membership-error.logged-out', {
+        values: { email: escapedEmail, signInLink }
+      })}
     </p>
   {/if}
 </ErrorTemplate>

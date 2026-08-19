@@ -1,5 +1,5 @@
 const cancelUnpaidManualRenewals = require('./scheduled/cancelUnpaidManualRenewals');
-const { db } = require('../firebase');
+const { usersPrivateCol } = require('../collections');
 const { stripeSubscriptionKeys } = require('./constants');
 const { oneYearAgoSecs, lxHourStart } = require('../util/time');
 const sendManualRenewalReminders = require('./scheduled/sendManualRenewalReminders');
@@ -24,20 +24,17 @@ exports.handleManualRenewals = async () => {
   // We can't do that here because of compound query limitations
   // (e.g. can't combine an == condition with a != condition)
   // https://firebase.google.com/docs/firestore/query-data/queries#limitations
-  const sendInvoiceQuery = /** @type {Query<UserPrivate>} */ (
-    db
-      .collection('users-private')
-      // The subscription status is "past_due"
-      // based on the default settings we're using, it goes from 'active' to 'past_due' 24 hours
-      // after the creation of a (renewal) invoice
-      .where(statusKey, '==', 'past_due')
-      // UNUSED: The last invoice isn't paid
-      // .where(latestInvoiceStatusKey, '!=', 'paid')
-      // INSTEAD: The last invoice is open (avoid compound query limitations on '!=')
-      .where(latestInvoiceStatusKey, '==', 'open')
-      // The start date is over a year ago (to only get those invoices that are renewals)
-      .where(startDateKey, '<=', oneYearAgoSecs())
-  );
+  const sendInvoiceQuery = usersPrivateCol()
+    // The subscription status is "past_due"
+    // based on the default settings we're using, it goes from 'active' to 'past_due' 24 hours
+    // after the creation of a (renewal) invoice
+    .where(statusKey, '==', 'past_due')
+    // UNUSED: The last invoice isn't paid
+    // .where(latestInvoiceStatusKey, '!=', 'paid')
+    // INSTEAD: The last invoice is open (avoid compound query limitations on '!=')
+    .where(latestInvoiceStatusKey, '==', 'open')
+    // The start date is over a year ago (to only get those invoices that are renewals)
+    .where(startDateKey, '<=', oneYearAgoSecs());
 
   const sendInvoiceDocs = (await sendInvoiceQuery.get()).docs.filter(
     (d) =>
@@ -72,17 +69,14 @@ exports.handleManualRenewals = async () => {
  * We send an email 7 days before expiration, and one 2 days before.
  */
 exports.handleAutomaticRenewals = async () => {
-  const chargeAutomaticallyQuery = /** @type {Query<UserPrivate>} */ (
-    db
-      .collection('users-private')
-      // In both cases, the subscription must be active still
-      .where(statusKey, '==', 'active')
-      .where(collectionMethodKey, '==', 'charge_automatically')
-      // cancelAt must have a concrete timestamp in both cases,
-      // which must be at most one week in the future, and not in the past
-      .where(cancelAtKey, '>', lxHourStart.toSeconds())
-      .where(cancelAtKey, '<=', lxHourStart.plus({ week: 1 }).toSeconds())
-  );
+  const chargeAutomaticallyQuery = usersPrivateCol()
+    // In both cases, the subscription must be active still
+    .where(statusKey, '==', 'active')
+    .where(collectionMethodKey, '==', 'charge_automatically')
+    // cancelAt must have a concrete timestamp in both cases,
+    // which must be at most one week in the future, and not in the past
+    .where(cancelAtKey, '>', lxHourStart.toSeconds())
+    .where(cancelAtKey, '<=', lxHourStart.plus({ week: 1 }).toSeconds());
 
   const docs = (await chargeAutomaticallyQuery.get()).docs;
 

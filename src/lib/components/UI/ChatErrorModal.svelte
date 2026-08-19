@@ -18,12 +18,12 @@ Modal to show a chat-sending error.
 
 <Modal maxWidth="648px" ariaLabel="Error Modal" bind:show closeOnOuterClick={false} center>
   {#snippet title()}
-    <div  class="title">
+    <div class="title">
       <h2 id="Title">{$_('chat.error-modal.title')}</h2>
     </div>
   {/snippet}
   {#snippet body()}
-    <div  class="body">
+    <div class="body">
       <p>{$_('chat.error-modal.description')}</p>
       <p>
         <span>

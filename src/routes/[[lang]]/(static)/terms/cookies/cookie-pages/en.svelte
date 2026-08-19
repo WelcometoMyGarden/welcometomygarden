@@ -24,7 +24,7 @@
   particular will for example disable the ability to log in.
 </p>
 <p>
-  If you are concerned about your online privacy, we recommend using a browser extension like <a
+  If you are concerned about your online privacy, we recommend using a browser extension like <a
     href="https://addons.mozilla.org/en-US/firefox/addon/privacy-badger17/">Privacy Badger</a
   >
   (Firefox), <a href="https://www.ghostery.com/ghostery-ad-blocker">Ghostery</a> (many browsers) or
@@ -162,7 +162,7 @@
   Hopefully this page has clarified things for you. As previously mentioned, if there is anything
   that you aren't sure you need or not, it's usually safer to leave cookies enabled - just in case
   it does interact with one of the features you use on our site. If you are still looking for more
-  information, you can contact us at <a href="mailto:support@welcometomygarden.org"
+  information, you can contact us at <a href="mailto:support@welcometomygarden.org"
     >support@welcometomygarden.org</a
   >.
 </p>

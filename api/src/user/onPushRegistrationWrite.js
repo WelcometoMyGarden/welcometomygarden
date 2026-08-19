@@ -1,5 +1,6 @@
 const { logger } = require('firebase-functions');
 const { db } = require('../firebase');
+const { pushRegistrationsCol } = require('../collections');
 
 /**
  * Triggered as part of onUserPrivateSubcollectionWriteV2 (onDocumentWritten), so we
@@ -32,9 +33,7 @@ exports.onPushRegistrationWrite = async ({ data, params }) => {
   }
 
   // Get all web-push subscriptions for this user (regardless of status)
-  const pushRegistrationsRef = /**
-   * @type {CollectionReference<PushRegistration>}
-   */ (db.collection(`users-private/${userId}/push-registrations`));
+  const pushRegistrationsRef = pushRegistrationsCol(userId);
   const webPushQuery = pushRegistrationsRef.where('subscription', '!=', null);
   const webPushSnapshots = await webPushQuery.get();
 

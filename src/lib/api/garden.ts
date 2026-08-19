@@ -39,7 +39,7 @@ import logger from '$lib/util/logger';
  */
 export const getGarden = async (id: string) => {
   const gardenDoc = await getDoc(
-    doc(collection(db(), CAMPSITES) as CollectionReference<FirebaseGarden>, id)
+    doc(collection(db(), CAMPSITES) as CollectionReference<FirebaseGarden, FirebaseGarden>, id)
   );
   const data = gardenDoc.data()!;
   if (gardenDoc.exists() && data.listed) {
@@ -70,12 +70,43 @@ type BooleanValue = {
   booleanValue: boolean;
 };
 
+/**
+ * A single Firestore REST value. Exactly one of the `*Value` keys is present,
+ * so we discriminate on key presence (`'doubleValue' in value`) rather than
+ * optional chaining, which can't narrow this union.
+ */
+type RESTValue = StringValue | BooleanValue | DoubleValue | IntegerValue;
+
 type MapValue = {
   mapValue: {
     fields: {
-      [key: string]: StringValue | BooleanValue | DoubleValue | IntegerValue;
+      [key: string]: RESTValue;
     };
   };
+};
+
+/** Reads a Firestore REST numeric value (double or integer), if present. */
+const restNumber = (value: RESTValue | undefined): number | undefined => {
+  if (value && 'doubleValue' in value) return value.doubleValue;
+  if (value && 'integerValue' in value) return value.integerValue;
+  return undefined;
+};
+
+/**
+ * Builds a typed {@link GardenFacilities} from a Firestore REST fields map.
+ * Facilities are stored as booleans, except `capacity`, which is an integer.
+ */
+const restFacilities = (fields: { [key: string]: RESTValue }): GardenFacilities => {
+  const facilities: GardenFacilities = { capacity: 1 };
+  const writable = facilities as Record<string, boolean | number>;
+  for (const [key, value] of Object.entries(fields)) {
+    if ('booleanValue' in value) writable[key] = value.booleanValue;
+    else {
+      const num = restNumber(value);
+      if (typeof num !== 'undefined') writable[key] = num;
+    }
+  }
+  return facilities;
 };
 
 type RESTGardenDoc = {
@@ -118,24 +149,12 @@ function mapRestToGarden(doc: RESTGardenDoc): Garden {
       // The MapBox forward geocoding API we use indeed doesn't document its precision
       // and only specifies "number", which could be floating-point or integer.
       // https://docs.mapbox.com/api/search/geocoding/#geocoding-response-object
-      latitude:
-        location.mapValue.fields.latitude?.doubleValue ??
-        location.mapValue.fields.latitude?.integerValue,
-      longitude:
-        location.mapValue.fields.longitude?.doubleValue ??
-        location.mapValue.fields.longitude?.integerValue
+      latitude: restNumber(location.mapValue.fields.latitude)!,
+      longitude: restNumber(location.mapValue.fields.longitude)!
     },
     listed: listed.booleanValue,
-    facilities: {
-      // Map facilities fields to boolean values
-      // Assuming all facilities are stored as boolean values or integer values
-      ...Object.fromEntries(
-        Object.entries(facilities.mapValue.fields).map(([key, value]) => [
-          key,
-          typeof value.booleanValue !== 'undefined' ? value.booleanValue : +value.integerValue
-        ])
-      )
-    },
+    // Map facilities fields to boolean values, except the integer `capacity`.
+    facilities: restFacilities(facilities.mapValue.fields),
     photo: photo?.stringValue
   };
 }
@@ -273,9 +292,10 @@ export const addGarden = async ({ photo, facilities, ...rest }: GardenToAdd) => 
   await setDoc(doc(db(), CAMPSITES, currentUser.id), garden);
 
   const gardenWithId = { ...garden, id: currentUser.id } satisfies Garden;
-  // Optimistic update before the update streams back in
-  // Note that the caller of this function will add the garden to the allGardens store
-  currentUser.setGarden(gardenWithId);
+  // Optimistic in-place update before the update streams back in via the snapshot
+  // listener (which calls user.set). Note that the caller of this function will
+  // add the garden to the allGardens store.
+  currentUser.garden = gardenWithId;
   return gardenWithId;
 };
 
@@ -322,10 +342,10 @@ export const updateGarden = async ({ photo: newPhotoFile, ...rest }: GardenToAdd
     // Reuse the old photo name if it was not changed (the extension may be different)
     photo: updatedGarden.photo ?? previousGarden.photo ?? null
   };
-  // Optimistic update before the update streams back in
+  // Optimistic in-place update before the update streams back in
   // TODO: this might not be necessary anymore, depends on whether the updateDoc
   // snaphost listeners handle the update synchronously
-  getUser().setGarden(gardenWithId);
+  getUser().garden = gardenWithId;
   return gardenWithId;
 };
 

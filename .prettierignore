@@ -15,3 +15,11 @@ yarn.lock
 
 # Custom rules
 public
+android
+ios
+
+# test
+api/test/input
+
+# minified .js
+*.min.js

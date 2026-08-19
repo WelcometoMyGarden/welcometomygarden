@@ -65,7 +65,7 @@ export const initializeUser = async () => {
   user.subscribe(async (latestUser) => {
     // Initialize chat & push registrations observers if needed, that is
     // if the user logged in and has a verified email, or if the user has changed
-    if (!!latestUser) {
+    if (latestUser) {
       // Subscribe to the push registration observer, if not initialized yet
       // We're not making this dependent on email verification status, so new accounts
       // get the prompt immediately.

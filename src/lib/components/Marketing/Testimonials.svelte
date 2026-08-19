@@ -1,12 +1,20 @@
 <script module lang="ts">
   export type Slide = {
-    quote: string;
-    name: string;
-    // Should not include the bucket prefix
-    /**
-     * svelte-img image
-     */
-    image: unknown[] | undefined;
+    quote: LocalizedMessage;
+    name: LocalizedMessage;
+    image: string;
+  };
+
+  /**
+   * @param prefixObject the i18n object with index-keyed name+quote objects
+   */
+  export const slideContentMapper = (prefixObject: string) => (image: string, i: number) => {
+    const prefix = `${prefixObject}.${i}`;
+    return {
+      image,
+      name: { key: prefix + '.name' },
+      quote: { key: prefix + '.quote' }
+    };
   };
 </script>
 
@@ -16,6 +24,8 @@
   import Img from '@zerodevx/svelte-img';
   import { fade } from 'svelte/transition';
   import ViteSVG from '../UI/ViteSVG.svelte';
+  import type { LocalizedMessage } from '$lib/util/translation-helpers';
+  import { _ } from 'svelte-i18n';
 
   interface Props {
     slides: Slide[];
@@ -36,11 +46,11 @@
     {#if activeSlide === index}
       <div class="slide" transition:fade>
         <div class="image">
-          <Img src={image} alt="Image of {name}" />
+          <Img src={image} alt="Image of {$_(name.key)}" />
         </div>
         <div class="text">
-          <quote class="quote">〝{quote}〞</quote>
-          <span class="name">{name}</span>
+          <quote class="quote">〝{$_(quote.key)}〞</quote>
+          <span class="name">{$_(name.key)}</span>
           <div class="controls">
             <button class="previous" onclick={previous}
               ><ViteSVG icon={arrowRightIcon}></ViteSVG></button

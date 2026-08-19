@@ -2,7 +2,17 @@
   "compilerOptions": {
     "module": "CommonJS",
     "target": "es2022",
-    "checkJs": true
+    "checkJs": true,
+    "skipLibCheck": true,
+    "strictFunctionTypes": true,
+    // TODO: turn this on and fix possible null values (+~135 errors)
+    // `event.data` genuinely can be `undefined` and the repo destructures it unguarded in many
+    // triggers; enabling this is what enforces the `| undefined` half of the
+    // trigger-composition typing (see replication/shared.js).
+    "strictNullChecks": false,
+    // TODO: turn this on and resolve +~54 errors.
+    "noImplicitAny": false
   },
-  "exclude": ["node_modules"]
+  "include": ["src"],
+  "exclude": ["node_modules", "test"]
 }

@@ -20,6 +20,8 @@
     pointer = false,
     invert = false,
     onclose,
+    onclick,
+    onkeypress,
     children
   }: Props = $props();
 </script>

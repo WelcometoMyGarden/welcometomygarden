@@ -1,0 +1,8 @@
+# node_modules is ignored by Prettier by default; listed for clarity.
+node_modules
+
+# Captured raw email fixtures — must not be reformatted.
+test/input
+
+# Lockfile
+yarn.lock

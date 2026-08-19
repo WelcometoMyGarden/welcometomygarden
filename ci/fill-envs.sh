@@ -1,12 +1,8 @@
 #!/bin/bash
 # Fills in environment values from the environment into the specific .env files
 # expected by the frontend, backend & testing environments.
-# Expected input env variables:
-# - SENTRY_DSN
-# - SENTRY_AUTH_TOKEN
-# - MAPBOX_ACCESS_TOKEN
-# - THUNDERFOREST_API_KEY
-# - STRIPE_PUBLISHABLE_KEY
+# The input env variables it expects are documented in ci/.env.local.example.
+# ci/check-envs.sh verifies the required ones are set.
 
 SENTRY_HOST=$(echo $SENTRY_DSN | sed -E 's#^[a-zA-Z]+://([^@]+)?@?([^/]+).*#\2#')
 GLITCHTIP_KEY=$(echo $SENTRY_DSN | sed -E 's#^[a-zA-Z]+://([^@]+)?@?([^/]+).*#\1#')

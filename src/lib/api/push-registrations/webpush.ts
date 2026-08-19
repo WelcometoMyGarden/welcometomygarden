@@ -145,7 +145,8 @@ export const subscribeOrRefreshWebFCM = async () => {
 
 export const getDeviceWebUAWithClientHints = async () => {
   const uaP = new UAParser();
-  const deviceWithClientHints = await uaP.getDevice().withFeatureCheck().withClientHints();
+  const featureChecked = await uaP.getDevice().withFeatureCheck();
+  const deviceWithClientHints = await featureChecked.withClientHints();
   if (deviceWithClientHints.model === 'K') {
     deviceWithClientHints.model = 'Android';
   }

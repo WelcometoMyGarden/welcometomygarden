@@ -2,7 +2,7 @@
   import ResponsiveSquare from '$lib/components/UI/ResponsiveSquare.svelte';
   import Img from '@zerodevx/svelte-img';
   interface Props {
-    imageSrc: string | Object[];
+    imageSrc: string | object[];
     name: string;
   }
 

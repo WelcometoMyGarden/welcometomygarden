@@ -8,8 +8,8 @@
 
   let { clustersKey } = $props();
 
-  let activeCollapsible = $state(null);
-  const setActiveCollapsible = (id) => {
+  let activeCollapsible = $state<string | null>(null);
+  const setActiveCollapsible = (id: string) => {
     activeCollapsible === id ? (activeCollapsible = null) : (activeCollapsible = id);
   };
 </script>

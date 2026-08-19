@@ -5,7 +5,7 @@
     /**
      * .svg are seen as a string, .jpg as an Object[] ?
      */
-    icon: Object[] | string;
+    icon: object[] | string;
     whiteStroke?: boolean;
     greenStroke?: boolean;
     clickable?: boolean;

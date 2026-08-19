@@ -105,12 +105,23 @@ export default defineConfig<TestOptions>({
   // https://playwright.dev/docs/ci#workers
   workers: process.env.WORKERS != null ? parseInt(process.env.WORKERS) : undefined,
   testDir: './tests/e2e',
+  // Without this, Playwright falls back to its built-in default reporter ('list',
+  // or 'dot' on CI), which writes no report directory at all. The HTML reporter is
+  // what produces `playwright-report/` (with traces embedded under its data/ dir).
+  // Raw trace.zip files are separately written to the outputDir (`test-results/`).
+  reporter: [['html', { open: 'never' }], [envIsTrue(process.env.CI) ? 'github' : 'list']],
   retries: envIsTrue(process.env.CI) ? 1 : 0,
   timeout: 80 * 1000,
   webServer: localwebServers,
   use: {
     ...defaultOptions,
     ...slowMoChromium,
+    // Cap individual locator actions (click, fill, check, press) instead of letting
+    // them run into the global test timeout. Override per call with `{ timeout: ... }`.
+    actionTimeout: 10 * 1000,
+    // Navigations (goto, waitForURL) get more headroom: the first page load may hit
+    // a cold Vite dev server / Firebase emulator.
+    navigationTimeout: 30 * 1000,
     trace: 'on-first-retry'
   },
   globalTeardown: './tests/e2e/global-teardown',

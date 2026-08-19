@@ -1,44 +1,150 @@
-# Based on https://docs.github.com/en/packages/managing-github-packages-using-github-actions-workflows/publishing-and-installing-a-package-with-github-actions#upgrading-a-workflow-that-accesses-a-registry-using-a-personal-access-token
+# Builds & publishes the E2E/devcontainer base image (ci/Dockerfile.ci) as a
+# multi-arch (amd64 + arm64) manifest list.
+#
+# Each architecture is built on a *native* runner and pushed by digest; a final
+# job stitches the digests into one tagged manifest list. This follows
+# https://docs.docker.com/build/ci/github-actions/multi-platform/#distribute-build-across-multiple-runners
+# and avoids QEMU, which would have to (slowly) emulate the Playwright/Chromium install
+# and the re2 native build.
+#
+# Registry auth is based on
+# https://docs.github.com/en/packages/managing-github-packages-using-github-actions-workflows/publishing-and-installing-a-package-with-github-actions#upgrading-a-workflow-that-accesses-a-registry-using-a-personal-access-token
 #
 name: Build CI E2E test image
 
 on:
+  # Deliberately not triggered by master pushes or path filters:
+  # - this image is (relatively) expensive to build
+  # - it does not need to be built often
+  # - every consumer pins an explicit tag, so nothing
+  # breaks by not rebuilding it. Push the dedicated branch when you want a new
+  # image published.
   push:
     branches:
-      - master
-    paths:
-      - 'ci/Dockerfile.ci'
-      # Self-referential, to ensure updates work
-      - '.github/workflows/build-ci-e2e-image.yml'
+      - ci-image-build
   workflow_dispatch:
 
 env:
   IMAGE_NAME: wtmg-e2e-ci
-  VERSION: 24
+  # Node major + Debian codename of the base image in ci/Dockerfile.ci.
+  # When bumping this, update every consumer too — see ci/readme.md.
+  VERSION: 24-trixie
 
 jobs:
-  push:
+  build:
+    name: Build ${{ matrix.platform }}
+    runs-on: ${{ matrix.runner }}
+    timeout-minutes: 30
+    permissions:
+      packages: write
+      contents: read
+    strategy:
+      # Don't cancel the sibling arch on failure; a partial result is still
+      # useful for debugging, and the merge job won't run either way.
+      fail-fast: false
+      matrix:
+        include:
+          - platform: linux/amd64
+            runner: ubuntu-24.04
+          # Free for public repositories.
+          - platform: linux/arm64
+            runner: ubuntu-24.04-arm
+    steps:
+      - uses: actions/checkout@v7
+
+      - name: Prepare image name and artifact suffix
+        id: prep
+        run: |
+          # ghcr.io paths must be all-lowercase; the org name is mixed-case.
+          owner=$(echo "$GITHUB_REPOSITORY_OWNER" | tr '[:upper:]' '[:lower:]')
+          echo "image=ghcr.io/${owner}/${IMAGE_NAME}" >> "$GITHUB_OUTPUT"
+          # Artifact names can't contain slashes: linux/amd64 -> linux-amd64
+          echo "suffix=${PLATFORM//\//-}" >> "$GITHUB_OUTPUT"
+        env:
+          PLATFORM: ${{ matrix.platform }}
+
+      - uses: docker/setup-buildx-action@v4
+
+      - uses: docker/login-action@v4
+        with:
+          registry: ghcr.io
+          username: ${{ github.actor }}
+          password: ${{ secrets.GITHUB_TOKEN }}
+
+      - name: Build and push by digest
+        id: build
+        uses: docker/build-push-action@v7
+        with:
+          context: .
+          file: ci/Dockerfile.ci
+          platforms: ${{ matrix.platform }}
+          labels: runnumber=${{ github.run_id }}
+          # No tags: this pushes an untagged, digest-addressed single-platform
+          # image. The merge job below gives the tags to the manifest list.
+          outputs: type=image,name=${{ steps.prep.outputs.image }},push-by-digest=true,name-canonical=true,push=true
+          # Attestations would add extra manifests to what each runner pushes,
+          # which `imagetools create` then has to merge — keep the output a
+          # plain single-platform image so the final list has exactly 2 entries.
+          provenance: false
+          sbom: false
+
+      - name: Export digest
+        run: |
+          mkdir -p /tmp/digests
+          digest='${{ steps.build.outputs.digest }}'
+          touch "/tmp/digests/${digest#sha256:}"
+
+      - name: Upload digest
+        uses: actions/upload-artifact@v7
+        with:
+          name: digest-${{ steps.prep.outputs.suffix }}
+          path: /tmp/digests/*
+          if-no-files-found: error
+          retention-days: 1
+
+  merge:
+    name: Merge into multi-arch manifest list
     runs-on: ubuntu-24.04
+    needs: build
     permissions:
       packages: write
       contents: read
     steps:
-      - uses: actions/checkout@v6
-      - name: Build image
+      - uses: actions/download-artifact@v8
+        with:
+          path: /tmp/digests
+          pattern: digest-*
+          merge-multiple: true
+
+      - name: Prepare image name
+        id: prep
         run: |
-          docker build . \
-          --file ci/Dockerfile.ci \
-          --tag $IMAGE_NAME:$VERSION \
-          --label "runnumber=${GITHUB_RUN_ID}"
-      - name: Log in to registry
-        run: echo "${{ secrets.GITHUB_TOKEN }}" | docker login ghcr.io -u ${{ github.actor }} --password-stdin
-      - name: Push image
+          owner=$(echo "$GITHUB_REPOSITORY_OWNER" | tr '[:upper:]' '[:lower:]')
+          echo "image=ghcr.io/${owner}/${IMAGE_NAME}" >> "$GITHUB_OUTPUT"
+
+      - uses: docker/setup-buildx-action@v4
+
+      - uses: docker/login-action@v4
+        with:
+          registry: ghcr.io
+          username: ${{ github.actor }}
+          password: ${{ secrets.GITHUB_TOKEN }}
+
+      - name: Create and push manifest list
+        working-directory: /tmp/digests
+        env:
+          IMAGE: ${{ steps.prep.outputs.image }}
         run: |
-          IMAGE_ID=ghcr.io/${{ github.repository_owner }}/$IMAGE_NAME
-          # Change to lowercase, everything incl. the repository_owner name has to be lowercase
-          IMAGE_ID=$(echo $IMAGE_ID | tr '[A-Z]' '[a-z]')
-          echo IMAGE_ID=$IMAGE_ID
-          docker tag $IMAGE_NAME:$VERSION $IMAGE_ID:$VERSION
-          docker tag $IMAGE_NAME:$VERSION $IMAGE_ID:latest
-          docker push $IMAGE_ID:$VERSION
-          docker push $IMAGE_ID:latest
+          # One empty file per arch, named after its pushed digest.
+          refs=()
+          for digest in *; do
+            refs+=("${IMAGE}@sha256:${digest}")
+          done
+          echo "Merging: ${refs[*]}"
+          docker buildx imagetools create \
+            --tag "${IMAGE}:${VERSION}" \
+            --tag "${IMAGE}:latest" \
+            "${refs[@]}"
+
+      - name: Inspect published manifest list
+        run: docker buildx imagetools inspect "${{ steps.prep.outputs.image }}:${VERSION}"

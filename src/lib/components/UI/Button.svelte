@@ -5,7 +5,7 @@
   import chevron from '$lib/images/icons/chevron-right.svg?inline';
   import Spinner from './Spinner.svelte';
   interface Props {
-    type?: null | string;
+    type?: 'button' | 'submit' | 'reset' | null;
     href?: null | string;
     /**
      * Dark foreground color

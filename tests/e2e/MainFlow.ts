@@ -166,6 +166,7 @@ export class MainFlowTest extends GenericFlow {
     });
 
     // Continue with the opened verification link page
+    // eslint-disable-next-line no-param-reassign -- intentionally advance to the freshly-opened page for the rest of the flow
     page = openedLinkPage;
     await page.bringToFront();
     // The opened page should redirect to the garden we wanted to open
@@ -220,13 +221,13 @@ export class MainFlowTest extends GenericFlow {
       if (!userPrivateData) {
         console.error("Couldn't get auth data");
       }
-      const customerId = userPrivateData?.stripeCustomerId!;
+      const customerId = userPrivateData!.stripeCustomerId!;
       const customer = await stripe.customers.retrieve(customerId);
       // const customer = (await stripe.customers.list({ email })).data[0];
-      if (!customer) {
+      if (!customer || customer.deleted) {
         console.error('Stripe Customer not found in staging mode');
       } else {
-        expect(customer.preferred_locales[0]).toEqual(this.locale);
+        expect(customer.preferred_locales?.[0]).toEqual(this.locale);
       }
     }
 

@@ -16,7 +16,6 @@
     subscriptionJustEnded
   } from '$lib/stores/subscription';
   import { coerceToMainLanguageENBlank } from '$lib/util/get-browser-lang';
-  import { transKeyExists } from '$lib/util';
   import { lr } from '$lib/util/translation-helpers';
   import type { ClickOutsideEvent } from '$lib/attachments/click-outside';
   import TemporaryAppNavBannerContent from '../../TemporaryAppNoticeBanner.svelte';
@@ -39,7 +38,7 @@
     // 1. this ontoggle results in a state change in the parent custom event listener first
     // 2. the actual onclick event on the close button somehow receives old isDrawerOpen state
     // This makes the following detection the only way to deal with this situation.
-    if (isOpen && !hamburger?.contains(clickEvent.target)) ontoggle();
+    if (isOpen && !hamburger?.contains(clickEvent.target as Node | null)) ontoggle();
   };
 
   const wtmgSignURLParams = new URLSearchParams({

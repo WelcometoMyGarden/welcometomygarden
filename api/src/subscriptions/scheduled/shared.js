@@ -41,7 +41,9 @@ exports.processUserPrivateDocs = async (userPrivateDocs, processFn, processDescr
         }
         const data = userPrivateDoc.data();
 
-        const combined = { id: userPrivateDoc.id, ...data, ...authUser };
+        // `email` is guarded to be a string above; restate it after the spread so
+        // the narrowed `string` (not UserRecord's `string | undefined`) is kept.
+        const combined = { id: userPrivateDoc.id, ...data, ...authUser, email: authUser.email };
         await processFn(combined);
         return combined;
       } catch (e) {

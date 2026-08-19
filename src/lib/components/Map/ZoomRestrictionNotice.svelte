@@ -4,7 +4,7 @@
   import { getContext, onDestroy } from 'svelte';
   import type { ContextType } from './Map.svelte';
   import key from './mapbox-context.js';
-  import type { Map } from 'mapbox-gl';
+  import type { Map } from 'mapbox-gl/esm';
   import { nonMemberMaxZoom } from '$lib/constants';
   import { Anchor } from '../UI';
   import createUrl from '$lib/util/create-url';
@@ -31,7 +31,7 @@
     }
   }
 
-  const zoomEventHandler = (e: { type: 'zoom'; target: mapboxgl.Map }) => {
+  const zoomEventHandler = (e: { type: 'zoom'; target: Map }) => {
     toggleNoticeOnMapZoom(e.target);
   };
 

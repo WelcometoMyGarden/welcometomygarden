@@ -4,7 +4,7 @@
   2. it can try to apply some modifications to the DOM to make static pages more presentable, or degrade
      more cleanly on (mostly recent) unsupported browsers.
 
-  It is minified by tools/minify-feature-detect.js to ./browser-support.min.js, which is comitted to version control,
+  It is minified by tools/minify-browser-support-script.sh to ./browser-support.min.js, which is comitted to version control,
   since it is not large nor expected to change often.
   The minified script is loaded by Vite in ./hooks.server.ts, and injected at the top of the <head>
   of all (static) page templates via app.html
@@ -53,6 +53,7 @@
     }
   }
 
+  /** @type {HTMLDivElement | undefined} */
   var banner;
 
   function showBanner() {
@@ -67,6 +68,7 @@
     }
 
     // Create banner with language-specific message
+    /** @type {{ [key: string]: string }} */
     var messages = {
       en:
         '<p>This browser is no longer supported by WTMG. Try another browser or another device.</p>' +
@@ -93,7 +95,7 @@
     banner.style.textAlign = 'center';
     banner.style.fontFamily = 'Arial, sans-serif';
     banner.style.fontSize = '18px';
-    banner.style.zIndex = 9999;
+    banner.style.zIndex = '9999';
     banner.style.position = 'relative';
     banner.style.width = '100%';
     banner.style.boxSizing = 'border-box';
@@ -119,7 +121,12 @@
     }
 
     // Push the desktop WTMG nav under the banner, if possible
-    var bannerHeight = banner.clientHeight;
+    var bannerHeight;
+    if (banner) {
+      bannerHeight = banner.clientHeight;
+    } else {
+      bannerHeight = 0;
+    }
     var topNav = document.getElementById('top-nav');
     if (topNav) {
       topNav.style.top = bannerHeight + 'px';

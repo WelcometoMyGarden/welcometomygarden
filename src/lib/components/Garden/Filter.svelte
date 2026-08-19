@@ -18,7 +18,7 @@
   import { filterIcon } from '$lib/images/icons';
   import trackEvent from '$lib/util/track-plausible';
   import { PlausibleEvent } from '$lib/types/Plausible';
-  import type { BooleanGardenFacilities, Garden, LongLat } from '$lib/types/Garden';
+  import type { BooleanGardenFacilities, LongLat } from '$lib/types/Garden';
   import { facilities } from '$lib/stores/facilities';
   import { MAX_GARDEN_CAPACITY, MOBILE_BREAKPOINT } from '$lib/constants';
   import { innerWidth } from 'svelte/reactivity/window';

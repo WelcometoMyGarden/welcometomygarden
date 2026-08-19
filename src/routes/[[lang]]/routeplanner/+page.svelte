@@ -33,7 +33,7 @@
     isNative: isNative
   }));
 
-  let iframe: HTMLIFrameElement = $state();
+  let iframe: HTMLIFrameElement | undefined = $state();
 
   const sendDataUpdate = (
     data: typeof combinedStore extends Readable<infer D> ? D : never,
@@ -68,7 +68,6 @@
     if (!iframe?.contentWindow) {
       logger.error('iframe not loaded yet in onmount');
     } else {
-      iframe.contentWindow?.status;
       iframe.contentWindow?.addEventListener('load', () => {
         logger.log('iframe domcontentloaded');
       });
@@ -80,6 +79,7 @@
         logger.log('wtmg: new event!', event);
         if (event.origin !== import.meta.env.VITE_ROUTEPLANNER_HOST) return;
         if (event.data === 'ready') {
+          // No action needed: the iframe is ready.
         } else if (event.data === 'login-member') {
           await resolveOnUserLoaded();
           if ($user && !$user.superfan) {

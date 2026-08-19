@@ -6,7 +6,7 @@
   interface Props {
     title: string;
     detail: string;
-    icon: string | Object[];
+    icon: string | object[];
     actionLabel?: string;
     onaction?: () => void;
     /** Fade duration (ms). The parent shortens this during a view switch. */

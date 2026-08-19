@@ -4,7 +4,7 @@
 
 <span>
   {#await getGardenCount()}
-    {'...'}
+    ...
   {:then count}
     {count ?? '7000'}
   {/await}

@@ -1,5 +1,6 @@
 const { logger } = require('firebase-functions/v2');
-const { db, getUserDocRefsWithData } = require('../firebase');
+const { getUserDocRefsWithData } = require('../firebase');
+const { messagesCol, chatsDoc } = require('../collections');
 const fail = require('../util/fail');
 const { sendMessageReminderEmail } = require('../mail');
 const { normalizeMessage, buildMessageUrl } = require('../util/mail');
@@ -11,9 +12,7 @@ const { getUser } = require('./util');
  */
 exports.sendMessageReminder = async function (req) {
   const { chatId, senderUid } = req.data;
-  const messagesCol = /** @type {CollectionReference<Message>} */ (
-    db.collection(`chats/${chatId}/messages`)
-  ).orderBy('createdAt', 'asc');
+  const messagesQuery = messagesCol(chatId).orderBy('createdAt', 'asc');
 
   // First check if the sender is not deleted or disabled
   /**
@@ -26,7 +25,7 @@ exports.sendMessageReminder = async function (req) {
   }
 
   // Fetch all messages of the chat
-  const messages = (await messagesCol.get()).docs.map((d) => d.data());
+  const messages = (await messagesQuery.get()).docs.map((d) => d.data());
 
   // Sanity check: the first message should have been sent by the sender, at least 23 hours ago
   if (
@@ -55,9 +54,7 @@ exports.sendMessageReminder = async function (req) {
   }
 
   // The chat was not answered: send the reminder email
-  const chat = (
-    await /** @type {DocumentReference<Chat>} */ (db.doc(`chats/${chatId}`)).get()
-  ).data();
+  const chat = (await chatsDoc(chatId).get()).data();
   const hostUid = chat.users.find((id) => id !== senderUid);
   if (!hostUid) {
     fail('internal');

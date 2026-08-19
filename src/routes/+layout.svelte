@@ -285,7 +285,7 @@
     }
   };
 
-  let appContainer: HTMLDivElement = $state();
+  let appContainer: HTMLDivElement | undefined = $state();
 
   // Prevent zooming on mobile/touch platforms
   $effect(() => {
