@@ -10,6 +10,13 @@
     recipient: string;
     seen?: boolean;
     lastMessage: string | undefined;
+    /**
+     * Unsent text left behind in this chat's message box, shown in place of the
+     * last message — or next to the "new" badge when there is no message yet.
+     * Held by the message box while the chat is open, so it doesn't move while
+     * the user is typing.
+     */
+    draft?: string | undefined;
     lastActivityMs?: number;
     archived?: boolean;
     onclick: () => void;
@@ -26,6 +33,7 @@
     recipient,
     seen = true,
     lastMessage,
+    draft,
     lastActivityMs,
     archived = false,
     onclick,
@@ -229,10 +237,16 @@
         {/if}
       </div>
       <p class="last-message notranslate" class:seen>
-        {#if lastMessage}
-          {lastMessage}
-        {:else}
+        {#if !lastMessage}
           <span class="badge">{$_('chat.new')}</span>
+        {/if}
+        {#if draft}
+          <!-- A draft replaces the last message, or sits to the right of the
+               "new" badge when there is no message to replace yet. -->
+          <span class="draft-prefix">{$_('chat.draft-prefix')}</span>
+          {draft}
+        {:else if lastMessage}
+          {lastMessage}
         {/if}
       </p>
     </div>
@@ -396,6 +410,11 @@
 
   .last-message.seen {
     font-weight: 400;
+  }
+
+  .draft-prefix {
+    color: var(--color-green);
+    font-weight: 500;
   }
 
   .badge {

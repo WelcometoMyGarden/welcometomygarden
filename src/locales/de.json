@@ -1149,6 +1149,7 @@
     "all-conversations": "Alle Unterhaltungen",
     "type-message": "Schreibe eine Nachricht...",
     "new": "neu",
+    "draft-prefix": "Entwurf:",
     "notify": {
       "unverified": "Bitte verifiziere deine E-Mail-Adresse, bevor du chattest",
       "empty-message": "Deine Nachricht darf nicht leer sein",

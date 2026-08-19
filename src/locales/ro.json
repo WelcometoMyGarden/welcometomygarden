@@ -1135,6 +1135,7 @@
     "all-conversations": "Toate discuțiile",
     "type-message": "Scrie un mesaj...",
     "new": "nou",
+    "draft-prefix": "Ciornă:",
     "notify": {
       "unverified": "Te rugăm să îți verifici adresa de e-mail înainte de a începe să trimiți mesaje",
       "empty-message": "Mesajul tău nu poate fi gol",
