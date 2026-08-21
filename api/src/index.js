@@ -278,7 +278,10 @@ exports.refreshAuthTableV2 = onSchedule(
   {
     schedule: 'every 6 hours',
     // It takes a bit more than a second per 1000 users
-    timeoutSeconds: 60 * 5
+    timeoutSeconds: 60 * 5,
+    // Note, on 21/08/26, we had an OOM issue on 256MB on gfc_gen1
+    cpu: 1,
+    memory: '1GiB'
   },
   whenSupabaseReplicating(refreshAuthTable)
 );
