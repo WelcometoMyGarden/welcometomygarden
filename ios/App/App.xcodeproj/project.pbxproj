@@ -25,9 +25,12 @@
 		504EC30F1FED79650016851F /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 504EC30E1FED79650016851F /* Assets.xcassets */; };
 		504EC3121FED79650016851F /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 504EC3101FED79650016851F /* LaunchScreen.storyboard */; };
 		50B271D11FEDC1A000F3C39B /* public in Resources */ = {isa = PBXBuildFile; fileRef = 50B271D01FEDC1A000F3C39B /* public */; };
-		5902BEE51F41421DF70E73B9 /* Pods_App.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 570CFAB94243043CBE524E41 /* Pods_App.framework */; };
-		6D1D335F8770906C486C5F0F /* Pods_App_Staging.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 85C650AFD34EB075308A2660 /* Pods_App_Staging.framework */; };
-		A084ECDBA7D38E1E42DFC39D /* BuildFile in Frameworks */ = {isa = PBXBuildFile; };
+		43F0000000000000000000D0 /* CapApp-SPM in Frameworks */ = {isa = PBXBuildFile; productRef = 43F0000000000000000000B0 /* CapApp-SPM */; };
+		43F0000000000000000000D1 /* FirebaseCore in Frameworks */ = {isa = PBXBuildFile; productRef = 43F0000000000000000000B1 /* FirebaseCore */; };
+		43F0000000000000000000D2 /* FirebaseMessaging in Frameworks */ = {isa = PBXBuildFile; productRef = 43F0000000000000000000B2 /* FirebaseMessaging */; };
+		43F0000000000000000000D3 /* CapApp-SPM in Frameworks */ = {isa = PBXBuildFile; productRef = 43F0000000000000000000B3 /* CapApp-SPM */; };
+		43F0000000000000000000D4 /* FirebaseCore in Frameworks */ = {isa = PBXBuildFile; productRef = 43F0000000000000000000B4 /* FirebaseCore */; };
+		43F0000000000000000000D5 /* FirebaseMessaging in Frameworks */ = {isa = PBXBuildFile; productRef = 43F0000000000000000000B5 /* FirebaseMessaging */; };
 		ABCDEF012E798B3F00E9FA02 /* OfflineGateViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = ABCDEF012E798B3F00E9FA01 /* OfflineGateViewController.swift */; };
 		ABCDEF012E798B3F00E9FA03 /* OfflineGateViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = ABCDEF012E798B3F00E9FA01 /* OfflineGateViewController.swift */; };
 		ABCDEF012E798B3F00E9FB11 /* Montserrat-SemiBold.ttf in Resources */ = {isa = PBXBuildFile; fileRef = ABCDEF012E798B3F00E9FB01 /* Montserrat-SemiBold.ttf */; };
@@ -36,11 +39,11 @@
 
 /* Begin PBXFileReference section */
 		2FAD9762203C412B000D30F8 /* config.xml */ = {isa = PBXFileReference; lastKnownFileType = text.xml; path = config.xml; sourceTree = "<group>"; };
-		4001C2425413719627ED8B21 /* Pods-App Staging.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-App Staging.debug.xcconfig"; path = "Pods/Target Support Files/Pods-App Staging/Pods-App Staging.debug.xcconfig"; sourceTree = "<group>"; };
 		438576CC2F7AB3DA00C0B835 /* PrivacyInfo.xcprivacy */ = {isa = PBXFileReference; lastKnownFileType = text.xml; path = PrivacyInfo.xcprivacy; sourceTree = "<group>"; };
 		43B6BF9E2E798B3F00E9FA7C /* App Staging.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = "App Staging.app"; sourceTree = BUILT_PRODUCTS_DIR; };
 		43B6BF9F2E798B3F00E9FA7C /* App Staging-Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; name = "App Staging-Info.plist"; path = "/Users/thor/Code/slowby/welcometomygarden/ios/App/App Staging-Info.plist"; sourceTree = "<absolute>"; };
 		43B8A99B2F4F6B8C00125E33 /* InfoPlist.xcstrings */ = {isa = PBXFileReference; lastKnownFileType = text.json.xcstrings; path = InfoPlist.xcstrings; sourceTree = "<group>"; };
+		43F0000000000000000000C0 /* debug.xcconfig */ = {isa = PBXFileReference; lastKnownFileType = text.xcconfig; name = debug.xcconfig; path = ../debug.xcconfig; sourceTree = SOURCE_ROOT; };
 		43C63E0A2E4A465100B30031 /* AppDebug.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = AppDebug.entitlements; sourceTree = "<group>"; };
 		43C63E0D2E4A4D1F00B30031 /* AppRelease.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = AppRelease.entitlements; sourceTree = "<group>"; };
 		50379B222058CBB4000EE86E /* capacitor.config.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; path = capacitor.config.json; sourceTree = "<group>"; };
@@ -51,13 +54,8 @@
 		504EC3111FED79650016851F /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/LaunchScreen.storyboard; sourceTree = "<group>"; };
 		504EC3131FED79650016851F /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		50B271D01FEDC1A000F3C39B /* public */ = {isa = PBXFileReference; lastKnownFileType = folder; path = public; sourceTree = "<group>"; };
-		570CFAB94243043CBE524E41 /* Pods_App.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_App.framework; sourceTree = BUILT_PRODUCTS_DIR; };
-		64FE4AD3CABEFB058B9CA77D /* Pods-App Staging.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-App Staging.release.xcconfig"; path = "Pods/Target Support Files/Pods-App Staging/Pods-App Staging.release.xcconfig"; sourceTree = "<group>"; };
-		85C650AFD34EB075308A2660 /* Pods_App_Staging.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_App_Staging.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		ABCDEF012E798B3F00E9FA01 /* OfflineGateViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OfflineGateViewController.swift; sourceTree = "<group>"; };
 		ABCDEF012E798B3F00E9FB01 /* Montserrat-SemiBold.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "Montserrat-SemiBold.ttf"; sourceTree = "<group>"; };
-		AF51FD2D460BCFE21FA515B2 /* Pods-App.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-App.release.xcconfig"; path = "Pods/Target Support Files/Pods-App/Pods-App.release.xcconfig"; sourceTree = "<group>"; };
-		FC68EB0AF532CFC21C3344DD /* Pods-App.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-App.debug.xcconfig"; path = "Pods/Target Support Files/Pods-App/Pods-App.debug.xcconfig"; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFileSystemSynchronizedBuildFileExceptionSet section */
@@ -101,7 +99,9 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				6D1D335F8770906C486C5F0F /* Pods_App_Staging.framework in Frameworks */,
+				43F0000000000000000000D3 /* CapApp-SPM in Frameworks */,
+				43F0000000000000000000D4 /* FirebaseCore in Frameworks */,
+				43F0000000000000000000D5 /* FirebaseMessaging in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -109,30 +109,21 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				A084ECDBA7D38E1E42DFC39D /* BuildFile in Frameworks */,
-				5902BEE51F41421DF70E73B9 /* Pods_App.framework in Frameworks */,
+				43F0000000000000000000D0 /* CapApp-SPM in Frameworks */,
+				43F0000000000000000000D1 /* FirebaseCore in Frameworks */,
+				43F0000000000000000000D2 /* FirebaseMessaging in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
-		27E2DDA53C4D2A4D1A88CE4A /* Frameworks */ = {
-			isa = PBXGroup;
-			children = (
-				85C650AFD34EB075308A2660 /* Pods_App_Staging.framework */,
-				570CFAB94243043CBE524E41 /* Pods_App.framework */,
-			);
-			name = Frameworks;
-			sourceTree = "<group>";
-		};
 		504EC2FB1FED79650016851F = {
 			isa = PBXGroup;
 			children = (
+				43F0000000000000000000C0 /* debug.xcconfig */,
 				504EC3061FED79650016851F /* App */,
 				504EC3051FED79650016851F /* Products */,
-				7F8756D8B27F46E3366F6CEA /* Pods */,
-				27E2DDA53C4D2A4D1A88CE4A /* Frameworks */,
 				43B6BF9F2E798B3F00E9FA7C /* App Staging-Info.plist */,
 			);
 			sourceTree = "<group>";
@@ -169,17 +160,6 @@
 			path = App;
 			sourceTree = "<group>";
 		};
-		7F8756D8B27F46E3366F6CEA /* Pods */ = {
-			isa = PBXGroup;
-			children = (
-				FC68EB0AF532CFC21C3344DD /* Pods-App.debug.xcconfig */,
-				AF51FD2D460BCFE21FA515B2 /* Pods-App.release.xcconfig */,
-				4001C2425413719627ED8B21 /* Pods-App Staging.debug.xcconfig */,
-				64FE4AD3CABEFB058B9CA77D /* Pods-App Staging.release.xcconfig */,
-			);
-			name = Pods;
-			sourceTree = "<group>";
-		};
 /* End PBXGroup section */
 
 /* Begin PBXNativeTarget section */
@@ -187,11 +167,9 @@
 			isa = PBXNativeTarget;
 			buildConfigurationList = 43B6BF9B2E798B3F00E9FA7C /* Build configuration list for PBXNativeTarget "App Staging" */;
 			buildPhases = (
-				43B6BF8D2E798B3F00E9FA7C /* [CP] Check Pods Manifest.lock */,
 				43B6BF8E2E798B3F00E9FA7C /* Sources */,
 				43B6BF902E798B3F00E9FA7C /* Frameworks */,
 				43B6BF922E798B3F00E9FA7C /* Resources */,
-				43B6BF9A2E798B3F00E9FA7C /* [CP] Embed Pods Frameworks */,
 			);
 			buildRules = (
 			);
@@ -202,6 +180,11 @@
 				43A68AAD2E79FD690063E5E0 /* FirebaseProd */,
 			);
 			name = "App Staging";
+			packageProductDependencies = (
+				43F0000000000000000000B3 /* CapApp-SPM */,
+				43F0000000000000000000B4 /* FirebaseCore */,
+				43F0000000000000000000B5 /* FirebaseMessaging */,
+			);
 			productName = App;
 			productReference = 43B6BF9E2E798B3F00E9FA7C /* App Staging.app */;
 			productType = "com.apple.product-type.application";
@@ -210,11 +193,9 @@
 			isa = PBXNativeTarget;
 			buildConfigurationList = 504EC3161FED79650016851F /* Build configuration list for PBXNativeTarget "App" */;
 			buildPhases = (
-				6634F4EFEBD30273BCE97C65 /* [CP] Check Pods Manifest.lock */,
 				504EC3001FED79650016851F /* Sources */,
 				504EC3011FED79650016851F /* Frameworks */,
 				504EC3021FED79650016851F /* Resources */,
-				9592DBEFFC6D2A0C8D5DEB22 /* [CP] Embed Pods Frameworks */,
 			);
 			buildRules = (
 			);
@@ -225,6 +206,11 @@
 				43A68AAD2E79FD690063E5E0 /* FirebaseProd */,
 			);
 			name = App;
+			packageProductDependencies = (
+				43F0000000000000000000B0 /* CapApp-SPM */,
+				43F0000000000000000000B1 /* FirebaseCore */,
+				43F0000000000000000000B2 /* FirebaseMessaging */,
+			);
 			productName = App;
 			productReference = 504EC3041FED79650016851F /* App.app */;
 			productType = "com.apple.product-type.application";
@@ -257,6 +243,10 @@
 				fr,
 			);
 			mainGroup = 504EC2FB1FED79650016851F;
+			packageReferences = (
+				43F0000000000000000000A0 /* XCLocalSwiftPackageReference "CapApp-SPM" */,
+				43F0000000000000000000A1 /* XCRemoteSwiftPackageReference "firebase-ios-sdk" */,
+			);
 			preferredProjectObjectVersion = 77;
 			productRefGroup = 504EC3051FED79650016851F /* Products */;
 			projectDirPath = "";
@@ -303,75 +293,6 @@
 		};
 /* End PBXResourcesBuildPhase section */
 
-/* Begin PBXShellScriptBuildPhase section */
-		43B6BF8D2E798B3F00E9FA7C /* [CP] Check Pods Manifest.lock */ = {
-			isa = PBXShellScriptBuildPhase;
-			buildActionMask = 2147483647;
-			files = (
-			);
-			inputPaths = (
-				"${PODS_PODFILE_DIR_PATH}/Podfile.lock",
-				"${PODS_ROOT}/Manifest.lock",
-			);
-			name = "[CP] Check Pods Manifest.lock";
-			outputPaths = (
-				"$(DERIVED_FILE_DIR)/Pods-App Staging-checkManifestLockResult.txt",
-			);
-			runOnlyForDeploymentPostprocessing = 0;
-			shellPath = /bin/sh;
-			shellScript = "diff \"${PODS_PODFILE_DIR_PATH}/Podfile.lock\" \"${PODS_ROOT}/Manifest.lock\" > /dev/null\nif [ $? != 0 ] ; then\n    # print error to STDERR\n    echo \"error: The sandbox is not in sync with the Podfile.lock. Run 'pod install' or update your CocoaPods installation.\" >&2\n    exit 1\nfi\n# This output is used by Xcode 'outputs' to avoid re-running this script phase.\necho \"SUCCESS\" > \"${SCRIPT_OUTPUT_FILE_0}\"\n";
-			showEnvVarsInLog = 0;
-		};
-		43B6BF9A2E798B3F00E9FA7C /* [CP] Embed Pods Frameworks */ = {
-			isa = PBXShellScriptBuildPhase;
-			buildActionMask = 2147483647;
-			files = (
-			);
-			inputFileListPaths = (
-			);
-			name = "[CP] Embed Pods Frameworks";
-			outputFileListPaths = (
-			);
-			runOnlyForDeploymentPostprocessing = 0;
-			shellPath = /bin/sh;
-			shellScript = "\"${PODS_ROOT}/Target Support Files/Pods-App Staging/Pods-App Staging-frameworks.sh\"\n";
-			showEnvVarsInLog = 0;
-		};
-		6634F4EFEBD30273BCE97C65 /* [CP] Check Pods Manifest.lock */ = {
-			isa = PBXShellScriptBuildPhase;
-			buildActionMask = 2147483647;
-			files = (
-			);
-			inputPaths = (
-				"${PODS_PODFILE_DIR_PATH}/Podfile.lock",
-				"${PODS_ROOT}/Manifest.lock",
-			);
-			name = "[CP] Check Pods Manifest.lock";
-			outputPaths = (
-				"$(DERIVED_FILE_DIR)/Pods-App-checkManifestLockResult.txt",
-			);
-			runOnlyForDeploymentPostprocessing = 0;
-			shellPath = /bin/sh;
-			shellScript = "diff \"${PODS_PODFILE_DIR_PATH}/Podfile.lock\" \"${PODS_ROOT}/Manifest.lock\" > /dev/null\nif [ $? != 0 ] ; then\n    # print error to STDERR\n    echo \"error: The sandbox is not in sync with the Podfile.lock. Run 'pod install' or update your CocoaPods installation.\" >&2\n    exit 1\nfi\n# This output is used by Xcode 'outputs' to avoid re-running this script phase.\necho \"SUCCESS\" > \"${SCRIPT_OUTPUT_FILE_0}\"\n";
-			showEnvVarsInLog = 0;
-		};
-		9592DBEFFC6D2A0C8D5DEB22 /* [CP] Embed Pods Frameworks */ = {
-			isa = PBXShellScriptBuildPhase;
-			buildActionMask = 2147483647;
-			files = (
-			);
-			inputFileListPaths = (
-			);
-			name = "[CP] Embed Pods Frameworks";
-			outputFileListPaths = (
-			);
-			runOnlyForDeploymentPostprocessing = 0;
-			shellPath = /bin/sh;
-			shellScript = "\"${PODS_ROOT}/Target Support Files/Pods-App/Pods-App-frameworks.sh\"\n";
-			showEnvVarsInLog = 0;
-		};
-/* End PBXShellScriptBuildPhase section */
-
 /* Begin PBXSourcesBuildPhase section */
 		43B6BF8E2E798B3F00E9FA7C /* Sources */ = {
 			isa = PBXSourcesBuildPhase;
@@ -415,7 +336,7 @@
 /* Begin XCBuildConfiguration section */
 		43B6BF9C2E798B3F00E9FA7C /* Debug */ = {
 			isa = XCBuildConfiguration;
-			baseConfigurationReference = 4001C2425413719627ED8B21 /* Pods-App Staging.debug.xcconfig */;
+			baseConfigurationReference = 43F0000000000000000000C0 /* debug.xcconfig */;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CODE_SIGN_ENTITLEMENTS = App/AppDebug.entitlements;
@@ -432,7 +353,6 @@
 					"@executable_path/Frameworks",
 				);
 				MARKETING_VERSION = 1.1;
-				OTHER_SWIFT_FLAGS = "$(inherited) \"-D\" \"COCOAPODS\" \"-DDEBUG\"";
 				PRODUCT_BUNDLE_IDENTIFIER = org.welcometomygarden.app;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				PROVISIONING_PROFILE_SPECIFIER = "";
@@ -444,7 +364,6 @@
 		};
 		43B6BF9D2E798B3F00E9FA7C /* Release */ = {
 			isa = XCBuildConfiguration;
-			baseConfigurationReference = 64FE4AD3CABEFB058B9CA77D /* Pods-App Staging.release.xcconfig */;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CODE_SIGN_ENTITLEMENTS = App/AppRelease.entitlements;
@@ -586,7 +505,7 @@
 		};
 		504EC3171FED79650016851F /* Debug */ = {
 			isa = XCBuildConfiguration;
-			baseConfigurationReference = FC68EB0AF532CFC21C3344DD /* Pods-App.debug.xcconfig */;
+			baseConfigurationReference = 43F0000000000000000000C0 /* debug.xcconfig */;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CODE_SIGN_ENTITLEMENTS = App/AppDebug.entitlements;
@@ -603,7 +522,6 @@
 					"@executable_path/Frameworks",
 				);
 				MARKETING_VERSION = 1.1;
-				OTHER_SWIFT_FLAGS = "$(inherited) \"-D\" \"COCOAPODS\" \"-DDEBUG\"";
 				PRODUCT_BUNDLE_IDENTIFIER = org.welcometomygarden.app;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				PROVISIONING_PROFILE_SPECIFIER = "";
@@ -615,7 +533,6 @@
 		};
 		504EC3181FED79650016851F /* Release */ = {
 			isa = XCBuildConfiguration;
-			baseConfigurationReference = AF51FD2D460BCFE21FA515B2 /* Pods-App.release.xcconfig */;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CODE_SIGN_ENTITLEMENTS = App/AppRelease.entitlements;
@@ -672,6 +589,57 @@
 			defaultConfigurationName = Release;
 		};
 /* End XCConfigurationList section */
+
+/* Begin XCLocalSwiftPackageReference section */
+		43F0000000000000000000A0 /* XCLocalSwiftPackageReference "CapApp-SPM" */ = {
+			isa = XCLocalSwiftPackageReference;
+			relativePath = "CapApp-SPM";
+		};
+/* End XCLocalSwiftPackageReference section */
+
+/* Begin XCRemoteSwiftPackageReference section */
+		43F0000000000000000000A1 /* XCRemoteSwiftPackageReference "firebase-ios-sdk" */ = {
+			isa = XCRemoteSwiftPackageReference;
+			repositoryURL = "https://github.com/firebase/firebase-ios-sdk.git";
+			requirement = {
+				kind = upToNextMinorVersion;
+				minimumVersion = 12.10.0;
+			};
+		};
+/* End XCRemoteSwiftPackageReference section */
+
+/* Begin XCSwiftPackageProductDependency section */
+		43F0000000000000000000B0 /* CapApp-SPM */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = 43F0000000000000000000A0 /* XCLocalSwiftPackageReference "CapApp-SPM" */;
+			productName = "CapApp-SPM";
+		};
+		43F0000000000000000000B1 /* FirebaseCore */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = 43F0000000000000000000A1 /* XCRemoteSwiftPackageReference "firebase-ios-sdk" */;
+			productName = FirebaseCore;
+		};
+		43F0000000000000000000B2 /* FirebaseMessaging */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = 43F0000000000000000000A1 /* XCRemoteSwiftPackageReference "firebase-ios-sdk" */;
+			productName = FirebaseMessaging;
+		};
+		43F0000000000000000000B3 /* CapApp-SPM */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = 43F0000000000000000000A0 /* XCLocalSwiftPackageReference "CapApp-SPM" */;
+			productName = "CapApp-SPM";
+		};
+		43F0000000000000000000B4 /* FirebaseCore */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = 43F0000000000000000000A1 /* XCRemoteSwiftPackageReference "firebase-ios-sdk" */;
+			productName = FirebaseCore;
+		};
+		43F0000000000000000000B5 /* FirebaseMessaging */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = 43F0000000000000000000A1 /* XCRemoteSwiftPackageReference "firebase-ios-sdk" */;
+			productName = FirebaseMessaging;
+		};
+/* End XCSwiftPackageProductDependency section */
 	};
 	rootObject = 504EC2FC1FED79650016851F /* Project object */;
 }

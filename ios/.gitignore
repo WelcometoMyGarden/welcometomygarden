@@ -1,9 +1,15 @@
 App/build
-App/Pods
 App/output
 App/App/public
 DerivedData
 xcuserdata
+
+# Swift Package Manager build state. `CapApp-SPM/Package.swift` and the project's
+# `Package.resolved` are tracked; everything SPM derives from them is not.
+App/CapApp-SPM/.build
+App/CapApp-SPM/.swiftpm
+App/CapApp-SPM/symlinks
+.netrc
 
 # Cordova plugins for Capacitor
 capacitor-cordova-ios-plugins
