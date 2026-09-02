@@ -314,6 +314,7 @@ exports.createOrRetrieveUnpaidSubscription = async (request) => {
 
     // Find existing subscriptions from Stripe
     // TODO: a failed payment moves the sub status to 'past_due' afaics - what does that mean for this?
+    // NOTE: this behavior will change
     // Disabling status: 'active' for now
     // status: 'active',
     expand: ['data.latest_invoice.payment_intent']
