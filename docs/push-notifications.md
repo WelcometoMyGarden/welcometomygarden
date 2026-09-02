@@ -23,6 +23,12 @@ To set up a frontend with mixed emulators and staging FCM use:
 
 Then refer to [package.json](../package.json) to see commands to run (some) staging emulators. Note that the `STAGING=true` variable prefix makes the seed script target the `wtmg-dev` project. If you don't have the Firebase or Auth emulators running, this will affect remote staging data.
 
+## Testing push notifications
+
+iOS Simulators **can not** receive "real" push notifications from APNS. You must test on a real device (also with the stgaing environment)
+
+Conversely, Android Emulators **can** get real push notifications.
+
 ## Web Push
 
 ### Testing web push the production backend with a local front-end
