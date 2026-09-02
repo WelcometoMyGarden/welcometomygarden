@@ -1,0 +1,85 @@
+diff --git a/Package.swift b/Package.swift
+new file mode 100644
+index 0000000000000000000000000000000000000000..d4f8e60bef0285f2cd6401de447b802cf3bba3f5
+--- /dev/null
++++ b/Package.swift
+@@ -0,0 +1,25 @@
++// swift-tools-version: 5.9
++import PackageDescription
++
++let package = Package(
++    name: "NotnotsamuelCapacitorSwipeBack",
++    platforms: [.iOS(.v15)],
++    products: [
++        .library(
++            name: "NotnotsamuelCapacitorSwipeBack",
++            targets: ["CapacitorSwipeBackPlugin"])
++    ],
++    dependencies: [
++        .package(url: "https://github.com/ionic-team/capacitor-swift-pm.git", from: "8.0.0")
++    ],
++    targets: [
++        .target(
++            name: "CapacitorSwipeBackPlugin",
++            dependencies: [
++                .product(name: "Capacitor", package: "capacitor-swift-pm"),
++                .product(name: "Cordova", package: "capacitor-swift-pm")
++            ],
++            path: "ios/Plugin",
++            exclude: ["Info.plist"])
++    ]
++)
+diff --git a/ios/Plugin/CapacitorSwipeBackPlugin.h b/ios/Plugin/CapacitorSwipeBackPlugin.h
+deleted file mode 100644
+index f2bd9e0bbf5506d07b8a0cd75009e4c0c7bd8458..0000000000000000000000000000000000000000
+--- a/ios/Plugin/CapacitorSwipeBackPlugin.h
++++ /dev/null
+@@ -1,10 +0,0 @@
+-#import <UIKit/UIKit.h>
+-
+-//! Project version number for Plugin.
+-FOUNDATION_EXPORT double PluginVersionNumber;
+-
+-//! Project version string for Plugin.
+-FOUNDATION_EXPORT const unsigned char PluginVersionString[];
+-
+-// In this header, you should import all the public headers of your framework using statements like #import <Plugin/PublicHeader.h>
+-
+diff --git a/ios/Plugin/CapacitorSwipeBackPlugin.m b/ios/Plugin/CapacitorSwipeBackPlugin.m
+deleted file mode 100644
+index cf8cccee062342e498db7ba2c344b9714b774d8e..0000000000000000000000000000000000000000
+--- a/ios/Plugin/CapacitorSwipeBackPlugin.m
++++ /dev/null
+@@ -1,9 +0,0 @@
+-#import <Foundation/Foundation.h>
+-#import <Capacitor/Capacitor.h>
+-
+-// Define the plugin using the CAP_PLUGIN Macro, and
+-// each method the plugin supports using the CAP_PLUGIN_METHOD macro.
+-CAP_PLUGIN(CapacitorSwipeBackPlugin, "CapacitorSwipeBackPlugin",
+-           CAP_PLUGIN_METHOD(enable, CAPPluginReturnPromise);
+-           CAP_PLUGIN_METHOD(disable, CAPPluginReturnPromise);
+-)
+diff --git a/ios/Plugin/CapacitorSwipeBackPlugin.swift b/ios/Plugin/CapacitorSwipeBackPlugin.swift
+index e7c30b4221a4c57ce4b76e948e3260570c1e6a74..3de6e817c052143bb1cf2ce0f6de0ce382323bdf 100644
+--- a/ios/Plugin/CapacitorSwipeBackPlugin.swift
++++ b/ios/Plugin/CapacitorSwipeBackPlugin.swift
+@@ -2,7 +2,17 @@ import Foundation
+ import Capacitor
+ 
+ @objc(CapacitorSwipeBackPlugin)
+-public class CapacitorSwipeBackPlugin: CAPPlugin {
++public class CapacitorSwipeBackPlugin: CAPPlugin, CAPBridgedPlugin {
++    // Registration data that the CAP_PLUGIN/CAP_PLUGIN_METHOD macros used to provide from
++    // Objective-C. Any method missing from `pluginMethods` is unreachable from JS without
++    // producing a build error, so it must list every @objc method exposed to the bridge.
++    public let identifier = "CapacitorSwipeBackPlugin"
++    public let jsName = "CapacitorSwipeBackPlugin"
++    public let pluginMethods: [CAPPluginMethod] = [
++        CAPPluginMethod(name: "enable", returnType: CAPPluginReturnPromise),
++        CAPPluginMethod(name: "disable", returnType: CAPPluginReturnPromise)
++    ]
++
+     @objc func enable(_ call: CAPPluginCall) {
+         webView?.allowsBackForwardNavigationGestures = true;
+         call.resolve([

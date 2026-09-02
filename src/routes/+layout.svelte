@@ -35,6 +35,7 @@
   import { SplashScreen } from '@capacitor/splash-screen';
   import { initializeNativePush } from '$lib/api/push-registrations/native.js';
   import logger from '$lib/util/logger.js';
+  import { CapacitorSwipeBackPlugin } from '@notnotsamuel/capacitor-swipe-back';
   import { App as CapacitorApp, type URLOpenListenerEvent } from '@capacitor/app';
   import { Network } from '@capacitor/network';
   import { goto } from '$lib/util/navigate.js';
@@ -45,6 +46,8 @@
   interface Props {
     children?: import('svelte').Snippet;
   }
+
+  const swipeBackPluginAvailable = Capacitor.isPluginAvailable('CapacitorSwipeBackPlugin');
 
   if (Capacitor.isNativePlatform()) {
     initializeNativePush();
@@ -57,9 +60,11 @@
           window.history.back();
         }
       });
+    } else if (swipeBackPluginAvailable) {
+      CapacitorSwipeBackPlugin.enable().then(() => {
+        DEV: logger.debug('Swipe Back plugin enabled');
+      });
     }
-    // iOS has no equivalent hook here: its edge-swipe back gesture is enabled natively in
-    // `OfflineGateViewController.viewDidLoad()`.
 
     CapacitorApp.addListener('appUrlOpen', (event: URLOpenListenerEvent) => {
       try {

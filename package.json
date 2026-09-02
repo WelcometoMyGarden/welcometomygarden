@@ -58,6 +58,7 @@
     "@capawesome/capacitor-badge": "^8.0.2",
     "@eslint/js": "^10.0.1",
     "@firebase/rules-unit-testing": "^5.0.2",
+    "@notnotsamuel/capacitor-swipe-back": "patch:@notnotsamuel/capacitor-swipe-back@npm%3A3.0.2#~/.yarn/patches/@notnotsamuel-capacitor-swipe-back-npm-3.0.2-ab9f469e15.patch",
     "@playwright/test": "^1.62.1",
     "@sentry/sveltekit": "^10.72.0",
     "@stripe/stripe-js": "^8.11.0",
