@@ -123,7 +123,9 @@ ANDROID_BUILD_TYPE_LOWER="$(echo "$ANDROID_BUILD_TYPE" | tr '[:upper:]' '[:lower
 # Standard Gradle AAB output path for product flavors
 ANDROID_AAB_PATH="$PROJECT_ROOT/android/app/build/outputs/bundle/${ANDROID_VARIANT}/app-${ANDROID_FLAVOR}-${ANDROID_BUILD_TYPE_LOWER}.aab"
 
-IOS_PROJECT="$PROJECT_ROOT/ios/App/App.xcworkspace"
+# Dependencies come from Swift Package Manager, so the Xcode project builds directly —
+# there is no CocoaPods-generated .xcworkspace to go through.
+IOS_PROJECT="$PROJECT_ROOT/ios/App/App.xcodeproj"
 IOS_PBXPROJ="$PROJECT_ROOT/ios/App/App.xcodeproj/project.pbxproj"
 IOS_ARCHIVE_PATH="/tmp/wtmg-${ENV}.xcarchive"
 IOS_EXPORT_PATH="/tmp/wtmg-${ENV}-export"
@@ -373,7 +375,7 @@ if $DO_IOS; then
   rm -rf "$IOS_ARCHIVE_PATH"
 
   xcodebuild \
-    -workspace "$IOS_PROJECT" \
+    -project "$IOS_PROJECT" \
     -scheme "$IOS_SCHEME" \
     -configuration Release \
     -archivePath "$IOS_ARCHIVE_PATH" \
@@ -386,7 +388,7 @@ if $DO_IOS; then
   if [[ ! -d "$IOS_ARCHIVE_PATH" ]]; then
     warn "xcpretty not found or archive step failed; retrying without xcpretty…"
     xcodebuild \
-      -workspace "$IOS_PROJECT" \
+      -project "$IOS_PROJECT" \
       -scheme "$IOS_SCHEME" \
       -configuration Release \
       -archivePath "$IOS_ARCHIVE_PATH" \
