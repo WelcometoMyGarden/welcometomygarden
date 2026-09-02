@@ -195,8 +195,7 @@ build and open `ios/App/App.xcodeproj` directly.
   that doesn't is dropped from the generated manifest with **only a `cap sync` warning** —
   the app still builds, and the plugin is simply missing at runtime. Watch that warning
   when adding or upgrading plugins.
-- `@notnotsamuel/capacitor-swipe-back` has no upstream SPM support, so it is carried as a
-  Yarn patch (`.yarn/patches/`) that adds a `Package.swift` and swaps its Objective-C
-  bridge for `CAPBridgedPlugin`. Bumping that dependency requires re-doing the patch
-  (`yarn patch @notnotsamuel/capacitor-swipe-back`); if the patch is dropped, the plugin
-  silently stops working per the point above.
+- Small pieces of native behaviour are kept in-repo rather than as third-party plugins:
+  the iOS edge-swipe back gesture is one property set in
+  `OfflineGateViewController.viewDidLoad()`, and `WtmgServerPlugin` (same file) is an
+  app-local Capacitor plugin. Both avoid a dependency that would need its own SPM support.

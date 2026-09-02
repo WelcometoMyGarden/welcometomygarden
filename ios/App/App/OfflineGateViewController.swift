@@ -66,6 +66,12 @@ class OfflineGateViewController: CAPBridgeViewController, WKScriptMessageHandler
     override func viewDidLoad() {
         super.viewDidLoad()
 
+        // Edge-swipe back/forward navigation, matching the platform gesture users expect from the
+        // native app (Android uses its own back button, handled in `src/routes/+layout.svelte`).
+        // Set here, on the main thread before the first load, rather than through the bridge:
+        // `WKWebView` is UIKit-bound, and plugin calls arrive on a background queue.
+        webView?.allowsBackForwardNavigationGestures = true
+
         // Let the web layer trigger a cache-ignoring reload (see `userContentController(_:didReceive:)`).
         // Registered regardless of `serverURL`; harmless for local-bundle builds.
         // Note: the user content controller retains the handler strongly, but this view controller

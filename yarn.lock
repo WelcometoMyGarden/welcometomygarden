@@ -2733,24 +2733,6 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@notnotsamuel/capacitor-swipe-back@npm:3.0.2":
-  version: 3.0.2
-  resolution: "@notnotsamuel/capacitor-swipe-back@npm:3.0.2"
-  peerDependencies:
-    "@capacitor/core": ^7.0.0
-  checksum: 10/60e3105b21c88a9700240b9209fbbc3e78e10c7af436d5ad7c28e64fb0c02c366c0bcc534bb0ecc7c9425f0e7a30a1a6c61056397231b5ec52084e088367782c
-  languageName: node
-  linkType: hard
-
-"@notnotsamuel/capacitor-swipe-back@patch:@notnotsamuel/capacitor-swipe-back@npm%3A3.0.2#~/.yarn/patches/@notnotsamuel-capacitor-swipe-back-npm-3.0.2-ab9f469e15.patch":
-  version: 3.0.2
-  resolution: "@notnotsamuel/capacitor-swipe-back@patch:@notnotsamuel/capacitor-swipe-back@npm%3A3.0.2#~/.yarn/patches/@notnotsamuel-capacitor-swipe-back-npm-3.0.2-ab9f469e15.patch::version=3.0.2&hash=3a2685"
-  peerDependencies:
-    "@capacitor/core": ^7.0.0
-  checksum: 10/a413b5a4eb7fb76206a3bfae14a58558d4e33eff9991aa824a8508d90eae39eba6c8458c7534532c841ae1b00c438d1d675e865ccee22a4174376c8a4207ff8b
-  languageName: node
-  linkType: hard
-
 "@npmcli/agent@npm:^3.0.0":
   version: 3.0.0
   resolution: "@npmcli/agent@npm:3.0.0"
