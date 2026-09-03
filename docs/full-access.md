@@ -72,7 +72,7 @@ You will need several environment files for the backend in the `api` directory: 
 
 - `SUPABASE_DISABLE_REPLICATION`: set to `true` if you wish to disable replication to a Supabase Postgres database, for example, for local testing of unrelated features.
 - `SUPABASE_API_URL`: the URL including protocol of the Supabase PostgREST API.
-- `SUPABASE_SERVICE_ROLE_KEY`: the key to authenticate with the API.
+- `SUPABASE_SECRET_KEY`: the key to authenticate with the API.
 
 **For the Discourse Connect SSO integration**
 

@@ -16,7 +16,7 @@ exports.initialize = () => {
    * To prevent errors when constructing the client, we don't construct it if it is disabled.
    */
   supabaseClient = shouldReplicateRuntime()
-    ? createClient(process.env.SUPABASE_API_URL, process.env.SUPABASE_SERVICE_ROLE_KEY)
+    ? createClient(process.env.SUPABASE_API_URL, process.env.SUPABASE_SECRET_KEY)
     : /** @type {SupabaseClient} */ (
         new Proxy(
           {},
