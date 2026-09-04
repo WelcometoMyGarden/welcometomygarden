@@ -12,6 +12,20 @@ import { wipeDrafts } from './chatDrafts.svelte';
 export const hasInitialized = writable(false);
 export const creatingNewChat = writable(false);
 
+export const resolveOnChatsInitialized = async () => {
+  if (!get(hasInitialized)) {
+    return new Promise<void>((resolve) => {
+      const unsubFromChatInit = hasInitialized.subscribe((hasInitialized) => {
+        if (hasInitialized) {
+          unsubFromChatInit();
+          resolve();
+        }
+      });
+    });
+  }
+  return Promise.resolve();
+};
+
 export const isArchivedView = writable(false);
 
 export type ArchiveUndoEntry = {
@@ -27,6 +41,9 @@ export const lastArchiveAction = writable<ArchiveUndoEntry | null>(null);
  */
 export const newConversation = writable<NewConversation>(null);
 
+/**
+ * Defaults to an empty object
+ */
 export const chats = writable<{ [chatId: string]: LocalChat }>({});
 
 export const isChatArchivedByUser = (chat: LocalChat, userId: string): boolean =>

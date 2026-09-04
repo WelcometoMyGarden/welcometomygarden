@@ -2,7 +2,6 @@ import { CHATS, MESSAGES } from './collections';
 import { db } from './firebase';
 import { getPublicUserProfile } from './user';
 import {
-  creatingNewChat,
   addChat,
   addMessage,
   hasInitialized,
@@ -35,18 +34,6 @@ import { isOnIDevicePWA } from '$lib/util/uaInfo';
 import * as Sentry from '@sentry/sveltekit';
 import { lr } from '$lib/util/translation-helpers';
 import logger from '$lib/util/logger';
-
-/**
- * Fetches the chat partner's profile, setting the new chat loader.
- * @param partnerUid
- * @returns the partner's user pfolie
- */
-export const initiateChat = async (partnerUid: string) => {
-  creatingNewChat.set(true);
-  const partner = await getPublicUserProfile(partnerUid);
-  creatingNewChat.set(false);
-  return partner;
-};
 
 export const createChatObserver = () => {
   const q = query(

@@ -18,10 +18,11 @@
     creatingNewChat,
     hasInitialized,
     getChatForUser,
-    newConversation
+    newConversation,
+    resolveOnChatsInitialized
   } from '$lib/stores/chat';
   import routes, { visibleRoute } from '$lib/routes';
-  import { initiateChat, archiveChat, unarchiveChat } from '$lib/api/chat';
+  import { archiveChat, unarchiveChat } from '$lib/api/chat';
   import { isConversationSeen, toggleArchiveForChat } from './archive-actions.svelte';
   import ConversationCard from '$lib/components/Chat/ConversationCard.svelte';
   import EmptyChatState from './EmptyChatState.svelte';
@@ -45,6 +46,7 @@
   import { wait } from '$lib/util/timeout';
   import { EMPTY_FADE_DURATION } from './_shared';
   import { draftKey, getListedDraft } from '$lib/stores/chatDrafts.svelte';
+  import { getPublicUserProfile } from '$lib/api/user';
 
   interface Props {
     children?: import('svelte').Snippet;
@@ -175,9 +177,12 @@
       }
       startChattingWith(withQueryParam);
     } else if (idQueryParam) {
-      // This doesn't goto(), which isn't needed, since in this case,
-      // we should already be on a specific chat page.
-      initiateNewChatWith(idQueryParam);
+      // Note: in case we are loading /chat/<name>/new?id=<uid> directly,
+      // this will eventually issue a goto() to the same page we are already on, but
+      // that seems to be a harmless no-op.
+      // This is useful to support the existing chat check and redirection logic in a single function,
+      // as well as support uid-based chat redirection with /chat?id=<uid>
+      startChattingWith(idQueryParam);
     }
   });
 
@@ -207,43 +212,48 @@
 
   /**
    * Fetches the profile of the partner and sets it as a new conversation
+   * in the global store
    * @param partnerId
    */
   const initiateNewChatWith = async (partnerId: string) => {
-    const newPartner = await initiateChat(partnerId);
+    creatingNewChat.set(true);
+    const newPartner = await getPublicUserProfile(partnerId);
     $newConversation = { name: newPartner.firstName, partnerId };
+    creatingNewChat.set(false);
   };
 
   /**
    * Opens a new or existing chat from the map
+   * To be called after parsing a ?with=<uid> query param (from the map)
+   * or a ?id=<uid> param.
    */
   const startChattingWith = async (partnerId: string) => {
-    if ($chats) {
-      const existingChatWithUser = getChatForUser(partnerId);
-      if (existingChatWithUser) {
-        const existingChat = $chats[existingChatWithUser];
-        // Unarchive the chat before continuing the chat, if it is archived
-        if ($user && isChatArchivedByUser(existingChat, $user.id)) {
-          await unarchiveChat(existingChat.id, existingChat.partner.firstName);
-        }
-        return goto(
-          $lr(getConvoRoute(existingChat.partner.firstName, existingChatWithUser)),
-          gotoOpts
-        );
+    // Make sure chat are initialized, so we can reliably check for an existing chat first
+    await resolveOnChatsInitialized();
+    const existingChatWithUser = getChatForUser(partnerId);
+    if (existingChatWithUser) {
+      const existingChat = $chats[existingChatWithUser];
+      // Unarchive the chat before continuing the chat, if it is archived
+      if ($user && isChatArchivedByUser(existingChat, $user.id)) {
+        await unarchiveChat(existingChat.id, existingChat.partner.firstName);
       }
+      return goto(
+        $lr(getConvoRoute(existingChat.partner.firstName, existingChatWithUser)),
+        gotoOpts
+      );
+    }
 
-      // Otherwise: new chat case
-      try {
-        await initiateNewChatWith(partnerId);
-        goto($lr(getConvoRoute($newConversation?.name || '', `new?id=${partnerId}`)), gotoOpts);
-      } catch (ex) {
-        // TODO: display error
-        logger.error(ex);
-        Sentry.captureException(ex, {
-          extra: { context: 'Initiating new chat' }
-        });
-        goto($lr(routes.CHAT), gotoOpts);
-      }
+    // Otherwise: new chat case
+    try {
+      await initiateNewChatWith(partnerId);
+      goto($lr(getConvoRoute($newConversation?.name || '', `new?id=${partnerId}`)), gotoOpts);
+    } catch (ex) {
+      // TODO: display error
+      logger.error(ex);
+      Sentry.captureException(ex, {
+        extra: { context: 'Initiating new chat' }
+      });
+      goto($lr(routes.CHAT), gotoOpts);
     }
   };
 
@@ -251,13 +261,9 @@
     // The 'new' chat ID is a special case
     if (id === 'new' && $newConversation) {
       // Go back to the cached "new conversation".
-      // BE SURE TO INCLUDE THE ?id= QUERY PARAM BACK! Otherwise we don't know with whom to start a chat.
-      // TODO: this leads to the chat sending error modal now, but even without sending the chat,
-      // we know we are missing the chat partner.
-      // TODO: the design of this can be improved.
-      // - Maybe using /chat/bob/new/[partnerId] (as an alt to the query param)
-      // - Or just by checking every time with the backend whether the chat already exists or not: /chat/bob/[partnerId]
-      //   (1. check for conversation id existence, 2. check for partner id existence)
+      // Note: it is essential to re-include the partnerId as query param,
+      // otherwise the page has no way of identifying the intended partner
+      // if it gets hard-refreshed
       goto(
         createUrl($lr(getConvoRoute($newConversation.name, 'new')), {
           id: $newConversation.partnerId
