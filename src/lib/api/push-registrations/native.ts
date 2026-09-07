@@ -176,16 +176,20 @@ export function initializeNativePush() {
   });
 
   /*
-   * Note: we've observed that the 'registration' event will trigger called even without calling PushNotifications.register(),
-   * at least on Android, after a reinstall (perhaps on every new install?).
+   * Note: we've observed that on Android, after a reinstall (perhaps on every new install?),
+   * the 'registration' event will trigger/be called even without calling PushNotifications.register().
    *
    * We require the token to be aware of whether the registration was loaded, because it is necessary to ensure that
    * .capacitorDidRegisterForRemoteNotifications was called before initing or changing badge counts. It is also helpful
    * for remote push registration state management and comparisons.
    *
    * Therefore, we always proactively call .register() on init and wait for results with resolveOnNativePushTokenLoaded
-   * On Android, this will lead to a double 'regisration' event after reinstall and perhaps install.
-   * On iOS, it should not, even on a reinstall, but our manual .register() will return a token when notifs are in 'prompt' too.
+   * On Android, this will lead to a double 'registration' event after reinstall and perhaps install.
+   *
+   * On iOS, there are no such automatic events, even on a reinstall.
+   * It's even more restrictive: when the permission state is in 'prompt' and upon manually calling .register() (below),
+   * even it will cause neither the 'registration' nor 'registrationError' events to fire
+   * (at least not before the prompt happened, it may wait on that).
    */
   PushNotifications.addListener('registration', (token: Token) => {
     DEV: logger.info('Native FCM token retrieved', token.value);
@@ -195,12 +199,13 @@ export function initializeNativePush() {
     DEV: logger.debug('Error retrieving FCM token');
     Sentry.captureException(e, { extra: { context: 'Native push registration error' } });
   });
-  DEV: logger.debug('Registing for local native push');
+  DEV: logger.debug('Registering for local native push');
   PushNotifications.register();
 }
 
 /**
  * Resolves as soon as a local native push token is available, with the token
+ * Note: this will not resolve on iOS when we have a "prompt" permission state
  */
 export const resolveOnNativePushTokenLoaded = async () => {
   const currentToken = get(localNativeRegistrationFCMToken);
