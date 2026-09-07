@@ -81,10 +81,10 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@faker-js/faker@npm:^10.5.0":
-  version: 10.5.0
-  resolution: "@faker-js/faker@npm:10.5.0"
-  checksum: 10/1f83f46bf4dd0aa4197b72b289d5a73706b0150c9ce2c93066bf4282db8c6f4af19e5da73f62819813cfa4134083ce3a6e708e875fb7e6da745e23a0558b6550
+"@faker-js/faker@npm:^10.6.0":
+  version: 10.6.0
+  resolution: "@faker-js/faker@npm:10.6.0"
+  checksum: 10/f45220ceae76133d831dee8c8f5c8566767bfd857b7f872b5ec58866b68da889dabe96e805a598e095a6c58eae250363a7f335aa0afc513cb2ad5fe69e2a967f
   languageName: node
   linkType: hard
 
@@ -193,19 +193,6 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@google-cloud/firestore@npm:^8.6.0":
-  version: 8.6.0
-  resolution: "@google-cloud/firestore@npm:8.6.0"
-  dependencies:
-    "@opentelemetry/api": "npm:^1.9.0"
-    fast-deep-equal: "npm:^3.1.3"
-    functional-red-black-tree: "npm:^1.0.1"
-    google-gax: "npm:^5.0.1"
-    protobufjs: "npm:^7.5.3"
-  checksum: 10/39aa716d8b1206fc42e7e22ad74d17b82bd0cc29290c34e8a3b3bec7fbb657f68bf417c52a8f47f61e0bc821b20dd752be9baaf7e20e3b8f09f42edb8dc8fd51
-  languageName: node
-  linkType: hard
-
 "@google-cloud/firestore@npm:^8.7.1":
   version: 8.7.1
   resolution: "@google-cloud/firestore@npm:8.7.1"
@@ -243,9 +230,9 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@google-cloud/storage@npm:^7.19.0":
-  version: 7.19.0
-  resolution: "@google-cloud/storage@npm:7.19.0"
+"@google-cloud/storage@npm:^7.22.0":
+  version: 7.22.0
+  resolution: "@google-cloud/storage@npm:7.22.0"
   dependencies:
     "@google-cloud/paginator": "npm:^5.0.0"
     "@google-cloud/projectify": "npm:^4.0.0"
@@ -261,8 +248,7 @@ __metadata:
     p-limit: "npm:^3.0.1"
     retry-request: "npm:^7.0.0"
     teeny-request: "npm:^9.0.0"
-    uuid: "npm:^8.0.0"
-  checksum: 10/6fa0621ff702f3e8e8e4edd25c1f7582b5f2a0b44866ad0b94cd3f074ff58b9164d1c470222bf9c29fcf54c27fabb4ff6706ee073a706c6a67673a8e19b17c30
+  checksum: 10/5d1d9b9a00468499d0294b7f1698a30a4a02961c4667b1feecc6d10d1eecda390ccb7ba3f6ce008500545a8c9e02a3f3765d3ad28eafb263e67b041fd7e53016
   languageName: node
   linkType: hard
 
@@ -536,21 +522,21 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@supabase/auth-js@npm:2.112.3":
-  version: 2.112.3
-  resolution: "@supabase/auth-js@npm:2.112.3"
+"@supabase/auth-js@npm:2.112.4":
+  version: 2.112.4
+  resolution: "@supabase/auth-js@npm:2.112.4"
   dependencies:
     tslib: "npm:2.8.1"
-  checksum: 10/d95ba624809fba062231232217dd3ff7e1ef4386c1f6c1374d270e2965625a34c5fe77de169edd76b7e2f386ef4af27bbcf632d9d95209493e3c8236a1bb0672
+  checksum: 10/7ef2a7b7e4f124b60fb8a2e646cb929dee926a32f99779a15c1ec5cd7d86c912baa8654fff5a47860320c8553039dacb763d17c6ea5402cf9bff13678f8f358b
   languageName: node
   linkType: hard
 
-"@supabase/functions-js@npm:2.112.3":
-  version: 2.112.3
-  resolution: "@supabase/functions-js@npm:2.112.3"
+"@supabase/functions-js@npm:2.112.4":
+  version: 2.112.4
+  resolution: "@supabase/functions-js@npm:2.112.4"
   dependencies:
     tslib: "npm:2.8.1"
-  checksum: 10/4214a82c7233355964afa300ac56501a65846e2ce07e117370280775fc76640415bfbf67df9af65e615982791bcaf40f4a7330029f81e5a07d5d3fd1e8f5e62f
+  checksum: 10/74511415aab9e8287a20b0d171c632e1e2599dc9576cee22589327b13c8e6b4ad0263cee8e142308375c5bc0ff94545021b14745c3cfa59f2a9eeac0e3f57ddc
   languageName: node
   linkType: hard
 
@@ -561,50 +547,50 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@supabase/postgrest-js@npm:2.112.3":
-  version: 2.112.3
-  resolution: "@supabase/postgrest-js@npm:2.112.3"
+"@supabase/postgrest-js@npm:2.112.4":
+  version: 2.112.4
+  resolution: "@supabase/postgrest-js@npm:2.112.4"
   dependencies:
     tslib: "npm:2.8.1"
-  checksum: 10/d9782dd011d9045ed58979d0ab961df1e1adec15bb33f4c2dc7cefd4916c332f760495b9d2bc40df4742b98a6faeb66f7dd13f6ad7d33f1f0eebfc4989529fd9
+  checksum: 10/3416886e204b9b1b0ff8b8b4aa07124d2ed0f798cc01c6f1c66f5c65cc5785392604c1cbcdf65d0b3e88b611fb5411ac957b219027b6505803d2ad007634bb59
   languageName: node
   linkType: hard
 
-"@supabase/realtime-js@npm:2.112.3":
-  version: 2.112.3
-  resolution: "@supabase/realtime-js@npm:2.112.3"
+"@supabase/realtime-js@npm:2.112.4":
+  version: 2.112.4
+  resolution: "@supabase/realtime-js@npm:2.112.4"
   dependencies:
     "@supabase/phoenix": "npm:0.4.5"
     tslib: "npm:2.8.1"
-  checksum: 10/aff7d2f33caddba7716a3ffe14fe7c2d10e862efc684aeaf4fc20b1e8bd201ea6613822fd73b4b08402ec82edcf6b7cedf1772df1f191166c25050f91b57f8e1
+  checksum: 10/64a70e72ce527473d86aa49e68f4d0a0b1c041a22e79596cd1baf974806a8f87d743b8dc7a6b6e33834038301e55993b1da1ed8de7b14249f7ce24c2d59627b1
   languageName: node
   linkType: hard
 
-"@supabase/storage-js@npm:2.112.3":
-  version: 2.112.3
-  resolution: "@supabase/storage-js@npm:2.112.3"
+"@supabase/storage-js@npm:2.112.4":
+  version: 2.112.4
+  resolution: "@supabase/storage-js@npm:2.112.4"
   dependencies:
     iceberg-js: "npm:^0.8.1"
     tslib: "npm:2.8.1"
-  checksum: 10/850c9d01f932af457d457eabb64ac8d700da34d08f98a3f956670cd71f6ed13dc00add9472e677659dfd18652c145db8341a8ec1debb6b2f9f3c9a09166c63cc
+  checksum: 10/8b24afc395cf2c81dc7518a31847889cdcf0b8586f8dc0108aa4fc916fe596e2514e14b0435aaf433da2c22892a999fb86c4b4fd3faeb88115e1350e66ba9f0c
   languageName: node
   linkType: hard
 
-"@supabase/supabase-js@npm:^2.112.3":
-  version: 2.112.3
-  resolution: "@supabase/supabase-js@npm:2.112.3"
+"@supabase/supabase-js@npm:^2.112.4":
+  version: 2.112.4
+  resolution: "@supabase/supabase-js@npm:2.112.4"
   dependencies:
-    "@supabase/auth-js": "npm:2.112.3"
-    "@supabase/functions-js": "npm:2.112.3"
-    "@supabase/postgrest-js": "npm:2.112.3"
-    "@supabase/realtime-js": "npm:2.112.3"
-    "@supabase/storage-js": "npm:2.112.3"
+    "@supabase/auth-js": "npm:2.112.4"
+    "@supabase/functions-js": "npm:2.112.4"
+    "@supabase/postgrest-js": "npm:2.112.4"
+    "@supabase/realtime-js": "npm:2.112.4"
+    "@supabase/storage-js": "npm:2.112.4"
   peerDependencies:
     "@opentelemetry/api": ">=1.0.0"
   peerDependenciesMeta:
     "@opentelemetry/api":
       optional: true
-  checksum: 10/9b2b0de9473ed9e570c6420b20dd1a2e8a2308b4ce15e05f4f0831f2d2515406614f027f819bfcfe7f11d4df6514e0310757c8093711362762e8411dba79ae7c
+  checksum: 10/e1182d408639e939b4d84d4b8551e41b4eb47f705b51712d47c7c38e269bd11ff851ff6ccc34427dce864b866a96197a679a8850fc35a5c809e81a5f5927ee1c
   languageName: node
   linkType: hard
 
@@ -2466,10 +2452,10 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@types/luxon@npm:^3.7.4":
-  version: 3.7.4
-  resolution: "@types/luxon@npm:3.7.4"
-  checksum: 10/f062cbf6cfac319b88abcedd253308c6dc98e0b76e1ab991fb9fb1573c602097f2d54a95ea874d3678f3963a73478bcce260c621deb6c779c83ff891611e46d7
+"@types/luxon@npm:^3.7.5":
+  version: 3.7.5
+  resolution: "@types/luxon@npm:3.7.5"
+  checksum: 10/656e6e5c057f5e9769d2f2c0d84795de3d68d461557dca432dbdf6b98d1e57b15f273d99781c1e8d786f1fd15dcc29eeb48496685aa77fc3f14e186b6230ab0e
   languageName: node
   linkType: hard
 
@@ -3035,10 +3021,10 @@ __metadata:
   languageName: node
   linkType: hard
 
-"deepmerge-ts@npm:^7.1.5":
-  version: 7.1.5
-  resolution: "deepmerge-ts@npm:7.1.5"
-  checksum: 10/f86d1a0b3b803cbae749ebaabf2c6db388abec57d77a4003829ecf987504f3c93b01d1ff86ef89a5d56e2b06d7402ea2a7502f0d044f19e036ada1f543e78d3d
+"deepmerge-ts@npm:^8.0.1":
+  version: 8.0.2
+  resolution: "deepmerge-ts@npm:8.0.2"
+  checksum: 10/43c1ae06c0b203e1bb8776e5607ea17803e2c1e8808efd806559f7d103370f6c7ca90fcd637c07aafb96bf8f16b8c9fdf693f28c6170352b17de1c9b5e6b3731
   languageName: node
   linkType: hard
 
@@ -3351,9 +3337,9 @@ __metadata:
   languageName: node
   linkType: hard
 
-"eslint@npm:^10.8.1":
-  version: 10.8.1
-  resolution: "eslint@npm:10.8.1"
+"eslint@npm:^10.9.1":
+  version: 10.9.1
+  resolution: "eslint@npm:10.9.1"
   dependencies:
     "@eslint-community/eslint-utils": "npm:^4.8.0"
     "@eslint-community/regexpp": "npm:^4.12.2"
@@ -3392,7 +3378,7 @@ __metadata:
       optional: true
   bin:
     eslint: bin/eslint.js
-  checksum: 10/7174710e740f95bfa97d7501419d717c03cf7760c3eea4a91cd10fb804538bbd8cdc0849b26afa789a56a89ee838b727e4b9329e347376f96b8e524727b90ba3
+  checksum: 10/4cee237c7d2c445a05330e595b18521d7452fd3f419241bf1ccf81c769a6761c10ca5a06988197482d4842ed1a26b1dcb51b9526408990cee84559e6c08cb3ab
   languageName: node
   linkType: hard
 
@@ -3611,15 +3597,15 @@ __metadata:
   languageName: node
   linkType: hard
 
-"firebase-admin@npm:^14.2.0":
-  version: 14.2.0
-  resolution: "firebase-admin@npm:14.2.0"
+"firebase-admin@npm:^14.3.0":
+  version: 14.3.0
+  resolution: "firebase-admin@npm:14.3.0"
   dependencies:
     "@fastify/busboy": "npm:^3.0.0"
     "@firebase/database-compat": "npm:^2.1.4"
     "@firebase/database-types": "npm:^1.0.20"
-    "@google-cloud/firestore": "npm:^8.6.0"
-    "@google-cloud/storage": "npm:^7.19.0"
+    "@google-cloud/firestore": "npm:^8.7.1"
+    "@google-cloud/storage": "npm:^7.22.0"
     fast-deep-equal: "npm:^3.1.1"
     google-auth-library: "npm:^10.6.2"
     jsonwebtoken: "npm:^9.0.0"
@@ -3629,7 +3615,7 @@ __metadata:
       optional: true
     "@google-cloud/storage":
       optional: true
-  checksum: 10/2fb4a500305f09a48e11e78ed968cf396287e362dd7afb5fad2e384370dc0fbd83b8ba3154778fb71d73bb82aace31ae96c7cb846825970c6996a2fba481cb2e
+  checksum: 10/e56ff795a352eb974675b802c8d2e20c719620e7faf6126338669b185a0edb842d5544be2d0c81a09ca3450afb22ffcf3d3266be7611017d4ea035baa6065b78
   languageName: node
   linkType: hard
 
@@ -3790,28 +3776,28 @@ __metadata:
   resolution: "functions@workspace:."
   dependencies:
     "@eslint/js": "npm:^10.0.1"
-    "@faker-js/faker": "npm:^10.5.0"
+    "@faker-js/faker": "npm:^10.6.0"
     "@google-cloud/firestore": "npm:^8.7.1"
     "@haraka/email-address": "npm:^3.1.6"
     "@sendgrid/client": "npm:^8.1.6"
     "@sendgrid/mail": "npm:^8.1.6"
-    "@supabase/supabase-js": "npm:^2.112.3"
+    "@supabase/supabase-js": "npm:^2.112.4"
     "@turf/turf": "npm:^7.4.0"
-    "@types/luxon": "npm:^3.7.4"
+    "@types/luxon": "npm:^3.7.5"
     "@types/mocha": "npm:^10.0.10"
     busboy: "npm:^1.6.0"
     dotenv: "npm:^17.4.2"
     email-reply-parser: "npm:^2.3.9"
     es6-promise-pool: "npm:^2.5.0"
-    eslint: "npm:^10.8.1"
+    eslint: "npm:^10.9.1"
     eslint-config-prettier: "npm:^10.1.8"
     eslint-plugin-prettier: "npm:^5.5.6"
-    firebase-admin: "npm:^14.2.0"
+    firebase-admin: "npm:^14.3.0"
     firebase-functions: "npm:^7.3.2"
     firebase-functions-test: "npm:^3.5.0"
-    globals: "npm:^17.9.0"
-    google-auth-library: "npm:^11.0.1"
-    html-to-text: "npm:^10.0.0"
+    globals: "npm:^17.11.0"
+    google-auth-library: "npm:^11.0.2"
+    html-to-text: "npm:^10.0.1"
     lodash: "npm:^4.18.1"
     luxon: "npm:^3.7.2"
     mocha: "npm:^11.8.0"
@@ -3982,10 +3968,10 @@ __metadata:
   languageName: node
   linkType: hard
 
-"globals@npm:^17.9.0":
-  version: 17.9.0
-  resolution: "globals@npm:17.9.0"
-  checksum: 10/8619386d449e8cbb81e242eced8bca0a42e5c3633a3a35996b8b1618beb17ff9fb33bfe703d60d83d4b7f6f8a996dede4faf02f9e966e50ff895e0cf6122ae15
+"globals@npm:^17.11.0":
+  version: 17.11.0
+  resolution: "globals@npm:17.11.0"
+  checksum: 10/9cff5b8099b585862ab0d31e8b93dc1c3e7b59239dc58b59447a38709715751df8794ee0d28f434f8e421b01aee3cc10051e2455b5c967d960e79f882e68aa0f
   languageName: node
   linkType: hard
 
@@ -4018,9 +4004,9 @@ __metadata:
   languageName: node
   linkType: hard
 
-"google-auth-library@npm:^11.0.1":
-  version: 11.0.1
-  resolution: "google-auth-library@npm:11.0.1"
+"google-auth-library@npm:^11.0.2":
+  version: 11.0.2
+  resolution: "google-auth-library@npm:11.0.2"
   dependencies:
     base64-js: "npm:^1.3.0"
     ecdsa-sig-formatter: "npm:^1.0.11"
@@ -4028,7 +4014,7 @@ __metadata:
     gcp-metadata: "npm:^9.0.0"
     google-logging-utils: "npm:^2.0.0"
     jws: "npm:^4.0.0"
-  checksum: 10/8cd0df6c7cd9b7d6d48f6dce6c7a12eea4d65b783222ac60fa7054b68d5c27940c167d492638eef693176ae82dd557ecedd4a69f02662f3d3f4e96906ac7da44
+  checksum: 10/ef796c586564f740b6245261810364bd1e4f9113969c0ff15ffae9c67d5d2e18b808e77e9b68f5671cc612b757cb10906026b8bcf5f0b142bc75d7c60413d256
   languageName: node
   linkType: hard
 
@@ -4161,16 +4147,16 @@ __metadata:
   languageName: node
   linkType: hard
 
-"html-to-text@npm:^10.0.0":
-  version: 10.0.0
-  resolution: "html-to-text@npm:10.0.0"
+"html-to-text@npm:^10.0.1":
+  version: 10.0.1
+  resolution: "html-to-text@npm:10.0.1"
   dependencies:
     "@selderee/plugin-htmlparser2": "npm:~0.12.0"
-    deepmerge-ts: "npm:^7.1.5"
+    deepmerge-ts: "npm:^8.0.1"
     dom-serializer: "npm:^2.0.0"
     htmlparser2: "npm:^10.1.0"
     selderee: "npm:~0.12.0"
-  checksum: 10/f941412800fbd9b149079ac67af2371bc8124931e38ea212fd52d7f5efec37f793958555519fa12cbd95d9e9b14d6b296bf2343e8b7ee51fdac6e4039aff98c7
+  checksum: 10/d3106e3149374c8e49d0d88d8626d2ab77beccfe89e0f2bb1875e43348251846808d094df82215b98e324f49f4791a50fd345ef8b2bd5b517814273fb833e251
   languageName: node
   linkType: hard
 
@@ -5875,15 +5861,6 @@ __metadata:
   version: 1.0.2
   resolution: "util-deprecate@npm:1.0.2"
   checksum: 10/474acf1146cb2701fe3b074892217553dfcf9a031280919ba1b8d651a068c9b15d863b7303cb15bd00a862b498e6cf4ad7b4a08fb134edd5a6f7641681cb54a2
-  languageName: node
-  linkType: hard
-
-"uuid@npm:^8.0.0":
-  version: 8.3.2
-  resolution: "uuid@npm:8.3.2"
-  bin:
-    uuid: dist/bin/uuid
-  checksum: 10/9a5f7aa1d6f56dd1e8d5f2478f855f25c645e64e26e347a98e98d95781d5ed20062d6cca2eecb58ba7c84bc3910be95c0451ef4161906abaab44f9cb68ffbdd1
   languageName: node
   linkType: hard
 
