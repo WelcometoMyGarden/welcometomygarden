@@ -73,9 +73,15 @@ module.exports = async (event, res) => {
 
   // Get the Firebase user
   const uid = await getFirebaseUserId(/** @type {string} */ (paymentIntent.customer));
+  if (uid == null) {
+    // Couldn't get the uid, the user was likely deleted
+    logger.warn(
+      "paymentIntentPaymentFailed: the user was likely deleted, can't update Firebase state"
+    );
+    return res.sendStatus(200);
+  }
   const privateUserProfileDocRef = usersPrivateDoc(uid);
   const privateUserProfileData = (await privateUserProfileDocRef.get()).data();
-
   const publicUserProfileDocRef = usersDoc(uid);
 
   // In case a previous sepa payment was processing (this should always be the case)
