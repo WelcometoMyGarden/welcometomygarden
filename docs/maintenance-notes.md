@@ -9,6 +9,12 @@ At the time of writing, v7 is out of range for every TS-consuming dev dependency
 - svelte2tsx peer `typescript ^4.9.4 || ^5 || ^6`
 - svelte-preprocess peer `typescript ^5 || ^6`
 
+### iOS: decommission the NotnotsamuelCapacitorSwipeBack plugin
+
+Once the native override is shipped to everyone.
+
+See the commit message here https://github.com/WelcometoMyGarden/welcometomygarden/commit/cd97b55561155f02cf7d1d218157a6fbba460d5c
+
 ### Pinned GH actions runner version
 
 At the time of writing, `ubuntu-26.04` is still flagged _preview_ in actions/runner-images, and ubuntu-latest is still 24.04.
