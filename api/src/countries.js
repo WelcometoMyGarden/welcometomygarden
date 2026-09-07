@@ -118,6 +118,7 @@ module.exports = {
   KI: 'Kiribati',
   KP: "Korea (the Democratic People's Republic of)",
   KR: 'Korea (the Republic of)',
+  XK: 'Kosovo',
   KW: 'Kuwait',
   KG: 'Kyrgyzstan',
   LA: "Lao People's Democratic Republic (the)",
