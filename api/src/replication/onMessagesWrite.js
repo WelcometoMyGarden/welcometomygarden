@@ -9,6 +9,9 @@ module.exports = async ({ data: change, params }) => {
   await replicate({
     change,
     tableName: 'messages',
+    // Omitting "merged", which was temporarily added to messages that were merged from
+    // duplicate chats.
+    pick: ['createdAt', 'content', 'from'],
     dataMapper: ([k, v]) => {
       if (k === 'from') {
         return ['from_id', v];

@@ -136,9 +136,10 @@ exports.mapAuthUser = (user) => ({
  *    - Returning a falsy value will omit the key-value pair from the final object
  *    - A single key value pair can be mapped onto another key-value pair, for example to rename the
  *    - A single key value pair can be mapped onto multiple key-value pairs, which will be flattened in the final object.
+ *    - The pick list is evaluated on the original Firebase keys before applying the key-value mapping
  * @param {string[]} [pick] a subset of keys to consider from the original Firebase record.
  *      Note that createTime and updateTime are by default NOT picked, and must be included in this array for them to end up
- *      in the final object.
+ *      in the final object. This pick list applies before a possible dataMapper.
  * @returns
  */
 const createDataMapper = (mapper, pick) => (data) =>
@@ -171,7 +172,7 @@ exports.createDataMapper = createDataMapper;
  * @prop {import("firebase-functions").Change<import("@google-cloud/firestore").DocumentSnapshot>} change
  * @prop {string} tableName the target table name in Supabase
  * @prop {(([key, value]) => [string, any] | [string, any][])} [dataMapper] mapper to map the KV pairs of the source Firestore document,
- *  it should return a (collection of) equivalent KV pairs compatible with the schema of the Supabase db.
+ *  it should return a (collection of) equivalent KV pairs compatible with the schema of the Supabase db. Picked source fields are evaulated before this mapper.
  * @prop {Record<string, any>} [extraProps] extra contextual props to add to the inserted document. These are not passed to the mapper, and do not have to be picked. They will overwrite mapped data.
  * @prop {string[]} [pick] subset of Firestore document properties to preserve.
  *  Does not have to include 'id', since that is taken automatically from the Firebase document ID.
