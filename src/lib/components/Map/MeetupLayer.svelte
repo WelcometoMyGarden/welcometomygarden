@@ -4,6 +4,8 @@
   export type Meetup = {
     id: string;
     date: Date;
+    // Time (local) after which the meetup pin is removed from the map.
+    hideAt: Date;
     // place name
     place: string;
     lnglat: [number, number];
@@ -12,12 +14,13 @@
 
   export const meetups: Meetup[] = [
     {
-      id: 'bruges-2026',
+      id: 'eindhoven-2026',
       // Use local time
-      date: new Date(2026, 7 - 1, 3),
-      place: 'Bruges',
-      lnglat: [3.244532, 51.2070776],
-      registrationLink: `https://meetup.welcometomygarden.org/brugge`
+      date: new Date(2026, 10 - 1, 24),
+      hideAt: new Date(2026, 10 - 1, 24, 16, 0),
+      place: 'Eindhoven',
+      lnglat: [5.3587, 51.414003],
+      registrationLink: `https://meetup.welcometomygarden.org/eindhoven`
     }
   ];
 </script>
@@ -53,8 +56,8 @@
   const meetupFeatureCollection: () => GeoJSON.FeatureCollection = () => ({
     type: 'FeatureCollection',
     features: meetups
-      // hide meetups, margin of 10 hours
-      .filter(({ date }) => new Date().getTime() < date.getTime() + 1000 * 3600 * 10)
+      // hide meetups once their configured end time has passed
+      .filter(({ hideAt }) => new Date().getTime() < hideAt.getTime())
       .map((m) => ({
         type: 'Feature',
         properties: {
