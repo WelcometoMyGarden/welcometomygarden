@@ -52,9 +52,10 @@
     photoWrapper?.focus();
   };
 
-  // TODO: should we force the UK date format here for English
+  // Force the UK date format for English (day before month, no comma), so the
+  // title reads e.g. "Saturday 24 October" rather than "Saturday, October 24".
   let meetupDateStr = $derived(
-    Intl.DateTimeFormat($coercedLocale, {
+    Intl.DateTimeFormat($coercedLocale === 'en' ? 'en-GB' : $coercedLocale, {
       weekday: 'long',
       day: 'numeric',
       month: 'long'
