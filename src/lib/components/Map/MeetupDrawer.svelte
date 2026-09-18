@@ -153,7 +153,7 @@
                 wtmg: $user.id,
                 traveller: $user.superfan ?? 'false',
                 host: !!$user.garden,
-                ref: 'website'
+                ref: 'map'
               }
             )}
             target="_blank"

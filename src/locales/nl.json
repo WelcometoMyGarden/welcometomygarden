@@ -865,11 +865,11 @@
     },
     "zoom-restriction-notice": "om meer in te zoomen",
     "meetups": {
-      "description": "Wil je andere trage reizigers en hosts ontmoeten? Kom naar de WTMG-meetup in Brugge op vrijdag 3 juli! Het is een mooie gelegenheid om elkaar te ontmoeten, ervaringen te delen en over WTMG te praten. De meetup vindt plaats in de tuin van het eerste woonzorgcentrum op WTMG. Gratis, maar inschrijven is verplicht. Tot dan!",
+      "description": "Wil je andere trage reizigers en hosts ontmoeten? Kom naar de WTMG-meetup nabij Eindhoven op zaterdag 24 oktober! Het is een mooie gelegenheid om elkaar te ontmoeten, ervaringen te delen en over WTMG te praten. De meetup vindt plaats in de tuin van het eerste woonzorgcentrum op WTMG. Gratis, maar inschrijven is verplicht. Tot dan!",
       "btn-register": "Schrijf je in",
       "no-account": "Je moet {signInLink} om je in te schrijven",
       "cities": {
-        "Bruges": "Brugge"
+        "Eindhoven": "Eindhoven"
       }
     },
     "every15km": {

@@ -1225,11 +1225,11 @@
     },
     "zoom-restriction-notice": "pour zoomer plus",
     "meetups": {
-      "description": "Envie de rencontrer d'autres voyageur·euses et hôtes ? Rejoignez-nous à notre meetup à Bruges le vendredi 3 juillet ! C’est l’occasion parfaite pour se rencontrer, partager vos expériences et échanger autour de WTMG. Le meetup a lieu dans le jardin de la première maison de retraite à avoir rejoint WTMG. Gratuit, mais inscription obligatoire. À bientôt !",
+      "description": "Envie de rencontrer d’autres voyageur·euses et hôtes ? Rejoignez-nous à notre meetup près d’Eindhoven le samedi 24 octobre ! C’est l’occasion parfaite pour se rencontrer, partager vos expériences et échanger autour de WTMG. Le meetup a lieu dans le jardin d’Anny, hôte WTMG. Gratuit, mais inscription obligatoire. À bientôt !",
       "btn-register": "Inscrivez-vous maintenant",
       "no-account": "Vous devez {signInLink} pour vous inscrire",
       "cities": {
-        "Bruges": "Bruges"
+        "Eindhoven": "Eindhoven"
       }
     },
     "every15km": {
