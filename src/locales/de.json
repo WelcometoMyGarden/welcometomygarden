@@ -974,7 +974,12 @@
       "title": "E-Mail-Einstellungen",
       "text": "Sende mir E-Mails, wenn:",
       "chat": "ich habe eine neue Chat-Nachricht erhalten",
-      "news": "<span class=\"notranslate\">Welcome To My Garden</span> Neuigkeiten zu teilen hat"
+      "news": "<span class=\"notranslate\">Welcome To My Garden</span> Neuigkeiten zu teilen hat",
+      "chat-required": {
+        "title": "Mobile Benachrichtigungen erforderlich",
+        "description": "Damit Gastgeber*innen und Reisende auf <span class=\"notranslate\">Welcome To My Garden</span> erreichbar bleiben und schnell antworten können, kannst du E-Mail-Benachrichtigungen für neue Chat-Nachrichten nur deaktivieren, wenn mobile Benachrichtigungen aktiviert sind.",
+        "install": "Installiere die App, um mobile Benachrichtigungen zu aktivieren:"
+      }
     },
     "garden": {
       "title": "Dein Garten",

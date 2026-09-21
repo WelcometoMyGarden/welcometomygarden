@@ -10,11 +10,12 @@ import type { CollectionReference } from '@firebase/firestore-types';
 import { db } from '$lib/api/firebase';
 import { getUser } from '$lib/stores/auth';
 import { PUSH_REGISTRATIONS, USERS_PRIVATE } from '$lib/api/collections';
-import type {
-  FirebaseNativePushRegistration,
-  FirebasePushRegistration,
-  FirebaseWebPushRegistration,
-  LocalPushRegistration
+import {
+  PushRegistrationStatus,
+  type FirebaseNativePushRegistration,
+  type FirebasePushRegistration,
+  type FirebaseWebPushRegistration,
+  type LocalPushRegistration
 } from '$lib/types/PushRegistration';
 import nProgress from 'nprogress';
 export { hasWebPushNotificationSupportNow } from './uaInfo';
@@ -84,4 +85,15 @@ export const isNativePushRegistration = (
  */
 export const hasAnyNativePushRegistration = derived(pushRegistrations, (pushRegistrations) =>
   pushRegistrations.some((pR) => isNativePushRegistration(pR))
+);
+
+/**
+ * Whether the user can actually be reached on at least one mobile device right now.
+ *
+ * Unlike `hasAnyNativePushRegistration`, this ignores registrations that are marked for
+ * deletion or that errored in the FCM backend. It also still includes web push registrations.
+ * This gates turning off the `emailPreferences.newChat` preference.
+ */
+export const hasAnyActivePushRegistration = derived(pushRegistrations, (pushRegistrations) =>
+  pushRegistrations.some((pR) => pR.status === PushRegistrationStatus.ACTIVE)
 );

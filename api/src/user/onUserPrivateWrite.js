@@ -15,6 +15,7 @@ const { auth } = require('../firebase');
 const stripe = require('../subscriptions/stripe');
 const { coerceToSupportedLanguage } = require('../util/translations');
 const removeUndefined = require('../util/removeUndefined');
+const { onlyAffects } = require('../util/diff');
 
 /**
  * @param {FirestoreEvent<Change<DocumentSnapshot<UserPrivate>>, { userId: string; }>} event
@@ -58,6 +59,26 @@ exports.onUserPrivateWrite = async ({ data: change, params }) => {
   let userPrivateBefore = null;
   if (before.exists) {
     userPrivateBefore = before.data();
+  }
+
+  // The below logic is concerned with SendGrid contact sync, and Stripe communicationLanguage sync.
+  // Single updates to these paths can be skipped because they are not relevant for this sync.
+  if (
+    isUpdate &&
+    onlyAffects(userPrivateBefore, userPrivateAfter, [
+      'consentedAt',
+      'emailPreferences.newChat',
+      'latestSpamAlertAt',
+      'newEmail',
+      'oldEmail',
+      'reference',
+      'relistGardenAt'
+    ])
+  ) {
+    logger.debug(
+      `Skipping the SendGrid sync for ${uid}: the write only changed emailPreferences.newChat`
+    );
+    return;
   }
 
   // Prepare to create or update a SendGrid contact for this user
