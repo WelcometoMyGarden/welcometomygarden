@@ -960,7 +960,12 @@
       "title": "Ustawienia powiadomień",
       "text": "Wyślij mi e-mail, gdy:",
       "chat": "Otrzymam nową wiadomość na czacie",
-      "news": "<span class=\"notranslate\">Welcome To My Garden</span> ma nowe wiadomości do przekazania"
+      "news": "<span class=\"notranslate\">Welcome To My Garden</span> ma nowe wiadomości do przekazania",
+      "chat-required": {
+        "title": "Wymagane powiadomienia na telefonie",
+        "description": "Aby zapewnić szybkie odpowiedzi i dostępność zarówno gospodarzy, jak i podróżnych w <span class=\"notranslate\">Welcome To My Garden</span>, powiadomienia e-mail o nowych wiadomościach na czacie możesz wyłączyć tylko wtedy, gdy masz włączone powiadomienia na telefonie.",
+        "install": "Aby włączyć powiadomienia na telefonie, zainstaluj aplikację:"
+      }
     },
     "garden": {
       "title": "Twój ogród",

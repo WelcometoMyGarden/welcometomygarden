@@ -974,7 +974,12 @@
       "title": "Email preferences",
       "text": "Send me emails when:",
       "chat": "I receive a new chat message",
-      "news": "<span class=\"notranslate\">Welcome To My Garden</span> has news to share"
+      "news": "<span class=\"notranslate\">Welcome To My Garden</span> has news to share",
+      "chat-required": {
+        "title": "Mobile notifications required",
+        "description": "To ensure the responsiveness and reachability of both hosts and travellers on <span class=\"notranslate\">Welcome To My Garden</span>, you can only disable email notifications for new chat messages if you have mobile push notifications turned on.",
+        "install": "To enable mobile push notifications, install the app:"
+      }
     },
     "garden": {
       "title": "Your garden",
