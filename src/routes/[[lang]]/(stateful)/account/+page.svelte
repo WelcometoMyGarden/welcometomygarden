@@ -16,6 +16,9 @@
   import EmailChangeModal from './EmailChangeModal.svelte';
   import { countryNames } from '$lib/stores/countryNames';
   import NotificationSection from './NotificationSection.svelte';
+  import NewChatEmailRequiredModal from './NewChatEmailRequiredModal.svelte';
+  import { hasAnyActivePushRegistration } from '$lib/util/push-registrations';
+  import { loadedPushRegistrations } from '$lib/stores/pushRegistrations';
   import {
     hasAutoRenewingSubscription,
     canPayRenewalInvoice,
@@ -31,14 +34,31 @@
 
   let showAccountDeletionModal = $state(false);
   let showEmailChangeModal = $state(false);
+  let showNewChatEmailRequiredModal = $state(false);
 
   if (!$user) {
     goto($lr(`${routes.SIGN_IN}?continueUrl=${encodeURIComponent($lr(routes.ACCOUNT))}`));
   }
 
   const onMailPreferenceChanged = async (event: Event) => {
+    const target = event.target as HTMLInputElement;
+    const { name, checked } = target;
+
+    // New chat message emails may only be turned off by people who stay reachable through
+    // mobile push notifications. Firestore rules can't express this, since it depends on
+    // the push-registrations subcollection, hence this frontend-only gate.
+    if (
+      name === 'newChat' &&
+      !checked &&
+      !($loadedPushRegistrations && $hasAnyActivePushRegistration)
+    ) {
+      // The stored preference didn't change, so Svelte won't reset the input for us.
+      target.checked = true;
+      showNewChatEmailRequiredModal = true;
+      return;
+    }
+
     try {
-      const { name, checked } = event.target as HTMLInputElement;
       await updateMailPreferences(name as 'newChat' | 'news', checked);
       notify.success($_('account.notify.preferences-update'), 3500);
     } catch (ex) {
@@ -327,6 +347,7 @@
 {/if}
 
 <AccountDeletionModal bind:show={showAccountDeletionModal} />
+<NewChatEmailRequiredModal bind:show={showNewChatEmailRequiredModal} />
 <EmailChangeModal bind:show={showEmailChangeModal} />
 
 <style>
