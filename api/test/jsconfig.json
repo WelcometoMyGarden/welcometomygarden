@@ -1,0 +1,10 @@
+// Editor-only project for the API tests: gives VS Code type info for `test/`
+// (including the globals from src/types.d.ts). No commit/push gate uses this
+// config — `yarn check` (scripts/typecheck.mjs) only checks `../jsconfig.json`,
+// so type errors shown here are informational.
+{
+  "extends": "../jsconfig.json",
+  "include": [".", "../src/types.d.ts"],
+  // Override the base `exclude`, which excludes this directory.
+  "exclude": []
+}
