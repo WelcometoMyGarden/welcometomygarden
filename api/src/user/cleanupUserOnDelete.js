@@ -1,7 +1,7 @@
-const { FieldValue } = require('firebase-admin/firestore');
+const { FieldValue, Timestamp } = require('firebase-admin/firestore');
 const { logger } = require('firebase-functions');
 const { db, getGardenWithData, storage } = require('../firebase');
-const { statsDoc, usersPrivateDoc } = require('../collections');
+const { statsDoc, usersPrivateDoc, usersMetaDoc } = require('../collections');
 const stripe = require('../subscriptions/stripe');
 const { deleteContact: deleteSendGridContact } = require('../sendgrid/deleteContact');
 const { supabase } = require('../supabase');
@@ -75,6 +75,8 @@ async function deleteTrailFiles(userId) {
  * @param {UserPrivate | null} userPrivate
  */
 async function deleteFirebaseData(user, userPrivate) {
+  const now = Timestamp.fromDate(new Date());
+
   // Delete main Firestore data
   const userId = user.uid;
   if (typeof userId !== 'string' || userId.length === 0) {
@@ -130,7 +132,18 @@ async function deleteFirebaseData(user, userPrivate) {
         ? deleteGardenPhotoFiles(userId)
         : Promise.resolve(),
       // Delete trail files if they exist
-      deleteTrailFiles(userId)
+      deleteTrailFiles(userId),
+      // Record the deletion timestamp in the user metadata using an upsert
+      // (technically, this is when this function is invoked, so a bit later
+      // than the actual deletion)
+      usersMetaDoc(userId)
+        .set({ deletedAt: now }, { merge: true })
+        .catch((ex) =>
+          logger.error('Failure to record the deletion timestamp in users-meta', {
+            userId,
+            error: ex
+          })
+        )
     ]);
   } catch (ex) {
     // Should not happen, since all errors above are caught & logged

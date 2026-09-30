@@ -80,6 +80,11 @@ declare global {
      * @since 17-04-2026
      */
     unlistedByAdminAt?: Timestamp;
+    /**
+     * Unambiguously record when a deletion of a UID happened.
+     * @since 30-09-2026
+     */
+    deletedAt?: Timestamp;
   };
 
   type WrappedFunction = <T extends (...args: any[]) => any>(
