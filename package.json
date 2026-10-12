@@ -49,7 +49,7 @@
     "@capacitor/device": "^8.0.3",
     "@capacitor/geolocation": "8.2.2",
     "@capacitor/inappbrowser": "2.5.5",
-    "@capacitor/ios": "^8.5.0",
+    "@capacitor/ios": "^8.5.1",
     "@capacitor/local-notifications": "^8.3.1",
     "@capacitor/network": "^8.0.1",
     "@capacitor/push-notifications": "^8.1.2",
