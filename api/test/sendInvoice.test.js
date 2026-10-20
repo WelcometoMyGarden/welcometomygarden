@@ -58,6 +58,7 @@ describe.skip('send_invoice', () => {
     // This by default finalizes the first invoice
     console.log('Creating subscription...');
     let subscription = await stripe.subscriptions.create({
+      billing_mode: { type: 'classic' },
       customer: customer.id,
       items: [{ price: priceId }],
       collection_method: 'send_invoice',

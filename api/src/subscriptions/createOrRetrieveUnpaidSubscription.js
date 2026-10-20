@@ -79,6 +79,9 @@ const createNewSubscription = async (customerId, priceId, privateUserProfileDocR
 
   // Create the subscription in Stripe
   const subscription = await stripe.subscriptions.create({
+    // We don't need or use the flexible logic at this point, and this explicit setting keep behavior consistent
+    // between new subscriptions and existing ones, without having to migrate them.
+    billing_mode: { type: 'classic' },
     customer: customerId,
     items: [
       {
@@ -120,9 +123,7 @@ const createNewSubscription = async (customerId, priceId, privateUserProfileDocR
   const updateUserPrivateDocPromise = privateUserProfileDocRef.update(
     removeUndefined({
       [idKey]: subscription.id,
-      // Take the price ID from the subscription object.
-      // [one-off-invoice] Don't take the price ID from the invoice object, because if it was updated (first invoice voided),
-      // The invoice line item will have a custom one-off product ID and price ID
+      // Take the price ID from the subscription object, it is the source of truth.
       [priceIdKey]: subscription.items.data[0].price.id,
       [statusKey]: subscription.status,
       // NOTE: [insert-payment-intent-speedhack]: the latestInvoiceStatus be out-of-date (with status === 'draft', while it should be 'open')
@@ -152,8 +153,13 @@ const createNewSubscription = async (customerId, priceId, privateUserProfileDocR
 
 /**
  * Changes the price of a subscription with an unpaid first invoice (assumed input),
- * and returns a subscription object with a finalized latest_invoice set to an invoice
- * of the full amount of the new price.
+ * and returns a subscription object with a finalized latest_invoice for the full amount
+ * of the new price.
+ *
+ * NOTE: this resets the billing cycle anchor, so the subscription's current period starts
+ * at the moment of the change, while its start_date stays the original creation time.
+ * The two can differ by up to 24 hours (beyond that, the sub is recreated instead), so
+ * a mismatch between them does not by itself imply a renewal period. See isRenewalPeriod().
  * @param {import('stripe').Stripe.Subscription} existingSubscription
  * @param {import('stripe').Stripe.Price} priceObject
  * @param {DocumentReference} privateUserProfileDocRef
@@ -163,108 +169,64 @@ const changeSubscriptionPrice = async (
   priceObject,
   privateUserProfileDocRef
 ) => {
-  const newPriceId = priceObject.id;
   const existingInvoice = /** @type {import('stripe').Stripe.Invoice} */ (
     existingSubscription.latest_invoice
   );
-  // void the previous unpaid invoice. The upgrade will generate a new invoice,
-  // and the old finalized one is not relevant anymore.
+  // Void the previous unpaid invoice, so that it can't be paid anymore.
   await stripe.invoices.voidInvoice(existingInvoice.id);
 
-  // Also store the period it was for, for usage in the later new invoice
-  const { period } = existingInvoice.lines.data[0];
-
-  // Step 2: perform an upgrade/downgrade of the sub with Stripe
-  // https://stripe.com/docs/billing/subscriptions/upgrade-downgrade
-  const proratedSubscription = await stripe.subscriptions.update(existingSubscription.id, {
+  // Switch to the new price and start a new billing period right now.
+  // Stripe immediately generates an invoice for the full amount of the new price, whose line
+  // item references the new (recurring) WTMG price. With proration disabled, no credit
+  // is given for the voided invoice.
+  // https://docs.stripe.com/billing/subscriptions/billing-cycle
+  const updatedSubscription = await stripe.subscriptions.update(existingSubscription.id, {
     cancel_at_period_end: false,
-
-    // > If you want the customer to immediately pay the price difference when switching
-    // > to a more expensive subscription on the same billing cycle, you can set proration_behavior to 'always_invoice',
-    // > which will calculate the proration and then immediately generate an invoice after making the switch.
-    // > You can combine this behavior with pending updates so that the subscription is only updated if payment succeeds on the new invoice.
-    // We're *NOT* using prorations_behavior: 'none'
-    // > When prorations are disabled, customers are billed the full amount at the
-    // > new price when the next invoice is generated.
-    // https://stripe.com/docs/billing/subscriptions/prorations#disable-prorations
-    // proration_behavior: 'none',
-    // => does this mean that the customer doesn't have to pay extra for the current month?
-    // Or will they be billed the current month fully when paying for the next month?
-    // A bit unclear.
-    proration_behavior: 'always_invoice',
     items: [
       {
         // Overwrite the existing item
         id: existingSubscription.items.data[0].id,
         // ... with the new price id
-        price: newPriceId
+        price: priceObject.id
       }
     ],
-    // Expand, so we can immediately edit the invoice
+    // @ts-expect-error api/ type-checks against the root (frontend) stripe v21 typings, where this param is still `'now' | 'unchanged'`.
+    billing_cycle_anchor: { type: 'now' },
+    proration_behavior: 'none',
     expand: ['latest_invoice']
   });
-  const proratedInvoice = /** @type {import('stripe').Stripe.Invoice} */ (
-    proratedSubscription.latest_invoice
+  const newInvoice = /** @type {import('stripe').Stripe.Invoice} */ (
+    updatedSubscription.latest_invoice
   );
-  // This will auto-generate a new invoice with prorations, based on the price previous invoice
-  // The prorations assume that the previous invoice will still be paid (whether that one was voided or not!)
-  // Remove all prorated line items
-  const proratedInvoiceItems = await stripe.invoiceItems.list({
-    invoice: proratedInvoice.id
-  });
-  await Promise.all(
-    proratedInvoiceItems.data.map((invoiceItem) => stripe.invoiceItems.del(invoiceItem.id))
-  );
-
-  // Re-add a full subscription price for the current price to the "prorated" invoice
-  await stripe.invoiceItems.create({
-    // Note: these two are connected to an existing subscription.
-    invoice: proratedInvoice.id,
-    // Required
-    customer: /** @type {string} */ (existingSubscription.customer),
-    subscription: existingSubscription.id,
-    // Reuse the same period as the original invoice
-    period,
-
-    // price: priceId,
-    // Can't do this, it's not allowed to directly set the recurring priceId
-    // Unhandled error StripeInvalidRequestError: The price specified is set to `type=recurring` but this field only accepts prices with `type=one_time`.
-    // TODO: add a description. Now it says: "No description" - however, description is a part of a product
-    // NOTE: This results in a **one-off product and price ID** to be created just for this invoice
-    //  TODO: this leads to annoying inconsistencies in transaction reporting. We should consider fully cancelling and recreating one,
-    //  rather than voiding the first invoice of the same subscription. Pros/cons?
-    unit_amount: priceObject.unit_amount,
-    quantity: 1,
-    currency: priceObject.currency
-  });
 
   // Mark the invoice as a special changed invoice, so later events can know what happened here.
-  await stripe.invoices.update(proratedInvoice.id, {
+  await stripe.invoices.update(newInvoice.id, {
     metadata: {
-      // the actual proratedInvoice.billing_reason will be 'subscription_update'
+      // the actual newInvoice.billing_reason will be 'subscription_update'
       billing_reason_override: 'subscription_create'
     }
   });
 
+  const { currentPeriodStart, currentPeriodEnd } = getSubscriptionPeriod(updatedSubscription);
+
   // Save the updated info in Firebase
   const [{ paymentIntent }] = await Promise.all([
-    generatePaymentIntent(proratedSubscription),
+    generatePaymentIntent(updatedSubscription),
     privateUserProfileDocRef.update(
       removeUndefined({
         // Get the new price id from the source of truth, it should be equal to priceObject.id though.
-        // NOTE: don't get it from the invoice, see other note [one-off-invoice]
-        [priceIdKey]: proratedSubscription.items.data[0].price.id,
-        [statusKey]: proratedSubscription.status,
+        [priceIdKey]: updatedSubscription.items.data[0].price.id,
+        [statusKey]: updatedSubscription.status,
         // NOTE: this will be outdated, see [insert-payment-intent-speedhack]
-        [latestInvoiceStatusKey]: /** @type {import('stripe').Stripe.Invoice} */ (
-          proratedSubscription.latest_invoice
-        ).status
-        // id, startDate, currentPeriodStart & currentPeriodEnd should not have altered
+        [latestInvoiceStatusKey]: newInvoice.status,
+        [currentPeriodStartKey]: currentPeriodStart,
+        [currentPeriodEndKey]: currentPeriodEnd
+        // id & startDate should not have altered
       })
     )
   ]);
 
-  return { subscription: proratedSubscription, clientSecret: paymentIntent.client_secret };
+  return { subscription: updatedSubscription, clientSecret: paymentIntent.client_secret };
 };
 
 /**

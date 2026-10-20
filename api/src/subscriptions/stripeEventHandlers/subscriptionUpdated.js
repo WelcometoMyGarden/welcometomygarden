@@ -124,6 +124,10 @@ module.exports = async (event, res) => {
     subscription.collection_method === 'charge_automatically' &&
     subscription.cancel_at_period_end &&
     // @ts-ignore
+    // NOTE/WARNING/TODO: with new "flexible" billing mode subscriptions,
+    // this property will not be changed anymore
+    // and it should probably be removed as a double check, see
+    // https://docs.stripe.com/billing/subscriptions/billing-mode/compare#cancellations-in-the-customer-portal
     event.data.previous_attributes.cancel_at_period_end === false &&
     typeof subscription.cancel_at === 'number' &&
     nowSecs() < subscription.cancel_at

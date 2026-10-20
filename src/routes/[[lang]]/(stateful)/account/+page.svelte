@@ -27,6 +27,7 @@
   import * as Sentry from '@sentry/sveltekit';
   import isFirebaseError from '$lib/util/types/isFirebaseError';
   import { lr } from '$lib/util/translation-helpers';
+  import { isRenewalPeriod } from '$lib/util/is-renewal-period';
   import logger from '$lib/util/logger';
 
   let showAccountDeletionModal = $state(false);
@@ -144,7 +145,7 @@
           class="infogrid"
           class:has-sub-info={!!$user.stripeSubscription &&
             !(
-              $user.stripeSubscription.currentPeriodStart === $user.stripeSubscription.startDate &&
+              !isRenewalPeriod($user.stripeSubscription) &&
               $user.stripeSubscription.status === 'canceled'
             )}
           class:auto-renewing={$hasAutoRenewingSubscription}
@@ -210,7 +211,7 @@
                 href={customerPortalLink ?? ''}>{$_('account.superfan.btn-manage')}</Button
               >
             {/if}
-          {:else if $user.stripeSubscription && $user.stripeSubscription.currentPeriodStart !== $user.stripeSubscription.startDate}
+          {:else if $user.stripeSubscription && isRenewalPeriod($user.stripeSubscription)}
             <!-- The invalid/expired subscription state is assumed from the alternative of the case above -->
             <!-- Extra qualification: this is not the initial invoice, to exclude manual superfans etc -->
             <p class="superfan-validity invalid">

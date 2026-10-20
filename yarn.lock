@@ -3610,10 +3610,10 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@stripe/stripe-js@npm:^8.11.0":
-  version: 8.11.0
-  resolution: "@stripe/stripe-js@npm:8.11.0"
-  checksum: 10/98fc2109ed4460fcc8aad88d080d6225347396e7a26a91c70514e3bfeda94574c328dc7cd14d478c43093fbfd77ebaeb7ea9bf4f33e5266d492c19239497069a
+"@stripe/stripe-js@npm:^10.0.0":
+  version: 10.0.0
+  resolution: "@stripe/stripe-js@npm:10.0.0"
+  checksum: 10/06db09e9cc655d6f593f417cc524c9008c275d0894384d78f85f2a1a6bd5130179671ed19c6cca04020d49d7f5ba0334d7cec1564b1c13af8bb9fdb5a52afef1
   languageName: node
   linkType: hard
 
@@ -12630,15 +12630,15 @@ __metadata:
   languageName: node
   linkType: hard
 
-"stripe@npm:^21.0.0":
-  version: 21.0.1
-  resolution: "stripe@npm:21.0.1"
+"stripe@npm:^23.0.0":
+  version: 23.0.0
+  resolution: "stripe@npm:23.0.0"
   peerDependencies:
-    "@types/node": ">=18"
+    "@types/node": ">=20"
   peerDependenciesMeta:
     "@types/node":
       optional: true
-  checksum: 10/ae5d95e0c0b4725bd558551dc31b2801f58f6876262c3890523337357e18947b1c1bb7d3ec46fd4a5ec37d63ebc2599e2e775487951cf51e2d62c0cff8ef35fd
+  checksum: 10/0e29ada7eab539b95c27b72aec7485ad4f2714a844f662c9a09f59b8716b78c9966c9f82f6627f24ccc2b4a740836f0aa52d1a5c062875f31a883866a4d0295c
   languageName: node
   linkType: hard
 
@@ -13691,7 +13691,7 @@ __metadata:
     "@notnotsamuel/capacitor-swipe-back": "patch:@notnotsamuel/capacitor-swipe-back@npm%3A3.0.2#~/.yarn/patches/@notnotsamuel-capacitor-swipe-back-npm-3.0.2-ab9f469e15.patch"
     "@playwright/test": "npm:^1.62.1"
     "@sentry/sveltekit": "npm:^10.72.0"
-    "@stripe/stripe-js": "npm:^8.11.0"
+    "@stripe/stripe-js": "npm:^10.0.0"
     "@supabase/supabase-js": "npm:^2.112.4"
     "@sveltejs/adapter-static": "npm:^3.0.10"
     "@sveltejs/kit": "npm:^2.70.3"
@@ -13728,7 +13728,7 @@ __metadata:
     prettier-plugin-svelte: "npm:^4.1.1"
     sharp: "npm:^0.35.4"
     smoothscroll-polyfill: "npm:^0.4.4"
-    stripe: "npm:^21.0.0"
+    stripe: "npm:^23.0.0"
     svelte: "npm:^5.57.0"
     svelte-check: "npm:^4.7.6"
     svelte-i18n: "npm:^4.0.1"

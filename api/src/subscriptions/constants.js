@@ -12,8 +12,9 @@ const stripeSubscriptionSubKeys = [
   // https://stripe.com/docs/api/subscriptions/object#subscription_object-start_date
   'startDate',
   // https://stripe.com/docs/api/subscriptions/object#subscription_object-cancel_at
-  // An existent `cancel_at` implies `cancel_at_period_end` being true https://stripe.com/docs/api/subscriptions/object#subscription_object-cancel_at_period_end
-  // However, a a forced immediate cancelation after a cancel_at_period_end update sets cancelAt to null
+  // An existent `cancel_at` implies `cancel_at_period_end` being true *for classic mode subs* https://stripe.com/docs/api/subscriptions/object#subscription_object-cancel_at_period_end
+  // (which we currently use)
+  // However, a forced immediate cancelation after a cancel_at_period_end update sets cancelAt to null
   'cancelAt',
   // https://stripe.com/docs/api/subscriptions/object#subscription_object-canceled_at
   // Careful: if cancelAt is set to a date beyond canceledAt, canceledAt means that
