@@ -28,7 +28,7 @@ const {
  * so it only gets deleted at a period's end.
  * This event should lead to the un-provisioning of a superfan.
  * https://stripe.com/docs/billing/subscriptions/cancel#events
- * @param {import('stripe').Stripe.CustomerSubscriptionDeletedEvent} event
+ * @param {Stripe.CustomerSubscriptionDeletedEvent} event
  * @param {EResponse} res
  */
 module.exports = async (event, res) => {

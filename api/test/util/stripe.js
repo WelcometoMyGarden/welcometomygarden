@@ -61,7 +61,7 @@ exports.createAndLinkTestClockCustomer = async function (locale) {
 /**
  *
  * @param {DocumentReference<UserPrivate>} usersPrivateRef firestore doc ref
- * @param {import('stripe').Stripe.Subscription} subscription stripe sub with expanded latestInvoice
+ * @param {Stripe.Subscription} subscription stripe sub with expanded latestInvoice
  */
 exports.linkSubscription = async function (usersPrivateRef, subscription) {
   // --> Calls the customer.subscription.created handler, but this one is not relevant for us
@@ -71,9 +71,7 @@ exports.linkSubscription = async function (usersPrivateRef, subscription) {
     [idKey]: subscription.id,
     [priceIdKey]: subscription.items.data[0].price.id,
     [statusKey]: subscription.status,
-    [latestInvoiceStatusKey]: /** @type {import('stripe').Stripe.Invoice} */ (
-      subscription.latest_invoice
-    ).status,
+    [latestInvoiceStatusKey]: /** @type {Stripe.Invoice} */ (subscription.latest_invoice).status,
     [startDateKey]: subscription.start_date,
     [currentPeriodStartKey]: currentPeriodStart,
     [currentPeriodEndKey]: currentPeriodEnd,
@@ -104,7 +102,7 @@ exports.pollForTestClockReady = async function (testClock) {
  * Authorizes a redirect-based test payment (e.g. iDEAL, Bancontact), like clicking
  * "Authorize Test Payment" on Stripe's test page. That page embeds its success URL in
  * a base64 JSON payload, so no browser is needed.
- * @param {import('stripe').Stripe.PaymentIntent} paymentIntent requiring a redirect_to_url action
+ * @param {Stripe.PaymentIntent} paymentIntent requiring a redirect_to_url action
  */
 exports.authorizeTestRedirect = async function (paymentIntent) {
   const url = paymentIntent.next_action?.redirect_to_url?.url;

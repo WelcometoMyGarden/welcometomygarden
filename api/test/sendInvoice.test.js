@@ -88,7 +88,7 @@ describe.skip('send_invoice', () => {
 
     // Confirm the send invoice payment
     let paymentIntent = await getInvoicePaymentIntent(
-      /** @type {import('stripe').Stripe.Invoice} */ (subscription.latest_invoice)
+      /** @type {Stripe.Invoice} */ (subscription.latest_invoice)
     );
 
     // Pay the first invoice
@@ -140,7 +140,7 @@ describe.skip('send_invoice', () => {
     //
     // Confirm the send invoice renewal payment
     paymentIntent = await getInvoicePaymentIntent(
-      /** @type {import('stripe').Stripe.Invoice} */ (subscription.latest_invoice)
+      /** @type {Stripe.Invoice} */ (subscription.latest_invoice)
     );
 
     console.log('Confirm renewal payment');

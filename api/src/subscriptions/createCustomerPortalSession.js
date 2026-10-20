@@ -5,7 +5,7 @@ const stripe = require('./stripe');
 
 /**
  * @param {FV2.CallableRequest<undefined>} request
- * @returns {Promise<import("stripe").Stripe.BillingPortal.Session>}
+ * @returns {Promise<Stripe.BillingPortal.Session>}
  */
 exports.createCustomerPortalSession = async (request) => {
   if (!request.auth) {

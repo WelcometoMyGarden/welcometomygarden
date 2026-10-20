@@ -18,7 +18,7 @@ const fail = require('../../util/fail');
  * Current only purpose handles sending the [WTMG] Renewal 7 days before - Automatic email
  * for WTMG (charge automatically)
  *
- * @param {import('stripe').Stripe.InvoiceUpcomingEvent} event
+ * @param {Stripe.InvoiceUpcomingEvent} event
  * @param {EResponse} res
  * @returns
  */
@@ -26,7 +26,7 @@ module.exports = async (event, res) => {
   logger.log('Handling invoice.upcoming', { eventId: event.id });
 
   // Note: The received Invoice object will not have an invoice ID.
-  /** @type {Omit<import('stripe').Stripe.Invoice, "id">} */
+  /** @type {Omit<Stripe.Invoice, "id">} */
   const invoice = event.data.object;
   if (!(await isWTMGInvoice(invoice))) {
     logger.log('Ignoring non-WTMG invoice', {});
@@ -92,9 +92,7 @@ module.exports = async (event, res) => {
       // NOTE: this will be the case if the the subscription was directly started
       // with sepa debit.
       last4 = paymentMethod.sepa_debit.last4;
-      const latestCharge = await getInvoiceLatestCharge(
-        /** @type {string} */ (sub.latest_invoice)
-      );
+      const latestCharge = await getInvoiceLatestCharge(/** @type {string} */ (sub.latest_invoice));
       if (!latestCharge) {
         res.status(500);
         return res.send('Could not retrieve a Charge for the latest subscription invoice');
@@ -112,10 +110,7 @@ module.exports = async (event, res) => {
 
       if (
         /** @type {string[]} */ (
-          /** @satisfies {(keyof import('stripe').Stripe.Charge.PaymentMethodDetails)[]} */ ([
-            'bancontact',
-            'ideal'
-          ])
+          /** @satisfies {(keyof Stripe.Charge.PaymentMethodDetails)[]} */ (['bancontact', 'ideal'])
         ).includes(generatingCharge.payment_method_details.type)
       ) {
         logger.debug(

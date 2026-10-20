@@ -21,7 +21,7 @@ module.exports = async (customerId) => {
   // Attempt 1: fetch from the Stripe metadata.
   // TODO: with strict null checks on, the narrowing of .deleted above does work.
   // without it, we need this cast
-  const customer = /** @type {import('stripe').Stripe.Customer} */ (stripeCustomer);
+  const customer = /** @type {Stripe.Customer} */ (stripeCustomer);
   if (customer.metadata?.wtmg_id) {
     return /** @type {string} */ (customer.metadata.wtmg_id);
   }

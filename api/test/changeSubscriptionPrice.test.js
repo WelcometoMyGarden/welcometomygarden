@@ -53,7 +53,7 @@ describe('changeSubscriptionPrice', () => {
     const subscription = await stripe.subscriptions.retrieve(second.subscriptionId, {
       expand: ['latest_invoice']
     });
-    const newInvoice = /** @type {import('stripe').Stripe.Invoice} */ (subscription.latest_invoice);
+    const newInvoice = /** @type {Stripe.Invoice} */ (subscription.latest_invoice);
     const normalPrice = await stripe.prices.retrieve(normalPriceId);
 
     // The new invoice charges the full new price, and references the real recurring price
