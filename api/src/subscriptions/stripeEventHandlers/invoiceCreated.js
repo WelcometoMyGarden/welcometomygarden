@@ -15,7 +15,7 @@ const {
  * Handles the `invoice.created` event from Stripe.
  * Only handles WTMG subscription renewal invoices, ignores other invoices.
  *
- * @param {import('stripe').Stripe.InvoiceCreatedEvent} event
+ * @param {Stripe.InvoiceCreatedEvent} event
  * @param {EResponse} res
  *
  */
@@ -40,7 +40,7 @@ module.exports = async (event, res) => {
   const uid = await getFirebaseUserId(/** @type {string} */ (invoice.customer));
 
   // Finalize the invoice
-  /** @type {import('stripe').Stripe.Invoice} */
+  /** @type {Stripe.Invoice} */
   let finalizedInvoice;
   try {
     finalizedInvoice = await stripe.invoices.finalizeInvoice(invoice.id);
@@ -58,9 +58,6 @@ module.exports = async (event, res) => {
     res.status(500);
     return res.send(msg);
   }
-  /**
-   * @type {import('stripe').Stripe.Subscription}
-   */
   const subscription = await stripe.subscriptions.retrieve(subscriptionId);
 
   // In case the subscription still has the type send_invoice, immediately set the current PaymentIntent up

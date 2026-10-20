@@ -393,7 +393,7 @@ describe('charge_automatically', () => {
     });
 
     const existingPaymentIntent = await getInvoicePaymentIntent(
-      /** @type {import('stripe').Stripe.Invoice} */ (subscription.latest_invoice)
+      /** @type {Stripe.Invoice} */ (subscription.latest_invoice)
     );
     const paymentIntent = await stripe.paymentIntents.update(existingPaymentIntent.id, {
       setup_future_usage: 'off_session',

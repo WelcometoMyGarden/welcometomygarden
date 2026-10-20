@@ -13,7 +13,7 @@ const stripe = require('./stripe');
  * In Basil, current_period_start/current_period_end moved off the Subscription
  * and onto each SubscriptionItem. We have a single item per WTMG subscription,
  * so we read it from the first item.
- * @param {import('stripe').Stripe.Subscription} subscription
+ * @param {Stripe.Subscription} subscription
  * @returns {{ currentPeriodStart: number | undefined, currentPeriodEnd: number | undefined }}
  */
 exports.getSubscriptionPeriod = (subscription) => {
@@ -31,7 +31,7 @@ exports.getSubscriptionPeriod = (subscription) => {
  *
  * Accepts an Invoice or the id-less Invoice shape delivered with the
  * `invoice.upcoming` webhook event — only the `parent` field is read.
- * @param {Pick<import('stripe').Stripe.Invoice, 'parent'>} invoice
+ * @param {Pick<Stripe.Invoice, 'parent'>} invoice
  * @returns {string | null}
  */
 exports.getInvoiceSubscriptionId = (invoice) => {
@@ -52,11 +52,11 @@ exports.getInvoiceSubscriptionId = (invoice) => {
  * Accepts an already-expanded invoice or fetches a fresh one with the right
  * expand path.
  *
- * @param {import('stripe').Stripe.Invoice | string} invoiceOrId
- * @returns {Promise<import('stripe').Stripe.PaymentIntent | null>}
+ * @param {Stripe.Invoice | string} invoiceOrId
+ * @returns {Promise<Stripe.PaymentIntent | null>}
  */
 exports.getInvoicePaymentIntent = async (invoiceOrId) => {
-  /** @type {import('stripe').Stripe.Invoice} */
+  /** @type {Stripe.Invoice} */
   let invoice;
   if (typeof invoiceOrId === 'string') {
     invoice = await stripe.invoices.retrieve(invoiceOrId, {
@@ -88,7 +88,7 @@ exports.getInvoicePaymentIntent = async (invoiceOrId) => {
  * `payments.data.payment.payment_intent`). We resolve the PaymentIntent with
  * `getInvoicePaymentIntent` and then fetch its `latest_charge` separately.
  * @param {string} invoiceId
- * @returns {Promise<import('stripe').Stripe.Charge | null>}
+ * @returns {Promise<Stripe.Charge | null>}
  */
 exports.getInvoiceLatestCharge = async (invoiceId) => {
   const pi = await exports.getInvoicePaymentIntent(invoiceId);
@@ -107,7 +107,7 @@ exports.getInvoiceLatestCharge = async (invoiceId) => {
  * The InvoicePayment list endpoint is the new way to map a PaymentIntent back
  * to its Invoice.
  * @param {string} paymentIntentId
- * @returns {Promise<import('stripe').Stripe.Invoice | null>}
+ * @returns {Promise<Stripe.Invoice | null>}
  */
 exports.getInvoiceForPaymentIntent = async (paymentIntentId) => {
   const invoicePayments = await stripe.invoicePayments.list({
@@ -127,7 +127,7 @@ exports.getInvoiceForPaymentIntent = async (paymentIntentId) => {
  *
  * Note: `unit_amount_decimal` is a string in Basil; in Dahlia (stripe-node v21+)
  * it can also be a Stripe.Decimal — both coerce cleanly with Number().
- * @param {import('stripe').Stripe.Invoice} invoice
+ * @param {Pick<Stripe.Invoice, 'lines'>} invoice
  * @returns {number | null}
  */
 exports.getInvoiceLineUnitAmount = (invoice) => {

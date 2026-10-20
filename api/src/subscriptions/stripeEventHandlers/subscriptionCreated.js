@@ -10,7 +10,7 @@ const { projectID } = require('firebase-functions/params');
 
 /**
  * Only sent when the subscription is created.
- * @param {import('stripe').Stripe.CustomerSubscriptionCreatedEvent} event
+ * @param {Stripe.CustomerSubscriptionCreatedEvent} event
  * @param {EResponse} res
  */
 module.exports = async (event, res) => {

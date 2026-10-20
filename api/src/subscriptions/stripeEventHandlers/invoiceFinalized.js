@@ -3,7 +3,7 @@ const { isWTMGInvoice } = require('./util');
 
 /**
  * Handles the `invoice.finalized` event from Stripe
- * @param {import('stripe').Stripe.InvoiceFinalizedEvent} event
+ * @param {Stripe.InvoiceFinalizedEvent} event
  * @param {EResponse} res
  */
 module.exports = async (event, res) => {

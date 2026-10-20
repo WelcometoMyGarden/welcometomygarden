@@ -3,11 +3,11 @@ const stripe = require('../stripe');
 /**
  * Gets the latest charge of a payment_intent event.
  * Returns null if none was found
- * @param {import('stripe').Stripe.Event} event
- * @returns {Promise<import('stripe').Stripe.Charge | null>}
+ * @param {Stripe.Event} event
+ * @returns {Promise<Stripe.Charge | null>}
  */
 exports.getLatestCharge = async (event) => {
-  const paymentIntent = /** @type {import('stripe').Stripe.PaymentIntent} */ (event.data.object);
+  const paymentIntent = /** @type {Stripe.PaymentIntent} */ (event.data.object);
 
   // https://docs.stripe.com/changelog/2022-11-15
   const usesOldCharges = /** @type {string} */ (event.api_version) < '2022-11-15';
@@ -24,7 +24,7 @@ exports.getLatestCharge = async (event) => {
   }
 
   /**
-   * @type {import('stripe').Stripe.Charge}
+   * @type {Stripe.Charge}
    */
   let latestCharge;
 
@@ -35,7 +35,7 @@ exports.getLatestCharge = async (event) => {
   const latestChargeId = paymentIntent.latest_charge;
 
   if (usesOldCharges) {
-    [latestCharge] = /** @type {import('stripe').Stripe.Charge[] | undefined} */ (
+    [latestCharge] = /** @type {Stripe.Charge[] | undefined} */ (
       // @ts-ignore
       paymentIntent.charges.data.sort((a, b) => b.created - a.created) || []
     );
