@@ -7,9 +7,14 @@ import type { Change as Ch } from 'firebase-functions';
 import type { DocumentData } from '@google-cloud/firestore';
 import type { MailDataRequired as MDR } from '@sendgrid/mail';
 import type { ScheduledEvent as SE } from 'firebase-functions/v2/scheduler';
+import type StripeModule from 'stripe';
 
 declare global {
   type EResponse = import('express').Response;
+
+  // All Stripe types, e.g. `Stripe.Invoice` or `Stripe.Subscription.Status`.
+  // Type-only: code that needs the runtime module still has to require('stripe').
+  export import Stripe = StripeModule;
 
   // Shortcuts to often-used types.
   //
@@ -271,10 +276,5 @@ ISO date strings
        */
       fetchContactDetails?: boolean;
     };
-  }
-
-  namespace Stripe {
-    type Subscription = import('stripe').Stripe.Subscription;
-    type Event = import('stripe').Stripe.Event;
   }
 }

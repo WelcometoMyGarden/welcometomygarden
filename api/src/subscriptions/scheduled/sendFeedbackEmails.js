@@ -74,11 +74,7 @@ exports.sendAutomaticRenewalFeedbackEmails = async () => {
   const query = usersPrivateCol()
     .where(collectionMethodKey, '==', 'charge_automatically')
     // The subscription status is "canceled"
-    .where(
-      statusKey,
-      '==',
-      /** @satisfies {import('stripe').Stripe.Subscription['status']}*/ ('canceled')
-    )
+    .where(statusKey, '==', /** @satisfies {Stripe.Subscription['status']}*/ ('canceled'))
     // Extract a one-hour window, of the sub being canceled exactly within one hour before 5 days ago,
     // end-inclusive
     .where(canceledAtKey, '<=', lxFeedbackThreshold.toSeconds())

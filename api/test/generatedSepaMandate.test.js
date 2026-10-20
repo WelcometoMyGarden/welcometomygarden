@@ -32,7 +32,7 @@ const { getInvoicePaymentIntent } = require('../src/subscriptions/basilCompat');
  * while waiting, because on a test clock settlement may also need the clock to move.
  * @template T
  * @param {() => Promise<T>} check
- * @param {import('stripe').Stripe.TestHelpers.TestClock} [testClock]
+ * @param {Stripe.TestHelpers.TestClock} [testClock]
  * @returns {Promise<NonNullable<T>>}
  */
 const pollUntil = async (check, testClock) => {
@@ -116,9 +116,7 @@ describe.skip('generated SEPA Debit mandates', () => {
         const { latest_charge, status } = await stripe.paymentIntents.retrieve(paymentIntentId, {
           expand: ['latest_charge']
         });
-        return (
-          status === 'succeeded' && /** @type {import('stripe').Stripe.Charge} */ (latest_charge)
-        );
+        return status === 'succeeded' && /** @type {Stripe.Charge} */ (latest_charge);
       });
       const { generated_sepa_debit, generated_sepa_debit_mandate } =
         charge.payment_method_details[type];

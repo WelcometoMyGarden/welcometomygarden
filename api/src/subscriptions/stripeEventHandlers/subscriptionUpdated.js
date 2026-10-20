@@ -29,7 +29,7 @@ const {
  *   -> NOTE: this behavior will change on September 9, 2026, see the Stripe email "Correction to subscription past-due timing"
  *   2) again when the payment is confirmed, because the status went back to "active" and now with setup_future_usage the default payment method is also set up.
  * Also sent whenever a subscription is changed. For example, adding a coupon, applying a discount, adding an invoice item, and changing plans all trigger this event.
- * @param {import('stripe').Stripe.CustomerSubscriptionUpdatedEvent} event
+ * @param {Stripe.CustomerSubscriptionUpdatedEvent} event
  * @param {EResponse} res
  */
 module.exports = async (event, res) => {
@@ -143,9 +143,7 @@ module.exports = async (event, res) => {
     }
 
     // A workaround re-assign to get the typecast to work more easily...
-    const customer = /** @type {import('stripe').Stripe.Customer & {lastResponse: any}} */ (
-      customerResponse
-    );
+    const customer = /** @type {Stripe.Customer & {lastResponse: any}} */ (customerResponse);
 
     const endDate = new Intl.DateTimeFormat(privateUserProfileData.communicationLanguage ?? 'en', {
       // 17 december 2024

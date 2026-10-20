@@ -43,7 +43,7 @@ exports.isRenewalPeriod = (startDate, currentPeriodStart) =>
   currentPeriodStart - startDate > 30 * oneDaySecs;
 
 /**
- * @param {Omit<import('stripe').Stripe.Invoice, "id">} invoice
+ * @param {Omit<Stripe.Invoice, "id">} invoice
  */
 exports.isWTMGInvoice = async (invoice) => {
   const { lines, amount_paid } = invoice;
@@ -80,7 +80,7 @@ exports.isWTMGInvoice = async (invoice) => {
 };
 
 /**
- * @param {import('stripe').Stripe.Subscription} subscription
+ * @param {Stripe.Subscription} subscription
  */
 exports.isWTMGSubscription = (subscription) => {
   const priceId = subscription.items.data[0].price.id;

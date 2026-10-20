@@ -17,14 +17,14 @@ module.exports = new Proxy(
         // Lazily initialize the client, becuase Firebase pre-deploy code analysis for parameters executes code in the global scope,
         // but it doesn't pick up environment variables.
         // TODO: we can also apply this approach to supabase
-        // @ts-ignore
         stripeClient = new Stripe(
           process.env.STRIPE_SECRET_KEY,
           // TODO: setting an apiVersion messes with forwarding of events to the Stripe CLI
           // at least of the form stripe listen --load-from-webhooks-api --forward-to http://127.0.0.1:5001/wtmg-dev/europe-west1/stripeWebhooks
           // See https://stripe.com/docs/api/versioning and https://docs.stripe.com/changelog/
           {
-            apiVersion: getStripeVersion()
+            // The SDK types only accept the API version the SDK was generated for, while ours is configurable.
+            apiVersion: /** @type {Stripe.StripeConfig['apiVersion']} */ (getStripeVersion())
           }
         );
       }
