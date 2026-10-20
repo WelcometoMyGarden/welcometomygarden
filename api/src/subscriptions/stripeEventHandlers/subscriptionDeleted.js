@@ -8,7 +8,7 @@ const {
 const removeUndefined = require('../../util/removeUndefined');
 const { stripeSubscriptionKeys } = require('../constants');
 const getFirebaseUserId = require('../getFirebaseUserId');
-const { isWTMGSubscription } = require('./util');
+const { isWTMGSubscription, isRenewalPeriod } = require('./util');
 const stripe = require('../stripe');
 const { projectID } = require('firebase-functions/params');
 const { getSubscriptionPeriod } = require('../basilCompat');
@@ -220,16 +220,16 @@ module.exports = async (event, res) => {
   if (
     // ... on a lapsed, unpaid renewal of a 'send_invoice' subscription.
     // Here we need to specifically avoid sending this email on a .deleted event resulting from an unpaid first invoice.
-    // (in that case, the billing reason would be subscription_create, orsubscription_update, and the periods should be aligned)
-    // NOTE: For send_invoice, 7 days after a renewal anchor, we first force-cancel the sub, then we force-void it's last invoice.
+    // (in that case, the billing reason would be subscription_create or subscription_update, and the sub would still be in its first period)
+    // NOTE: For send_invoice, 7 days after a renewal anchor, we first force-cancel the sub, then we force-void its last invoice.
     // Empirically: this will lead to its `cancellation_details.reason` to be "cancellation_requested"
     (subscription.collection_method === 'send_invoice' &&
-      currentPeriodStart !== startDate &&
+      isRenewalPeriod(startDate, currentPeriodStart) &&
       latestInvoice.billing_reason === 'subscription_cycle' &&
       subscription.cancellation_details.reason === 'cancellation_requested') ||
     // ... in the case of a charge_automatically subscription that ended after being cancelled by the user
     // NOTE: with our current setup, subscriptions are *never* created with charge_automatically (they are only converted after the first payment)
-    // There might only be one subscription_create invoice in this case, so we can not use the period_start & start_date comparison.
+    // There might only be one subscription_create invoice in this case, so we can not use the isRenewalPeriod() check.
     // So if no first payment comes in, none of the cases here will apply, which is what we want (no email).
     // TODO: this will probably also be sent after failed automatic payments in one year, do we want this?
     (subscription.collection_method === 'charge_automatically' &&

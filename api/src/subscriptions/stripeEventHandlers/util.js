@@ -1,6 +1,7 @@
 const { defineString } = require('firebase-functions/params');
 const stripe = require('../stripe');
 const { getInvoiceSubscriptionId } = require('../basilCompat');
+const { oneDaySecs } = require('../../util/time');
 
 const stripePriceIdReduced = defineString('STRIPE_PRICE_IDS_REDUCED');
 const stripePriceIdNormal = defineString('STRIPE_PRICE_IDS_NORMAL');
@@ -30,6 +31,18 @@ const isWTMGPriceId = (priceId) => wtmgPriceIds().includes(priceId);
 exports.isWTMGPriceId = isWTMGPriceId;
 
 /**
+ * Whether the current period of a subscription is a renewal period, rather than its first period.
+ *
+ * Don't compare the two timestamps for equality: the first period may start a bit later than
+ * the subscription itself, when its billing cycle anchor was reset by a price change shortly after
+ * creation (see changeSubscriptionPrice). Renewal periods start roughly a year after the start date.
+ * @param {number} startDate subscription start date, in epoch seconds
+ * @param {number} currentPeriodStart start of the current period, in epoch seconds
+ */
+exports.isRenewalPeriod = (startDate, currentPeriodStart) =>
+  currentPeriodStart - startDate > 30 * oneDaySecs;
+
+/**
  * @param {Omit<import('stripe').Stripe.Invoice, "id">} invoice
  */
 exports.isWTMGInvoice = async (invoice) => {
@@ -44,12 +57,12 @@ exports.isWTMGInvoice = async (invoice) => {
     return true;
   }
 
-  // Fallback: this could be a modified first invoice (see [one-off-invoice]
-  // in createOrRetrieveUnpaidSubscription.js — changeSubscriptionPrice deletes
-  // the auto-prorated lines and re-adds a single InvoiceItem with `unit_amount`,
-  // which makes Stripe attach a generated one-off Price that won't match our
-  // WTMG ids). In that case, the canonical sub price lives on the Subscription
-  // itself, reached via the new parent.subscription_details field.
+  // Fallback: an invoice line can carry a generated one-off Price that doesn't match
+  // our WTMG ids (e.g. for invoice items added with a custom amount). In that case,
+  // the canonical sub price lives on the Subscription itself, reached via the
+  // parent.subscription_details field. This occurred with a previous way in which
+  // we handled customers changing the subscription price while the original
+  // subscription was still incomplete.
   const subscriptionId = getInvoiceSubscriptionId(invoice);
   if (!subscriptionId) {
     return false;

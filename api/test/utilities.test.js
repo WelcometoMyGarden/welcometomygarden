@@ -23,3 +23,19 @@ describe('affectedKeys', () => {
     assert.deepEqual([], keys);
   });
 });
+
+describe('isRenewalPeriod', () => {
+  const { isRenewalPeriod } = require('../src/subscriptions/stripeEventHandlers/util');
+  const { oneDaySecs, oneHourSecs } = require('../src/util/time');
+  const startDate = 1_760_000_000;
+
+  it('is false when the first period starts at the subscription start', () => {
+    assert.equal(isRenewalPeriod(startDate, startDate), false);
+  });
+  it('is false when the first period was re-anchored shortly after the start', () => {
+    assert.equal(isRenewalPeriod(startDate, startDate + 23 * oneHourSecs), false);
+  });
+  it('is true for a period starting a year after the start', () => {
+    assert.equal(isRenewalPeriod(startDate, startDate + 365 * oneDaySecs), true);
+  });
+});

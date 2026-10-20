@@ -55,7 +55,7 @@ const MAIL_UPCOMING = 'subscriptionUpcomingRenewalEmail';
 const MAIL_THANK_YOU_AUTOMATIC = 'subscriptionRenewalAutomaticThankYouEmail';
 const MAIL_ALL_PAYMENTS_FAILED = 'subscriptionEndedPaymentsFailedEmail';
 
-describe.skip('charge_automatically', () => {
+describe('charge_automatically', () => {
   //
   // Allow long-running Stripe operations
   beforeEach(async () => {
@@ -80,6 +80,7 @@ describe.skip('charge_automatically', () => {
     const priceId = process.env.STRIPE_PRICE_IDS_REDUCED;
     // This by default finalizes the first invoice
     const subscription = await stripe.subscriptions.create({
+      billing_mode: { type: 'classic' },
       customer: customer.id,
       items: [{ price: priceId }],
       // FYI: this does not work, it presumably only works when creating paymentIntents
@@ -152,6 +153,7 @@ describe.skip('charge_automatically', () => {
     const priceId = process.env.STRIPE_PRICE_IDS_REDUCED;
     // This by default finalizes the first invoice
     const subscription = await stripe.subscriptions.create({
+      billing_mode: { type: 'classic' },
       customer: customer.id,
       items: [{ price: priceId }],
       default_payment_method: paymentMethod.id,
@@ -248,6 +250,7 @@ describe.skip('charge_automatically', () => {
     const priceId = process.env.STRIPE_PRICE_IDS_REDUCED;
     // This by default finalizes the first invoice
     const subscription = await stripe.subscriptions.create({
+      billing_mode: { type: 'classic' },
       customer: customer.id,
       items: [{ price: priceId }],
       default_payment_method: paymentMethod.id,
@@ -350,6 +353,7 @@ describe.skip('charge_automatically', () => {
     const priceId = process.env.STRIPE_PRICE_IDS_REDUCED;
     // This by default finalizes the first invoice
     const subscription = await stripe.subscriptions.create({
+      billing_mode: { type: 'classic' },
       customer: customer.id,
       items: [{ price: priceId }],
       payment_behavior: 'default_incomplete',
