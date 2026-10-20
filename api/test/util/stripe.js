@@ -99,3 +99,23 @@ exports.pollForTestClockReady = async function (testClock) {
   console.log('OK');
   return current;
 };
+
+/**
+ * Authorizes a redirect-based test payment (e.g. iDEAL, Bancontact), like clicking
+ * "Authorize Test Payment" on Stripe's test page. That page embeds its success URL in
+ * a base64 JSON payload, so no browser is needed.
+ * @param {import('stripe').Stripe.PaymentIntent} paymentIntent requiring a redirect_to_url action
+ */
+exports.authorizeTestRedirect = async function (paymentIntent) {
+  const url = paymentIntent.next_action?.redirect_to_url?.url;
+  if (!url) {
+    throw new Error(`PaymentIntent ${paymentIntent.id} has no redirect URL`);
+  }
+  const html = await (await fetch(url)).text();
+  const message = html.match(/id="payload" data-message="([^"]+)"/)?.[1];
+  if (!message) {
+    throw new Error('Could not find the payload on the Stripe test payment page');
+  }
+  const { redirect_url_success } = JSON.parse(Buffer.from(message, 'base64').toString());
+  await fetch(redirect_url_success);
+};

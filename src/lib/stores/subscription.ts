@@ -7,6 +7,7 @@ import { anchorText } from '$lib/util/translation-helpers';
 import routes from '$lib/routes';
 import { PlausibleEvent } from '$lib/types/Plausible';
 import { hasAnyNativePushRegistration } from '$lib/util/push-registrations';
+import { isRenewalPeriod } from '$lib/util/is-renewal-period';
 
 export const hasValidSubscription = derived(user, ($user) =>
   $user?.superfan
@@ -41,7 +42,7 @@ export const subscriptionJustEnded = derived(
     $user?.stripeSubscription != null &&
     $user.stripeSubscription.latestInvoiceStatus !== 'paid' &&
     // This is not the initial invoice
-    $user.stripeSubscription.currentPeriodStart !== $user.stripeSubscription.startDate &&
+    isRenewalPeriod($user.stripeSubscription) &&
     // It was at most 30 days since the last cycle ended
     nowSeconds() < $user.stripeSubscription.currentPeriodStart + 3600 * 24 * 30
 );

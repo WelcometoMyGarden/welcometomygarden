@@ -1,6 +1,7 @@
 const { usersPrivateCol } = require('../../collections');
 const { stripeSubscriptionKeys } = require('../constants');
 const { lxHourStart } = require('../../util/time');
+const { isRenewalPeriod } = require('../stripeEventHandlers/util');
 const { sendSubscriptionEndedFeedbackEmail } = require('../../mail');
 const { FEEDBACK_EMAIL_DAYS_AFTER_EXPIRY, processUserPrivateDocs } = require('./shared');
 
@@ -27,7 +28,6 @@ exports.sendManualRenewalFeedbackEmails = async () => {
 
   const { docs } = await query.get();
 
-  // todo: further filtering by startDate & currentPeriodStart to be sure
   const filteredDocs = docs.filter((doc) => {
     const sub = doc.data().stripeSubscription;
     return (
@@ -36,8 +36,7 @@ exports.sendManualRenewalFeedbackEmails = async () => {
       // Renewal invoice link exists (it should be created only upon renewal, so must exist)
       !!sub.renewalInvoiceLink &&
       // This is a renewal (2nd check)
-      // NOTE: this is not reliable, in case the cycle date was manually reset
-      sub.currentPeriodStart !== sub.startDate
+      isRenewalPeriod(sub.startDate, sub.currentPeriodStart)
     );
   });
 
