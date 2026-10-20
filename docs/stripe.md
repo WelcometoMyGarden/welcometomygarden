@@ -25,7 +25,8 @@ stripe login
 ```
 
 Then, refer webhook events to your local function emulators.
-**Note:** you need to run `stripe login` again to **switch the local listener to a different sandbox** (the CLI only supports one environment at a time).
+
+The Stripe CLI can only have one account active at the same time (e.g. sandbox, OR the live mode), but recently, you can log in to multiple accounts at the same time. Then use `stripe switch` to active the desired account.
 
 **⚠️ In case of taking over events from deployed webhook listeners**
 
@@ -45,6 +46,8 @@ stripe listen --events customer.subscription.created,customer.subscription.delet
 ```
 
 Make sure you forward events to the project name of the current Firebase project (`/wtmg-dev/` or `/demo-test`).
+
+**Versioning note:** this uses the account default API/event version by default, which can not be downgraded. Using the `listen` comand, you can also not specify a specific event version ([see issue](https://github.com/stripe/stripe-cli/issues/1335)), but by adding the `--latest` flag, you CAN test the latest version. If this ever becomes very necessary, then it is likely possible to set up a webhook endpoint with the desired version, and manually tunnel it to your local machine (e.g. via an SSH tunnel that listens on an external, internet-accessible server you can access).
 
 **Good to know**
 

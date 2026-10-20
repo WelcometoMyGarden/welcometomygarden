@@ -12,8 +12,8 @@
 // - a Stripe sandbox, with the Stripe CLI forwarding events to the local dev env
 // - mailpit (for email assertions)
 //
-// It can then be run from the /api folder by adding an .only to one of the .it()s here
-// with `mocha test/chargeAutomatically.test.js`
+// It can then be run from the /api folder by adding an .only to one of the .it()s here,
+// and removing the global .skip() on the describe with `mocha test/chargeAutomatically.test.js`
 //
 // Running the frontend is optional, and might be useful
 // For full front-end testing, refer to e2e tests.
@@ -191,7 +191,9 @@ describe.skip('charge_automatically', () => {
     await hasExactlyOneEmailWithQuery(MAIL_UPCOMING);
 
     console.log('Advancing test clock, trying to charge for renewal...');
-    const oneDayAfterRenewalPoint = DateTime.fromSeconds(subscription.items.data[0].current_period_end).plus({
+    const oneDayAfterRenewalPoint = DateTime.fromSeconds(
+      subscription.items.data[0].current_period_end
+    ).plus({
       days: 1
     });
     // Advance the test clock
@@ -490,7 +492,7 @@ describe.skip('charge_automatically', () => {
     // Check that the user is a superfan
     assert(
       (await db.collection('users').doc(user.uid).get()).data().superfan === false,
-      'superfan was not false after failed renewal'
+      'superfan was false after failed renewal'
     );
   }).timeout(0);
 });
