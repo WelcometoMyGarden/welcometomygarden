@@ -50,6 +50,8 @@ const generatePaymentIntent = async (subscription) => {
   // Automatic renewals: collect payment with the aim of future charges as well
   // This influences the copy shown in Payment Elements.
   // In case of Bancontact/iDEAL, the payment method details saved are SEPA details
+  // Note: I don't think we can use the new invoice.confirmation_secret here, because this update needs to happen regardless
+  // https://docs.stripe.com/api/invoices/object?api-version=2025-03-31.basil#invoice_object-confirmation_secret
   const paymentIntent = await stripe.paymentIntents.update(existingPaymentIntent.id, {
     setup_future_usage: 'off_session'
   });
@@ -99,7 +101,8 @@ const createNewSubscription = async (customerId, priceId, privateUserProfileDocR
       payment_method_types: ['bancontact', 'card', 'ideal', 'sepa_debit']
     },
     // When using 'send_invoice', invoices are not immediately finalized by Stripe (see below)
-    // Here we can only expand the invoice, and not `latest_invoice.payment_intent`.
+    // Before Basil, we empirically determined that we can only expand the invoice here, not further payment_intent properties
+    // (those are anyway pushed another layer down via the Invoice Payment array).
     expand: ['latest_invoice'],
     // Since mid Jan., 2025, we're converting all subscriptions (renewals or new payments) to charge_automatically
     // - Many users created before mid Jan. 2025 are on 'send_invoice' until they pay their next invoice.
@@ -149,7 +152,7 @@ const createNewSubscription = async (customerId, priceId, privateUserProfileDocR
 
 /**
  * Changes the price of a subscription with an unpaid first invoice (assumed input),
- * and returnts a subscription object with a finalized latest_invoice set to an invoice
+ * and returns a subscription object with a finalized latest_invoice set to an invoice
  * of the full amount of the new price.
  * @param {import('stripe').Stripe.Subscription} existingSubscription
  * @param {import('stripe').Stripe.Price} priceObject
