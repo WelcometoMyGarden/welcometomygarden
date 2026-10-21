@@ -100,6 +100,24 @@ exports.hasExactlyOneEmailWithQuery = async function (queryString, timeout = 200
 };
 
 /**
+ * Returns the SendGrid dynamic template data of the single email matching the query.
+ * Dev emails (see src/util/devMail.js) carry it as JSON in their text body.
+ * See https://mailpit.axllent.org/docs/api-v1/view.html#get-/api/v1/message/-ID-
+ * @param {string} queryString
+ * @returns {Promise<Record<string, unknown>>}
+ */
+exports.getEmailTemplateData = async function (queryString) {
+  const { messages } = await fetch(
+    `${process.env.LOCAL_EMAIL_HOST}/api/v1/search?query=${queryString}`
+  ).then((r) => r.json());
+  assert(Array.isArray(messages) && messages.length === 1, `${queryString} email not found`);
+  const { Text } = await fetch(
+    `${process.env.LOCAL_EMAIL_HOST}/api/v1/message/${messages[0].ID}`
+  ).then((r) => r.json());
+  return JSON.parse(Text).dynamicTemplateData;
+};
+
+/**
  * See https://mailpit.axllent.org/docs/api-v1/view.html#get-/api/v1/messages
  */
 exports.getEmails = async function () {
