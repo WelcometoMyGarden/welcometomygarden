@@ -34,7 +34,8 @@ const {
   hasExactlyOneEmailWithQuery,
   clearEmails,
   getEmails,
-  clearEmailsByQuery
+  clearEmailsByQuery,
+  getEmailTemplateData
 } = require('./util/util');
 const stripe = require('../src/subscriptions/stripe');
 
@@ -44,8 +45,13 @@ const { setTimeout } = require('node:timers/promises');
 const {
   createAndLinkTestClockCustomer,
   linkSubscription,
-  pollForTestClockReady
+  pollForTestClockReady,
+  authorizeTestRedirect,
+  pollUntil
 } = require('./util/stripe');
+const {
+  createOrRetrieveUnpaidSubscription
+} = require('../src/subscriptions/createOrRetrieveUnpaidSubscription');
 const { getInvoicePaymentIntent } = require('../src/subscriptions/basilCompat');
 const { db } = require('../seeders/app');
 const envIsTrue = require('../src/util/envIsTrue');
@@ -136,6 +142,142 @@ describe('charge_automatically', () => {
     assert(
       (await db.collection('users').doc(user.uid).get()).data().superfan === true,
       'superfan was not true after renewal'
+    );
+  }).timeout(0);
+
+  it('Happy path with SEPA: pays a first send_invoice invoice with Bancontact, converts to a generated SEPA Debit mandate, sends upcoming renewal email with mandate details, re-charges via SEPA, and sends thank you email', async () => {
+    let { user, customer, usersPrivateRef, testClock } = await createAndLinkTestClockCustomer();
+
+    // Create a send_invoice subscription, like the frontend does
+    console.log('Creating subscription...');
+    const priceId = /** @type {string} */ (process.env.STRIPE_PRICE_IDS_REDUCED);
+    const { subscriptionId, clientSecret } = await createOrRetrieveUnpaidSubscription(
+      /** @type {FV2.CallableRequest<{priceId: string, locale: string}>} */ (
+        /** @type {unknown} */ ({
+          auth: { uid: user.uid },
+          data: { priceId, locale: 'en' }
+        })
+      )
+    );
+    const paymentIntentId = /** @type {string} */ (clientSecret).split('_secret_')[0];
+
+    // Pay the first invoice with Bancontact, like the Payment Element would
+    await authorizeTestRedirect(
+      await stripe.paymentIntents.confirm(paymentIntentId, {
+        payment_method_data: {
+          type: 'bancontact',
+          billing_details: { name: `${customer.name} Test`, email: customer.email }
+        },
+        mandate_data: {
+          customer_acceptance: {
+            type: 'online',
+            online: { ip_address: '127.0.0.1', user_agent: 'mocha' }
+          }
+        },
+        return_url: 'https://example.com/return'
+      })
+    );
+
+    // The Bancontact charge generated a reusable SEPA Debit payment method and mandate
+    const charge = await pollUntil(async () => {
+      const { latest_charge, status } = await stripe.paymentIntents.retrieve(paymentIntentId, {
+        expand: ['latest_charge']
+      });
+      return status === 'succeeded' && /** @type {Stripe.Charge} */ (latest_charge);
+    });
+    const { generated_sepa_debit, generated_sepa_debit_mandate, iban_last4 } =
+      charge.payment_method_details.bancontact;
+    assert.match(/** @type {string} */ (generated_sepa_debit), /^pm_\w+$/);
+    assert.match(/** @type {string} */ (generated_sepa_debit_mandate), /^mandate_\w+$/);
+    assert.match(/** @type {string} */ (iban_last4), /^\d{4}$/);
+    const mandate = await stripe.mandates.retrieve(
+      /** @type {string} */ (generated_sepa_debit_mandate)
+    );
+    assert.strictEqual(mandate.type, 'multi_use');
+    assert.strictEqual(mandate.status, 'active');
+    assert.match(mandate.payment_method_details.sepa_debit.reference, /^[\w-]+$/);
+
+    // --> Calls the invoice.paid handler
+
+    // Check Mailpit for subscription confirmation
+    await hasExactlyOneEmailWithQuery(MAIL_CONFIRMATION);
+
+    // --> invoice.paid also switches the subscription to charge_automatically with the generated SEPA Debit pm
+    await pollUntil(
+      async () =>
+        (await usersPrivateRef.get()).data().stripeSubscription.collectionMethod ===
+        'charge_automatically'
+    );
+    const subscription = await stripe.subscriptions.retrieve(subscriptionId);
+    assert.strictEqual(subscription.collection_method, 'charge_automatically');
+    assert.strictEqual(subscription.default_payment_method, generated_sepa_debit);
+
+    console.log('Advancing to just before the next year...');
+    // Advance the test clock
+    testClock = await stripe.testHelpers.testClocks.advance(testClock.id, {
+      frozen_time: DateTime.fromSeconds(subscription.items.data[0].current_period_end)
+        .minus({ days: 4 })
+        .toSeconds()
+    });
+
+    testClock = await pollForTestClockReady(testClock);
+
+    // Check for the upcoming renewal email, which should describe the SEPA mandate
+    await hasExactlyOneEmailWithQuery(MAIL_UPCOMING);
+    if (!envIsTrue(process.env.SKIP_EMAIL_CHECK)) {
+      const templateData = await getEmailTemplateData(MAIL_UPCOMING);
+      const { secret } = (await usersPrivateRef.get()).data();
+      const price = await stripe.prices.retrieve(priceId);
+      assert.strictEqual(templateData.isSEPA, true);
+      assert.strictEqual(templateData.last4, iban_last4);
+      assert.strictEqual(
+        templateData.mandateReference,
+        mandate.payment_method_details.sepa_debit.reference
+      );
+      assert.strictEqual(templateData.price, price.unit_amount / 100);
+      assert.strictEqual(templateData.email, customer.email);
+      assert.strictEqual(templateData.secret, secret);
+    }
+
+    console.log('Advancing to 1 day after the renewal period');
+    // Advance the test clock
+    testClock = await stripe.testHelpers.testClocks.advance(testClock.id, {
+      frozen_time: DateTime.fromSeconds(subscription.items.data[0].current_period_end)
+        .plus({ days: 1 })
+        .toSeconds()
+    });
+    testClock = await pollForTestClockReady(testClock);
+
+    // The renewal is charged with the generated SEPA Debit payment method
+    // (SEPA settles asynchronously)
+    const renewalInvoice = await pollUntil(
+      async () =>
+        (await stripe.invoices.list({ subscription: subscriptionId })).data.find(
+          (invoice) => invoice.billing_reason === 'subscription_cycle' && invoice.status === 'paid'
+        ),
+      testClock
+    );
+    const renewalPaymentIntent = await getInvoicePaymentIntent(renewalInvoice.id);
+    assert.strictEqual(renewalPaymentIntent?.payment_method, generated_sepa_debit);
+
+    // Check for the thank you email
+    // (sent on payment_intent.processing for SEPA, and not again on invoice.paid)
+    await hasExactlyOneEmailWithQuery(MAIL_THANK_YOU_AUTOMATIC);
+
+    // Remove potential irrelevant email that pollutes the inbox
+    await clearEmailsByQuery('abandonedCartReminderEmail');
+    // Check that no other emails got sent
+    if (!envIsTrue(process.env.SKIP_EMAIL_CHECK)) {
+      assert((await getEmails()).length === 3, 'total number of emails is unexpected');
+    }
+
+    // Wait for handlers to finish after email
+    await setTimeout(2000);
+
+    // Check that the user is a superfan
+    assert(
+      (await db.collection('users').doc(user.uid).get()).data().superfan === true,
+      'superfan was not true after SEPA renewal'
     );
   }).timeout(0);
 

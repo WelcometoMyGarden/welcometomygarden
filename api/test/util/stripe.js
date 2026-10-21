@@ -117,3 +117,29 @@ exports.authorizeTestRedirect = async function (paymentIntent) {
   const { redirect_url_success } = JSON.parse(Buffer.from(message, 'base64').toString());
   await fetch(redirect_url_success);
 };
+
+/**
+ * Polls until check() returns a truthy value.
+ * SEPA payments settle asynchronously; when a test clock is given, it is nudged forward
+ * one hour while waiting, on each poll, for 30 polls max,
+ * because on a test clock settlement may also need the clock to move.
+ * @template T
+ * @param {() => Promise<T>} check
+ * @param {Stripe.TestHelpers.TestClock} [testClock]
+ * @returns {Promise<NonNullable<T>>}
+ */
+exports.pollUntil = async function (check, testClock) {
+  let clock = testClock;
+  for (let attempt = 0; attempt < 30; attempt++) {
+    const result = await check();
+    if (result) return result;
+    if (clock) {
+      clock = await stripe.testHelpers.testClocks.advance(clock.id, {
+        frozen_time: clock.frozen_time + 60 * 60
+      });
+      clock = await exports.pollForTestClockReady(clock);
+    }
+    await setTimeout(5000);
+  }
+  throw new Error('Timed out polling');
+};
