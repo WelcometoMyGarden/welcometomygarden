@@ -290,7 +290,8 @@ exports.createOrRetrieveUnpaidSubscription = async (request) => {
     // status: 'active',
     // Basil: `invoice.payment_intent` was removed; PaymentIntents are now reached
     // through `invoice.payments[].payment.payment_intent`.
-    // Stripe's 4-level expand limit means we can only go as deep as `payments` here.
+    // Stripe's 4-level expand limit means we can only go as deep as `payments` here,
+    // what we actuallly need is `data.latest_invoice.payments.data.payment_intent`.
     // To read the PaymentIntent itself we fetch it separately via getInvoicePaymentIntent.
     expand: ['data.latest_invoice.payments']
   });

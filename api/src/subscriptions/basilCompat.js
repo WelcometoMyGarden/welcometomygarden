@@ -68,14 +68,31 @@ exports.getInvoicePaymentIntent = async (invoiceOrId) => {
       expand: ['payments.data.payment.payment_intent']
     });
   } else {
+    // This invoice already has the right shape to get the payment intent
+    // we can not be sure if the payment intent ID is resolved though,
+    // that is done below. This happens in case of an incomplete existing
+    // subscription.
     invoice = invoiceOrId;
   }
   // Newest first per Stripe API ordering on lists.
   const piPayment = invoice.payments?.data?.find(
     (p) => p.payment?.type === 'payment_intent' && p.payment.payment_intent
   );
-  const pi = piPayment?.payment?.payment_intent;
-  if (!pi || typeof pi === 'string') return null;
+
+  // Fetch the full PaymentIntent if necessary
+  /**
+   * @type {Stripe.PaymentIntent}
+   */
+  let pi;
+  const piOrId = piPayment?.payment?.payment_intent;
+  if (!piOrId) {
+    return null;
+  } else if (typeof piOrId === 'string') {
+    pi = await stripe.paymentIntents.retrieve(piOrId);
+  } else {
+    // Already a full object
+    pi = piOrId;
+  }
   return pi;
 };
 
