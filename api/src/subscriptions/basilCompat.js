@@ -127,6 +127,8 @@ exports.getInvoiceForPaymentIntent = async (paymentIntentId) => {
  *
  * Note: `unit_amount_decimal` is a string in Basil; in Dahlia (stripe-node v21+)
  * it can also be a Stripe.Decimal — both coerce cleanly with Number().
+ * The type has a Pick<> because it should also support upcoming invoices without
+ * and ID yet. Those also have `lines`.
  * @param {Pick<Stripe.Invoice, 'lines'>} invoice
  * @returns {number | null}
  */
@@ -136,19 +138,4 @@ exports.getInvoiceLineUnitAmount = (invoice) => {
   if (decimal == null) return null;
   const n = Number(decimal);
   return Number.isFinite(n) ? n : null;
-};
-
-/**
- * Returns the client_secret to confirm payment on an invoice from the front-end.
- * In Basil this is exposed via the new `invoice.confirmation_secret` field (and
- * is no longer pulled from the embedded PaymentIntent).
- * https://docs.stripe.com/api/invoices/object#invoice_object-confirmation_secret
- * @param {string} invoiceId
- * @returns {Promise<string | null>}
- */
-exports.getInvoiceConfirmationClientSecret = async (invoiceId) => {
-  const invoice = await stripe.invoices.retrieve(invoiceId, {
-    expand: ['confirmation_secret']
-  });
-  return invoice.confirmation_secret?.client_secret ?? null;
 };
