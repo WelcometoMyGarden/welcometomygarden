@@ -12,17 +12,7 @@
     registrationLink: string;
   };
 
-  export const meetups: Meetup[] = [
-    {
-      id: 'eindhoven-2026',
-      // Use local time
-      date: new Date(2026, 10 - 1, 24),
-      hideAt: new Date(2026, 10 - 1, 24, 16, 0),
-      place: 'Eindhoven',
-      lnglat: [5.3587, 51.414003],
-      registrationLink: `https://meetup.welcometomygarden.org/eindhoven`
-    }
-  ];
+  export const meetups: Meetup[] = [];
 </script>
 
 <script lang="ts">
@@ -113,7 +103,10 @@
       $gardenLayerLoaded &&
       !$isUserLoading &&
       $hasLoaded &&
-      (!!$user?.garden || $user?.superfan)
+      // Only load for hosts or members
+      (!!$user?.garden || $user?.superfan) &&
+      // Only load when there are meetups überhaupt
+      meetups.length > 0
     ) {
       Promise.all(
         [
