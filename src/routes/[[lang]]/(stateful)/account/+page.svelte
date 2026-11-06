@@ -256,35 +256,6 @@
         </section>
       {/if}
       <section>
-        <h2>{$_('account.preferences.title')}</h2>
-        <p>{$_('account.preferences.text')}</p>
-        <ul class="preference-list">
-          <li>
-            <input
-              disabled={$updatingMailPreferences}
-              type="checkbox"
-              id="new-chat"
-              name="newChat"
-              checked={$user.emailPreferences.newChat}
-              onchange={onMailPreferenceChanged}
-            />
-            <label for="new-chat">{$_('account.preferences.chat')}</label>
-          </li>
-          <li>
-            <input
-              disabled={$updatingMailPreferences}
-              type="checkbox"
-              id="news"
-              name="news"
-              checked={$user.emailPreferences.news}
-              onchange={onMailPreferenceChanged}
-            />
-            <label for="news">{@html $_('account.preferences.news')}</label>
-          </li>
-        </ul>
-      </section>
-      <NotificationSection />
-      <section>
         <h2>{$_('account.garden.title')}</h2>
         {#if !$user.garden}
           <p class="description">{$_('account.garden.unlisted.text')}</p>
@@ -315,6 +286,35 @@
           <p class="mb-m">{$_('account.garden.unverified.text')}</p>
         {/if}
       </section>
+      <section>
+        <h2>{$_('account.preferences.title')}</h2>
+        <p>{$_('account.preferences.text')}</p>
+        <ul class="preference-list">
+          <li>
+            <input
+              disabled={$updatingMailPreferences}
+              type="checkbox"
+              id="new-chat"
+              name="newChat"
+              checked={$user.emailPreferences.newChat}
+              onchange={onMailPreferenceChanged}
+            />
+            <label for="new-chat">{$_('account.preferences.chat')}</label>
+          </li>
+          <li>
+            <input
+              disabled={$updatingMailPreferences}
+              type="checkbox"
+              id="news"
+              name="news"
+              checked={$user.emailPreferences.news}
+              onchange={onMailPreferenceChanged}
+            />
+            <label for="news">{@html $_('account.preferences.news')}</label>
+          </li>
+        </ul>
+      </section>
+      <NotificationSection />
       <section class="delete-account">
         <h2>{$_('account.delete.button-action')}</h2>
         <p class="description">{$_('account.delete.intro')}</p>
