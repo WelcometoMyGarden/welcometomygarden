@@ -189,8 +189,6 @@
   }
   .trash :global(button i svg) {
     fill: var(--color-orange);
-    stroke: var(--color-danger);
-    color: var(--color-danger);
   }
 
   .device-name {
