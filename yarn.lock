@@ -210,12 +210,12 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@capacitor/android@npm:^8.5.0":
-  version: 8.5.0
-  resolution: "@capacitor/android@npm:8.5.0"
+"@capacitor/android@npm:^8.5.1":
+  version: 8.5.1
+  resolution: "@capacitor/android@npm:8.5.1"
   peerDependencies:
     "@capacitor/core": ^8.5.0
-  checksum: 10/1c56f09d4a300f5522bdb68ce45dec97ba0e334a295056db3eeff2597f16615e73d70737b683740a08392c0a217f2d103af9fabdbcf0b48ec41f1300240345d9
+  checksum: 10/12e5f6563f52c0922eaf2a379f3aa76737851e5ac036ef033a53abb1c5f0d94ef793b2fc2122d10de7dcc42b0d0ec8f85cc7e1fbafc1adfa1dd787513c31b6d7
   languageName: node
   linkType: hard
 
@@ -13801,7 +13801,7 @@ __metadata:
   resolution: "welcome-to-my-garden@workspace:."
   dependencies:
     "@capacitor-community/safe-area": "npm:^8.0.1"
-    "@capacitor/android": "npm:^8.5.0"
+    "@capacitor/android": "npm:^8.5.1"
     "@capacitor/app": "npm:^8.1.1"
     "@capacitor/assets": "npm:^3.0.5"
     "@capacitor/cli": "npm:^8.5.0"
