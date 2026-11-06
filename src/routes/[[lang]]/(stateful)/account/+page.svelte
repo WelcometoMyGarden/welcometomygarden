@@ -315,7 +315,7 @@
           <p class="mb-m">{$_('account.garden.unverified.text')}</p>
         {/if}
       </section>
-      <section>
+      <section class="delete-account">
         <h2>{$_('account.delete.button-action')}</h2>
         <p class="description">{$_('account.delete.intro')}</p>
         <Button xxsmall onclick={() => (showAccountDeletionModal = true)}
@@ -444,6 +444,34 @@
   }
   .description {
     margin-bottom: 1rem;
+  }
+
+  .delete-account {
+    border-top: 1px solid var(--color-gray);
+    padding-top: 4rem;
+  }
+
+  /* Outlined orange button that fills on hover.
+     The doubled class raises specificity above Button's own scoped styles. */
+  .delete-account :global(.button.button) {
+    background-color: var(--color-white);
+    color: var(--color-orange);
+    border: 1px solid var(--color-orange);
+    border-radius: 0.6rem;
+    padding: 0.9rem 2.4rem;
+    transition:
+      background-color 200ms ease-in-out,
+      color 200ms ease-in-out;
+  }
+  .delete-account :global(.button.button .btn-text) {
+    font-size: 1.6rem;
+    font-weight: 500;
+  }
+  .delete-account :global(.button.button:hover),
+  .delete-account :global(.button.button:focus-visible) {
+    background-color: var(--color-orange);
+    border-color: var(--color-orange);
+    color: var(--color-white);
   }
 
   .resend-verification {
