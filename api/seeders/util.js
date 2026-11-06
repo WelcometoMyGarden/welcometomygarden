@@ -51,7 +51,8 @@ exports.createNewUser = async (authProps, callableProps) => {
       consentedAt: FieldValue.serverTimestamp(),
       emailPreferences: {
         newChat: true,
-        news: true
+        news: true,
+        ...(callableProps.emailPreferences ?? {})
       }
     });
 

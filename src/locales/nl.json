@@ -593,7 +593,12 @@
       "title": "E-mail voorkeuren",
       "text": "Stuur me een e-mail wanneer:",
       "chat": "Ik een nieuw chatbericht ontvang",
-      "news": "<span class=\"notranslate\">Welcome To My Garden</span> nieuws wil delen"
+      "news": "<span class=\"notranslate\">Welcome To My Garden</span> nieuws wil delen",
+      "chat-required": {
+        "title": "Mobiele meldingen vereist",
+        "description": "Om de responsiviteit en bereikbaarheid van zowel hosts als reizigers op <span class=\"notranslate\">Welcome To My Garden</span> te garanderen, kan je e-mailmeldingen voor nieuwe chatberichten enkel uitschakelen als mobiele meldingen aan staan.",
+        "install": "Installeer de app om mobiele meldingen aan te zetten:"
+      }
     },
     "garden": {
       "title": "Jouw tuin",

@@ -102,8 +102,11 @@ exports.onMessageCreate = async ({ data: snap, params }) => {
 
   // Determine whether an email should be sent,
   // based on user preferences + recency
+  //
+  // Note: `newChat` defaults to true, and it can only be turned off while the user has an
+  // active mobile push registration (enforced in the frontend). Treat a missing preference as opted-in.
   /** @type {boolean} */
-  let shouldNotifyEmail = recipientEmailPreferences.newChat || true;
+  let shouldNotifyEmail = recipientEmailPreferences?.newChat !== false;
   if (shouldNotifyEmail && unreadDoc.exists) {
     const unread = unreadDoc.data();
     const nowDate = new Date();
