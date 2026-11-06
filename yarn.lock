@@ -345,12 +345,12 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@capacitor/ios@npm:^8.5.0":
-  version: 8.5.0
-  resolution: "@capacitor/ios@npm:8.5.0"
+"@capacitor/ios@npm:^8.5.1":
+  version: 8.5.1
+  resolution: "@capacitor/ios@npm:8.5.1"
   peerDependencies:
     "@capacitor/core": ^8.5.0
-  checksum: 10/ddd66747aecd1c16c8480e04c95808d2aa640174681703d8197f2a4d3dad4769a8dac1d054d33144fad5c47c4ba58e7e0e78dfcc60208e3cbe2853362ebf88ef
+  checksum: 10/f49d46d1a52de7e7c6a311905c634818edb7f4802d08bf05087129514ea310f19d07204e47051ca4bb2217ddaaa9026b8697f87eda8ce5626b2eae3d0b32d433
   languageName: node
   linkType: hard
 
@@ -13809,7 +13809,7 @@ __metadata:
     "@capacitor/device": "npm:^8.0.3"
     "@capacitor/geolocation": "npm:8.2.2"
     "@capacitor/inappbrowser": "npm:2.5.5"
-    "@capacitor/ios": "npm:^8.5.0"
+    "@capacitor/ios": "npm:^8.5.1"
     "@capacitor/local-notifications": "npm:^8.3.1"
     "@capacitor/network": "npm:^8.0.1"
     "@capacitor/push-notifications": "npm:^8.1.2"
