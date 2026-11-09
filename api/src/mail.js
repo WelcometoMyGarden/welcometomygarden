@@ -203,7 +203,6 @@ exports.sendWelcomeEmail = ({ email, firstName, language, secret }) => {
  * Sent by the `relistGardens` scheduled function when a temporarily unlisted garden is
  * automatically put back on the map on its chosen return date.
  *
- * TODO: replace the placeholder template IDs below with the real SendGrid Dynamic Template IDs.
  * @param {EmailConfig & SecretConfig} config
  */
 exports.sendGardenRelistedEmail = ({ email, firstName, language, secret }) => {
@@ -571,60 +570,10 @@ exports.sendAbandonedCartReminderEmail = async ({ email, firstName, language, se
 /** @typedef {Omit<SubscriptionRenewalConfig, "renewalLink"> & {portalLink: string}} AutomaticRenewalConfig */
 
 /**
- * This is the first email that informs members that they can renew.
- *
- * In SendGrid: [WTMG] Renewal 7 days before - Manual
- * (called as such because we give send_invoice renewals 7 days leeway for manual ren)
- *
- * @param {SubscriptionRenewalConfig} config
- * @returns
- */
-exports.sendSubscriptionRenewalEmail = async (config) => {
-  const { email, firstName, price, renewalLink, language, secret } = config;
-  let templateId;
-  switch (language) {
-    case 'fr':
-      templateId = 'd-97e7ad7457d14f348833cb32a6143e33';
-      break;
-    case 'nl':
-      templateId = 'd-8efa4a0675c14098b9acd2d747e4db74';
-      break;
-    default:
-      templateId = 'd-77f6b26edb374b4197bdd30e2aafda03';
-      break;
-  }
-
-  /**
-   * @satisfies {SendGrid.MailDataRequired}
-   */
-  const msg = {
-    to: email,
-    from: SUPPORT_FROM,
-    templateId,
-    dynamicTemplateData: {
-      ...firstNameProps(firstName),
-      price,
-      renewalLink,
-      secret,
-      email
-    },
-    categories: ['Subscription renewal email']
-  };
-
-  if (!canSendMail()) {
-    devSend(msg, 'subscriptionRenewalEmail');
-    return Promise.resolve();
-  }
-
-  return send(msg, true);
-};
-
-/**
  * This is the first email that informs members on charge_automatically that a renewal is upcoming.
  * The timing is set in Stripe's dashboard.
  *
  * In SendGrid: [WTMG] Renewal 7 days before - Automatic
- * (called as such because we give send_invoice renewals 7 days leeway for manual ren)
  *
  * @param {AutomaticRenewalConfig & {isSEPA: boolean, last4?: string, mandateReference?: string}} config
  * @returns
@@ -671,51 +620,6 @@ exports.sendSubscriptionUpcomingRenewalEmail = async (config) => {
   }
 
   return send(msg, true);
-};
-
-/**
- * In SendGrid: [WTMG] Renewal 2 days before - Manual
- * @param {SubscriptionRenewalConfig} config
- * @returns
- */
-exports.sendSubscriptionRenewalReminderEmail = async (config) => {
-  const { email, firstName, renewalLink, language, price, secret } = config;
-  let templateId;
-  switch (language) {
-    case 'fr':
-      templateId = 'd-8ea6f695b5614d8199aab6c0f42602f1';
-      break;
-    case 'nl':
-      templateId = 'd-f76d5ce57c6c48e3bf1db925f16d7a0b';
-      break;
-    default:
-      templateId = 'd-ff6078d95b984130ba2e2512f77cbdba';
-      break;
-  }
-
-  /**
-   * @satisfies {SendGrid.MailDataRequired}
-   */
-  const msg = {
-    to: email,
-    from: SUPPORT_FROM,
-    templateId,
-    dynamicTemplateData: {
-      ...firstNameProps(firstName),
-      renewalLink,
-      price,
-      secret,
-      email
-    },
-    categories: ['Subscription renewal reminder email']
-  };
-
-  if (!canSendMail()) {
-    devSend(msg, 'subscriptionRenewalReminderEmail');
-    return Promise.resolve();
-  }
-
-  return send(msg);
 };
 
 /**
@@ -802,53 +706,6 @@ exports.sendSubscriptionAllPaymentsFailedEmail = async ({ email, firstName, lang
 
   if (!canSendMail()) {
     devSend(msg, 'subscriptionEndedPaymentsFailedEmail');
-    return Promise.resolve();
-  }
-
-  return send(msg, true);
-};
-
-/**
- * In SendGrid: [WTMG] Renewal Thank You - Manual
- * @param {EmailConfig & SecretConfig} config
- * @returns
- */
-exports.sendSubscriptionManualRenewalThankYouEmail = async ({
-  email,
-  firstName,
-  language,
-  secret
-}) => {
-  let templateId;
-  switch (language) {
-    case 'fr':
-      templateId = 'd-180e7b9764c64552a5f9715606432858';
-      break;
-    case 'nl':
-      templateId = 'd-04a338e3ecee43a1bf2a941a9b39ffdb';
-      break;
-    default:
-      templateId = 'd-bda2656ade9a4efd97650ed9df43de39';
-      break;
-  }
-
-  /**
-   * @satisfies {SendGrid.MailDataRequired}
-   */
-  const msg = {
-    to: email,
-    from: SUPPORT_FROM,
-    templateId,
-    dynamicTemplateData: {
-      ...firstNameProps(firstName),
-      secret,
-      email
-    },
-    categories: ['Subscription renewal Thank You email']
-  };
-
-  if (!canSendMail()) {
-    devSend(msg, 'subscriptionRenewalThankYouEmail');
     return Promise.resolve();
   }
 

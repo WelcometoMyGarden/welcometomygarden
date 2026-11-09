@@ -16,11 +16,7 @@
   import EmailChangeModal from './EmailChangeModal.svelte';
   import { countryNames } from '$lib/stores/countryNames';
   import NotificationSection from './NotificationSection.svelte';
-  import {
-    hasAutoRenewingSubscription,
-    canPayRenewalInvoice,
-    hasValidSubscription
-  } from '$lib/stores/subscription';
+  import { hasAutoRenewingSubscription, hasValidSubscription } from '$lib/stores/subscription';
   import { onMount } from 'svelte';
   import { createCustomerPortalSession } from '$lib/api/functions';
   import { coercedLocale } from '$lib/stores/app';
@@ -97,20 +93,12 @@
    */
   function invalidMembershipAction() {
     if (
-      $user!.stripeSubscription?.collectionMethod !== 'charge_automatically' &&
-      $canPayRenewalInvoice
-    ) {
-      // For send_invoice subs that are still in their renewal window.
-      //
-      // this could technically be used in charge_automatically too,
-      // but we want to offer people the option of cancelling their
-      // charge_automatically sub in the portal
-      window.open($user?.stripeSubscription?.renewalInvoiceLink, '_blank');
-    } else if (
       $user!.stripeSubscription?.collectionMethod === 'charge_automatically' &&
       $user!.stripeSubscription.latestInvoiceStatus === 'open'
     ) {
-      // For charge_automatically subs that are still in their renewal window
+      // For charge_automatically subs that are still in their renewal window, open the portal
+      // because this includes ways to update your payment method for the subscription (and it's
+      // not just a one-off invoice)
       if (customerPortalLink) {
         window.open(customerPortalLink, '_blank');
       } else {
@@ -189,16 +177,6 @@
                     )
                   }
                 })}
-              {:else}
-                <!-- In the send_invoice case -->
-                ✅ {$_('account.superfan.valid', {
-                  values: {
-                    date: formatDate(
-                      $coercedLocale,
-                      new Date($user.stripeSubscription?.currentPeriodEnd * 1000)
-                    )
-                  }
-                })}
               {/if}
             </p>
             {#if $hasAutoRenewingSubscription}
@@ -232,6 +210,7 @@
               {#if $user.stripeSubscription.collectionMethod === 'charge_automatically' && $user.stripeSubscription.latestInvoiceStatus === 'open'}
                 {$_('account.superfan.charge-automatically.update-payment-method')}
               {:else}
+                <!-- Normally should not appear anymore, we don't have send_invoice subscriptions anymore -->
                 {$_('account.superfan.renew-btn-text')}
               {/if}
             </Button>

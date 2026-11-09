@@ -2,7 +2,6 @@ const { logger } = require('firebase-functions/v2');
 const getFirebaseUserId = require('../getFirebaseUserId');
 const {
   sendSubscriptionConfirmationEmail,
-  sendSubscriptionManualRenewalThankYouEmail,
   sendSubscriptionAutomaticRenewalThankYouEmail
 } = require('../../mail');
 const { stripeSubscriptionKeys } = require('../constants');
@@ -127,10 +126,13 @@ module.exports = async (event, res) => {
       secret: privateUserProfileData.secret
     };
     if (privateUserProfileData.stripeSubscription.collectionMethod !== 'charge_automatically') {
-      logger.log(
-        `Sending subscription manual renewal thank you email to ${uid} <${invoice.customer_email}>`
+      logger.error(
+        `A renewal payment intent is processing on a send_invoice subscription, this should not be possible anymore`,
+        {
+          uid,
+          invoiceId: invoice.id
+        }
       );
-      await sendSubscriptionManualRenewalThankYouEmail(emailConfig);
     } else {
       logger.log(
         `Sending subscription automatic renewal thank you email to ${uid} <${invoice.customer_email}>`

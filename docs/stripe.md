@@ -39,10 +39,10 @@ Run:
 ```sh
 
 # For demo-test
-stripe listen --events customer.subscription.created,customer.subscription.deleted,customer.subscription.updated,invoice.finalized,invoice.created,invoice.paid,invoice.upcoming,payment_intent.processing,payment_intent.payment_failed --forward-to http://127.0.0.1:5001/demo-test/europe-west1/handleStripeWebhookV2
+stripe listen --events customer.subscription.created,customer.subscription.deleted,customer.subscription.updated,invoice.created,invoice.paid,invoice.upcoming,payment_intent.processing,payment_intent.payment_failed --forward-to http://127.0.0.1:5001/demo-test/europe-west1/handleStripeWebhookV2
 
 # For wtmg-dev / staging
-stripe listen --events customer.subscription.created,customer.subscription.deleted,customer.subscription.updated,invoice.finalized,invoice.created,invoice.paid,invoice.upcoming,payment_intent.processing,payment_intent.payment_failed --forward-to http://127.0.0.1:5001/wtmg-dev/europe-west1/handleStripeWebhookV2
+stripe listen --events customer.subscription.created,customer.subscription.deleted,customer.subscription.updated,invoice.created,invoice.paid,invoice.upcoming,payment_intent.processing,payment_intent.payment_failed --forward-to http://127.0.0.1:5001/wtmg-dev/europe-west1/handleStripeWebhookV2
 ```
 
 Make sure you forward events to the project name of the current Firebase project (`/wtmg-dev/` or `/demo-test`).

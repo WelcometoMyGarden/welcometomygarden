@@ -8,7 +8,7 @@ const {
 const removeUndefined = require('../../util/removeUndefined');
 const { stripeSubscriptionKeys } = require('../constants');
 const getFirebaseUserId = require('../getFirebaseUserId');
-const { isWTMGSubscription, isRenewalPeriod } = require('./util');
+const { isWTMGSubscription } = require('./util');
 const stripe = require('../stripe');
 const { projectID } = require('firebase-functions/params');
 const { getSubscriptionPeriod } = require('../basilCompat');
@@ -39,7 +39,7 @@ module.exports = async (event, res) => {
     return res.sendStatus(200);
   }
 
-  const { customer, start_date: startDate } = subscription;
+  const { customer } = subscription;
   const { currentPeriodStart, currentPeriodEnd } = getSubscriptionPeriod(subscription);
 
   // Ignore some situations
@@ -216,25 +216,16 @@ module.exports = async (event, res) => {
     secret: privateUserProfileData?.secret
   };
 
-  // Inform the user that their subscription has ended *naturally*...
+  // Inform the user that their charge_automatically subscription has ended *naturally*
+  // after being cancelled by the user
   if (
-    // ... on a lapsed, unpaid renewal of a 'send_invoice' subscription.
-    // Here we need to specifically avoid sending this email on a .deleted event resulting from an unpaid first invoice.
-    // (in that case, the billing reason would be subscription_create or subscription_update, and the sub would still be in its first period)
-    // NOTE: For send_invoice, 7 days after a renewal anchor, we first force-cancel the sub, then we force-void its last invoice.
-    // Empirically: this will lead to its `cancellation_details.reason` to be "cancellation_requested"
-    (subscription.collection_method === 'send_invoice' &&
-      isRenewalPeriod(startDate, currentPeriodStart) &&
-      latestInvoice.billing_reason === 'subscription_cycle' &&
-      subscription.cancellation_details.reason === 'cancellation_requested') ||
-    // ... in the case of a charge_automatically subscription that ended after being cancelled by the user
     // NOTE: with our current setup, subscriptions are *never* created with charge_automatically (they are only converted after the first payment)
-    // There might only be one subscription_create invoice in this case, so we can not use the isRenewalPeriod() check.
+    // There will only be one subscription_create invoice in this case, so we can not use the isRenewalPeriod() check.
     // So if no first payment comes in, none of the cases here will apply, which is what we want (no email).
     // TODO: this will probably also be sent after failed automatic payments in one year, do we want this?
-    (subscription.collection_method === 'charge_automatically' &&
-      subscription.cancellation_details.reason === 'cancellation_requested' &&
-      latestInvoice.status === 'paid')
+    subscription.collection_method === 'charge_automatically' &&
+    subscription.cancellation_details.reason === 'cancellation_requested' &&
+    latestInvoice.status === 'paid'
     // The sub's current period end is within 31 days of now.
     // This is an extra check that this is a "natural end" of the sub, i.e. that
     // no new invoice was created that ends in the future and is currently unpaid
@@ -242,8 +233,7 @@ module.exports = async (event, res) => {
     // && Math.abs(subscription.current_period_end - nowSecs()) < 31 * oneDaySecs)
   ) {
     logger.log(
-      'The deleted sub was a lapsed send_invoice subscription renewal ' +
-        'or previously canceled charge_automatically subscription, sending the subscriptionEnded email'
+      'The deleted sub was a previously canceled charge_automatically subscription, sending the subscriptionEnded email'
     );
     await sendSubscriptionEndedEmail(emailConfig);
   }

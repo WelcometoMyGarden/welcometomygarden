@@ -2,7 +2,6 @@ const { logger } = require('firebase-functions');
 const { defineString } = require('firebase-functions/params');
 const stripe = require('./stripe');
 const fail = require('../util/fail');
-const invoiceFinalized = require('./stripeEventHandlers/invoiceFinalized');
 const invoicePaid = require('./stripeEventHandlers/invoicePaid');
 const subscriptionUpdated = require('./stripeEventHandlers/subscriptionUpdated');
 const subscriptionDeleted = require('./stripeEventHandlers/subscriptionDeleted');
@@ -86,15 +85,9 @@ exports.stripeWebhookHandler = async (req, res) => {
   // https://stripe.com/docs/billing/subscriptions/overview
   // Remove comment to see the various objects sent for this sample
   switch (event.type) {
-    case 'invoice.finalized':
-      await invoiceFinalized(event, res);
-      return;
     case 'invoice.created':
       await invoiceCreated(event, res);
       return;
-    case 'invoice.finalization_failed':
-      // TODO ?
-      break;
     case 'payment_intent.processing':
       await paymentIntentProcessing(event, res);
       return;
@@ -109,15 +102,6 @@ exports.stripeWebhookHandler = async (req, res) => {
       // The number of days is based on the number set for Upcoming renewal events in the Dashboard. You can still add extra invoice items, if needed.
       await invoiceUpcoming(event, res);
       return;
-    case 'invoice.payment_failed':
-      // TODO: does this apply to send_invoice? Don't think so
-      // If the payment fails or the customer does not have a valid payment method,
-      //  an invoice.payment_failed event is sent, the subscription becomes past_due.
-      // Use this webhook to notify your user that their payment has
-      // failed and to retrieve new card details.
-      // Don't forget to change the webhook event config too.
-      // TODO: also handle marked_uncollectible?
-      break;
     case 'customer.subscription.deleted':
       await subscriptionDeleted(event, res);
       return;
@@ -129,7 +113,8 @@ exports.stripeWebhookHandler = async (req, res) => {
       await subscriptionUpdated(event, res);
       return;
     default:
-    // Unexpected event type
+      // Unexpected event type
+      logger.warn(`Unexpected event type: ${event.type}`);
   }
   res.sendStatus(200);
   return;

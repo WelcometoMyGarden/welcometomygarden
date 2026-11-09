@@ -39,7 +39,7 @@ type StripeSubscription = {
   /**
    * @since dec 2024
    * If set, it should only be set to 'charge_automatically'. Undefined means that the old default
-   * 'send_invoice' is still in place.
+   * 'send_invoice' is still in place (or used to apply).
    */
   collectionMethod: Stripe.Subscription.CollectionMethod | undefined;
 };

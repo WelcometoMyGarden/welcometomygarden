@@ -28,7 +28,6 @@
     "busboy": "^1.6.0",
     "dotenv": "^18.0.8",
     "email-reply-parser": "^2.3.9",
-    "es6-promise-pool": "^2.5.0",
     "firebase-admin": "^14.5.0",
     "firebase-functions": "^7.4.0",
     "google-auth-library": "^11.3.0",

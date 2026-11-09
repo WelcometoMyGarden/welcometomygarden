@@ -3290,13 +3290,6 @@ __metadata:
   languageName: node
   linkType: hard
 
-"es6-promise-pool@npm:^2.5.0":
-  version: 2.5.0
-  resolution: "es6-promise-pool@npm:2.5.0"
-  checksum: 10/57ca5e23c1b61911bbe0dd1b206642f8e5130d35138e27f4d65effeb322884381fbc215087035cec234e689dd0998adf1a3f674f494e628ec7233dcb515965ed
-  languageName: node
-  linkType: hard
-
 "escalade@npm:^3.1.1":
   version: 3.2.0
   resolution: "escalade@npm:3.2.0"
@@ -3811,7 +3804,6 @@ __metadata:
     busboy: "npm:^1.6.0"
     dotenv: "npm:^18.0.8"
     email-reply-parser: "npm:^2.3.9"
-    es6-promise-pool: "npm:^2.5.0"
     eslint: "npm:^10.12.0"
     eslint-config-prettier: "npm:^10.1.8"
     eslint-plugin-prettier: "npm:^5.5.6"

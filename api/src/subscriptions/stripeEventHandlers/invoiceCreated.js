@@ -4,13 +4,8 @@ const getFirebaseUserId = require('../getFirebaseUserId');
 const { stripeSubscriptionKeys } = require('../constants');
 const removeUndefined = require('../../util/removeUndefined');
 const { getUserDocRefsWithData } = require('../../firebase');
-const { sendSubscriptionRenewalEmail } = require('../../mail');
 const { isWTMGInvoice } = require('./util');
-const {
-  getInvoiceSubscriptionId,
-  getInvoicePaymentIntent,
-  getInvoiceLineUnitAmount
-} = require('../basilCompat');
+const { getInvoiceSubscriptionId } = require('../basilCompat');
 /**
  * Handles the `invoice.created` event from Stripe.
  * Only handles WTMG subscription renewal invoices, ignores other invoices.
@@ -27,7 +22,6 @@ module.exports = async (event, res) => {
 
   // NOTE: we only look for subscription_cycle invoices here, whose line item carries the sub's recurring price
   const isWtmgSubscriptionInvoice = await isWTMGInvoice(invoice);
-  const unitAmount = getInvoiceLineUnitAmount(invoice);
   if (!(isWtmgSubscriptionInvoice && invoice.billing_reason === 'subscription_cycle')) {
     // Ignore invoices that were created for events not related
     // to WTMG subscription renewals
@@ -60,22 +54,10 @@ module.exports = async (event, res) => {
   }
   const subscription = await stripe.subscriptions.retrieve(subscriptionId);
 
-  // In case the subscription still has the type send_invoice, immediately set the current PaymentIntent up
-  // to collect off-session payments in the future, before sending the email.
-  // This is a necessary preparation step to be able to switch the subscription to charge_automatically for the invoice of next year.
   if (subscription.collection_method === 'send_invoice') {
-    const paymentIntent = await getInvoicePaymentIntent(finalizedInvoice.id);
-    if (!paymentIntent) {
-      const msg = 'Could not find a PaymentIntent on the finalized invoice';
-      logger.error(msg);
-      res.status(500);
-      return res.send(msg);
-    }
-    await stripe.paymentIntents.update(paymentIntent.id, {
-      setup_future_usage: 'off_session'
-    });
-    logger.log(
-      `Set up the next WTMG subscription payment of ${subscription.id} from ${subscription.customer} / ${invoice.customer_email} for future off_session usage`
+    logger.error(
+      `A WTMG renewal invoice was created with send_invoice, this should not be possible anymore.`,
+      { subscriptionId: subscription.id }
     );
   }
 
@@ -89,10 +71,8 @@ module.exports = async (event, res) => {
   }
 
   // Get public & private data
-  const { privateUserProfileDocRef, privateUserProfileData, publicUserProfileData } =
-    await getUserDocRefsWithData(uid);
+  const { privateUserProfileDocRef } = await getUserDocRefsWithData(uid);
 
-  //
   // Set the user's latest invoice state
   // + save the renewal invoice URL in Firebase
   await privateUserProfileDocRef.update(
@@ -103,31 +83,7 @@ module.exports = async (event, res) => {
     })
   );
 
-  if (!(
-    publicUserProfileData &&
-    // Note: if a superfan has deleted their account during their active period, `privateUserProfileData` should be
-    // `undefined`, blocking the renewal email. This is important, because the rest of the data will likely still exist.
-    privateUserProfileData &&
-    finalizedInvoice.customer_email &&
-    finalizedInvoice.hosted_invoice_url &&
-    typeof unitAmount === 'number'
-  )) {
-    res.status(500);
-    return res.send('Missing parameters to send a subscription renewal email');
-  }
-
-  // Send renewal invoice email
-  if (subscription.collection_method === 'send_invoice') {
-    await sendSubscriptionRenewalEmail({
-      email: finalizedInvoice.customer_email,
-      firstName: publicUserProfileData.firstName,
-      renewalLink: finalizedInvoice.hosted_invoice_url,
-      price: unitAmount / 100,
-      language: privateUserProfileData.communicationLanguage,
-      secret: privateUserProfileData.secret
-    });
-  } else {
-    // TODO: send a different email for charge_automatically renewals (without link)
-  }
+  // No email is sent on renewal invoice creation
+  //
   return res.sendStatus(200);
 };

@@ -1,60 +1,10 @@
 const { usersPrivateCol } = require('../../collections');
 const { stripeSubscriptionKeys } = require('../constants');
 const { lxHourStart } = require('../../util/time');
-const { isRenewalPeriod } = require('../stripeEventHandlers/util');
 const { sendSubscriptionEndedFeedbackEmail } = require('../../mail');
-const { FEEDBACK_EMAIL_DAYS_AFTER_EXPIRY, processUserPrivateDocs } = require('./shared');
+const { processUserPrivateDocs } = require('./shared');
 
-const { statusKey, currentPeriodStartKey, collectionMethodKey, canceledAtKey } =
-  stripeSubscriptionKeys;
-
-exports.sendManualRenewalFeedbackEmails = async () => {
-  // The current period started 7 + 5 days ago
-  // 7 days: time until the subscription is canceled
-  // 5 days: wait to ask for feedback
-  const lxFeedbackThreshold = lxHourStart.minus({ days: FEEDBACK_EMAIL_DAYS_AFTER_EXPIRY });
-  // We're looking for renewals that have auto-canceled with the scheduled function here
-
-  const query = usersPrivateCol()
-    // WARNING: the below condition should not be added as an optimization,
-    // "!= value" also implicitly excludes undefined values (like SQL would)
-    // but we want to include undefined values for collection_method...
-    //    .where(collectionMethodKey, '!=', 'charge_automatically')
-    // The subscription status is "canceled"
-    .where(statusKey, '==', 'canceled')
-    // extract window of exactly one hour before the threshold
-    .where(currentPeriodStartKey, '<=', lxFeedbackThreshold.toSeconds())
-    .where(currentPeriodStartKey, '>', lxFeedbackThreshold.minus({ hour: 1 }).toSeconds());
-
-  const { docs } = await query.get();
-
-  const filteredDocs = docs.filter((doc) => {
-    const sub = doc.data().stripeSubscription;
-    return (
-      // Exclude charge_automatically subs from this email
-      sub.collectionMethod !== 'charge_automatically' &&
-      // Renewal invoice link exists (it should be created only upon renewal, so must exist)
-      !!sub.renewalInvoiceLink &&
-      // This is a renewal (2nd check)
-      isRenewalPeriod(sub.startDate, sub.currentPeriodStart)
-    );
-  });
-
-  await processUserPrivateDocs(
-    filteredDocs,
-    async (combinedUser) => {
-      // Send renewal invoice email
-      await sendSubscriptionEndedFeedbackEmail({
-        email: combinedUser.email,
-        firstName: /** @type {string} */ (combinedUser.displayName),
-        language: combinedUser.communicationLanguage,
-        secret: combinedUser.secret,
-        wtmg_id: combinedUser.uid
-      });
-    },
-    'Sending feedback emails (manual renewal)'
-  );
-};
+const { statusKey, collectionMethodKey, canceledAtKey } = stripeSubscriptionKeys;
 
 /**
  * Sends the same feedback-asking email as for manual renewals, but does this on a different

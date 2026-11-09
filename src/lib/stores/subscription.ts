@@ -1,6 +1,7 @@
-import { derived } from 'svelte/store';
+import { derived, get } from 'svelte/store';
 import { user } from './auth';
 import { locale, t } from 'svelte-i18n';
+import { lr } from '$lib/util/translation-helpers';
 import { staticAppHasLoaded } from './app';
 import { MEMBERSHIP_YEARLY_AMOUNTS } from '$lib/constants';
 import { anchorText } from '$lib/util/translation-helpers';
@@ -23,19 +24,8 @@ const nowSeconds = () =>
   // 1827649800 + 3600 * 24 * 7 + 3600;
   new Date().valueOf() / 1000;
 
-// 7 days after the expiry of the last period
-// NOTE: only valid for send_invoice subs
-const sevenDayMarkSec = derived(user, ($user) =>
-  $user?.stripeSubscription?.currentPeriodStart != null
-    ? $user.stripeSubscription.currentPeriodStart + 3600 * 24 * 7
-    : null
-);
-
 // The last cycle of the subscription ended at most 30 days ago, and the latest
 // invoice wasn't paid
-//
-// Note: until after 7 days, the current subscription can be renewed.
-// After that, a new one has to be completed. This logic isn't handled here.
 export const subscriptionJustEnded = derived(
   user,
   ($user) =>
@@ -57,41 +47,25 @@ export const hasAutoRenewingSubscription = derived(
     $user?.superfan && $user.stripeSubscription?.collectionMethod === 'charge_automatically'
 );
 
+/**
+ * There is an unpaid renewal invoice
+ */
 export const canPayRenewalInvoice = derived(
-  [user, sevenDayMarkSec],
-  ([$user, $sevenDayMarkSec]) =>
-    $sevenDayMarkSec &&
+  user,
+  ($user) =>
     $user?.superfan &&
     $user.stripeSubscription &&
     $user.stripeSubscription.latestInvoiceStatus === 'open' &&
     $user.stripeSubscription.renewalInvoiceLink &&
-    // For send_invoice, this is a double check that we're not past the 7 day grace period
-    // for manual cancellation.
-    // ! The double check matters becuase the === 'open' check is not reliable, see comments on the User model.
-    // The current epoch in seconds is less than 7 days from the current (= new/unpaid) period start
-    nowSeconds() < $sevenDayMarkSec
-);
-
-export const shouldPromptForNewSubscription = derived(
-  [subscriptionJustEnded, sevenDayMarkSec],
-  ([$subscriptionJustEnded, $sevenDayMarkSec]) =>
-    $sevenDayMarkSec && $subscriptionJustEnded && nowSeconds() >= $sevenDayMarkSec
+    !$user.stripeSubscription.paymentProcessing
 );
 
 // This is extracted here because it's shared between the top navbar and the mobile side navbar
 // TODO: the downside is that here, it will always load and update, regardless of the page we're on.
 // Should we initialize a store per-page?
-// TODO: should the notice be shown for longer than 30 days?
 export const renewalNoticeContent = derived(
-  [t, staticAppHasLoaded, shouldPromptForNewSubscription, canPayRenewalInvoice, locale, user],
-  ([
-    $t,
-    $staticAppHasLoaded,
-    $shouldPromptForNewSubscription,
-    $canPayRenewalInvoice,
-    $locale,
-    $user
-  ]) => {
+  [t, staticAppHasLoaded, canPayRenewalInvoice, locale, user],
+  ([$t, $staticAppHasLoaded, $canPayRenewalInvoice, $locale, $user]) => {
     if (!$staticAppHasLoaded && $user?.stripeSubscription) {
       return {
         prompt: $t('navigation.membership-expired-notice.prompt', {
@@ -99,14 +73,12 @@ export const renewalNoticeContent = derived(
             // Only show the amount if we're still in the renewal window
             // (for now, only the same price can be renewed)
             // Afterwards, any pricing level can be picked for a new sub.
-            amount: $shouldPromptForNewSubscription
-              ? ''
-              : ` (${
-                  ($locale !== 'fr' ? '€ ' : '') +
-                  (MEMBERSHIP_YEARLY_AMOUNTS[$user.stripeSubscription.priceId] || 60) +
-                  ($locale === 'fr' ? '€' : '') +
-                  $t('become-superfan.pricing-section.per-year')
-                })`
+            amount: ` (${
+              ($locale !== 'fr' ? '€ ' : '') +
+              (MEMBERSHIP_YEARLY_AMOUNTS[$user.stripeSubscription.priceId] || 60) +
+              ($locale === 'fr' ? '€' : '') +
+              $t('become-superfan.pricing-section.per-year')
+            })`
           }
         }),
         answerHtml: $t('navigation.membership-expired-notice.answer', {
@@ -114,8 +86,9 @@ export const renewalNoticeContent = derived(
             linkText: anchorText({
               href:
                 $canPayRenewalInvoice && $user.stripeSubscription.renewalInvoiceLink
-                  ? $user.stripeSubscription.renewalInvoiceLink
-                  : `${routes.ABOUT_MEMBERSHIP}#pricing`,
+                  ? // There will be a customer portal link and more info on the account page
+                    get(lr)(`${routes.ACCOUNT}`)
+                  : get(lr)(`${routes.ABOUT_MEMBERSHIP}#pricing`),
               // TODO: this isn't accurate, the hosted invoice page visitors aren't about_membership page visitors
               // also, no side_ or top_ navbar renewal distinction
               track: [PlausibleEvent.VISIT_ABOUT_MEMBERSHIP, { source: 'navbar_renewal' }],

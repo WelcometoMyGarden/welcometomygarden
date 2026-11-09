@@ -2,7 +2,6 @@ const { logger } = require('firebase-functions/v2');
 const getFirebaseUserId = require('../getFirebaseUserId');
 const {
   sendSubscriptionConfirmationEmail,
-  sendSubscriptionManualRenewalThankYouEmail,
   sendSubscriptionAutomaticRenewalThankYouEmail
 } = require('../../mail');
 const { stripeSubscriptionKeys } = require('../constants');
@@ -64,7 +63,6 @@ module.exports = async (event, res) => {
 
   // NOTE: we should be able to optimize out this call for extra details by checking instead for
   // privateUserProfileData.stripeSubscription.collectionMethod === 'charge_automatically' (or not) below
-  // NOTE: send_invoice will mostly not be set there, it will be undefined in many cases
   const subscriptionId = getInvoiceSubscriptionId(invoice);
   if (!subscriptionId) {
     logger.error('invoice.paid event arrived without an attached subscription on its parent');
@@ -100,9 +98,12 @@ module.exports = async (event, res) => {
           secret: privateUserProfileData.secret
         };
         if (subscription.collection_method === 'send_invoice') {
-          await sendSubscriptionManualRenewalThankYouEmail(emailConfig);
+          logger.error(
+            'A WTMG send_invoice subscription renewal invoice was paid, this shoult not be possible anymore',
+            subscription.id
+          );
         } else {
-          // for a charge_automatically renewal
+          // expected: for a charge_automatically renewal
           await sendSubscriptionAutomaticRenewalThankYouEmail(emailConfig);
         }
       }
@@ -114,8 +115,8 @@ module.exports = async (event, res) => {
     }
   }
 
-  // In any case (new or cycle payment), if the subscription is not yet on charge_automatically,
-  // update it if possible.
+  // For a new subscription, the subscription will not yet be on charge_automatically. The initial payment always starts
+  // on send_invoice. Update it.
   if (subscription.collection_method === 'send_invoice') {
     // Find a reusable saved payment method
     // NOTE/TODO: it seems that upon the setup_future_usage subscription payment, the reusable payment method is also referred to
