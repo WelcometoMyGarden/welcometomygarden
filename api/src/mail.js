@@ -809,7 +809,7 @@ exports.sendSubscriptionEndedFeedbackEmail = async ({
 };
 
 /**
- * In SendGrid: Subscription cancellation confirmation + feedback email
+ * In SendGrid: [WTMG] [auto] Cancellation confirmation + feedback
  * @param {EmailConfig & SecretConfig & {endDate: string}} config
  * @returns
  */
