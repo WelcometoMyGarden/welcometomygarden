@@ -6,7 +6,6 @@ const { auth, getFunctionUrl, getUserDocRefs } = require('../firebase');
 const { statsDoc } = require('../collections');
 const { logger } = require('firebase-functions/v2');
 const { getFunctions } = require('firebase-admin/functions');
-const { DateTime } = require('luxon');
 const { FirebaseAuthError } = require('firebase-admin/auth');
 const { omit } = require('lodash');
 const isRandomMixedCase = require('./util/isRandomMixedCase');
@@ -294,25 +293,6 @@ exports.createUser = async ({ data: inputData, auth: authContext }) => {
       )
       .catch((e) =>
         logger.error(`Error while enqueueing the first welcome email`, { uid, error: e })
-      ),
-    // Enqueue the last welcome flow email
-    sendMessageQueue
-      .enqueue(
-        { type: 'become_member', data: { uid } },
-        {
-          scheduleTime: DateTime.now().plus({ days: 7 }).toJSDate(),
-          ...(targetUri
-            ? {
-                uri: targetUri
-              }
-            : {})
-        }
-      )
-      .catch((e) =>
-        logger.error(`Error while enqueueing the "become a member" last welcome flow email`, {
-          uid,
-          error: e
-        })
       )
   ]);
 

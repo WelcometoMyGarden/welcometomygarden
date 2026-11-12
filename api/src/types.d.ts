@@ -133,17 +133,32 @@ declare global {
     uid: string;
   };
 
+  // - welcome: first welcome flow email
+  // - welcome2
+  // - welcome3
+  // - welcome4: last welcome flow email
+  // - become_member: old id of the last welcome flow email
+  //                  TODO -> can be decommissioned 7 days after releasing the welcome flow migration
+  //                  to cloud tasks
+  // - photo_reminder: reminder for new hosts to upload a picture
+  // - new_host: intro email for new hosts, used to be a SendGrid Automation
+  type EmailTargetType =
+    | 'welcome'
+    | 'welcome2'
+    | 'welcome3'
+    | 'welcome4'
+    | 'become_member'
+    | 'photo_reminder'
+    | 'new_host';
+
   type QueuedMessage =
     | {
         type: 'message_reminder';
         data: SendMessageReminderData;
       }
     | { type: 'abandoned_cart'; data: SendAbandonedCartReminderData }
-    // - welcome: first welcome flow email
-    // - become_member: last welcome flow email
-    // - photo_reminder: reminder for new hosts to upload a picture
     | {
-        type: 'welcome' | 'become_member' | 'photo_reminder';
+        type: EmailTargetType;
         data: EmailTargetData;
       };
 

@@ -162,7 +162,7 @@ exports.sendAccountVerificationEmail = ({
  *
  * @param {EmailConfig & SecretConfig} config
  */
-exports.sendWelcomeEmail = ({ email, firstName, language, secret }) => {
+exports.sendWelcomeFlow1stEmail = ({ email, firstName, language, secret }) => {
   let templateId;
   switch (language) {
     case 'fr':
@@ -192,6 +192,129 @@ exports.sendWelcomeEmail = ({ email, firstName, language, secret }) => {
 
   if (!canSendMail()) {
     devSend(msg, 'welcomeEmail');
+    return Promise.resolve();
+  }
+
+  return send(msg);
+};
+
+/**
+ * In SendGrid: Welcome Flow - Email #2 - About community
+ *
+ * @param {EmailConfig & SecretConfig} config
+ */
+exports.sendWelcomeFlow2ndEmail = ({ email, firstName, language, secret }) => {
+  let templateId;
+  switch (language) {
+    case 'fr':
+      templateId = 'd-0da77b41cd6d4dac8bae85d4aa53aca9';
+      break;
+    case 'nl':
+      templateId = 'd-fe4dff541d164e20b609e67e43fe26c1';
+      break;
+    default:
+      templateId = 'd-95271a7c3fda4a3aa02daff9a917e350';
+      break;
+  }
+  /**
+   * @satisfies {SendGrid.MailDataRequired}
+   */
+  const msg = {
+    to: email,
+    from: SUPPORT_FROM,
+    templateId,
+    dynamicTemplateData: {
+      ...firstNameProps(firstName),
+      secret,
+      email
+    },
+    categories: [WELCOME_FLOW_CATEGORY]
+  };
+
+  if (!canSendMail()) {
+    devSend(msg, 'welcomeEmail2nd');
+    return Promise.resolve();
+  }
+
+  return send(msg);
+};
+
+/**
+ * In SendGrid: Welcome Flow - Email #3 - WTMG Stories
+ *
+ * @param {EmailConfig & SecretConfig} config
+ */
+exports.sendWelcomeFlow3rdEmail = ({ email, firstName, language, secret }) => {
+  let templateId;
+  switch (language) {
+    case 'fr':
+      templateId = 'd-43e5b4dae9a5490cbb27c09b5cb190ca';
+      break;
+    case 'nl':
+      templateId = 'd-6f88e2df40a64fae90b040cd1fb4cf67';
+      break;
+    default:
+      templateId = 'd-db635fdf03ed4ab890a84f9f18e9af83';
+      break;
+  }
+  /**
+   * @satisfies {SendGrid.MailDataRequired}
+   */
+  const msg = {
+    to: email,
+    from: SUPPORT_FROM,
+    templateId,
+    dynamicTemplateData: {
+      ...firstNameProps(firstName),
+      secret,
+      email
+    },
+    categories: [WELCOME_FLOW_CATEGORY]
+  };
+
+  if (!canSendMail()) {
+    devSend(msg, 'welcomeEmail3rd');
+    return Promise.resolve();
+  }
+
+  return send(msg);
+};
+
+/**
+ * In SendGrid: Welcome Flow - Email #4 - Becoming a member
+ * Fourth welcome flow email
+ * @param {EmailConfig & SecretConfig} config
+ */
+exports.sendWelcomeFlow4thEmail = ({ email, firstName, language, secret }) => {
+  let templateId;
+  switch (language) {
+    case 'fr':
+      templateId = 'd-48634647feb5440e8529aff60b399b27';
+      break;
+    case 'nl':
+      templateId = 'd-6447239cc18d427c84aa0bc3e305be89';
+      break;
+    default:
+      templateId = 'd-f772a5b1a28648aca5b4745765faeef5';
+      break;
+  }
+  /**
+   * @satisfies {SendGrid.MailDataRequired}
+   */
+  const msg = {
+    to: email,
+    from: manonFrom(language),
+    templateId,
+    dynamicTemplateData: {
+      ...firstNameProps(firstName),
+      secret,
+      email
+    },
+    categories: [WELCOME_FLOW_CATEGORY]
+  };
+
+  if (!canSendMail()) {
+    devSend(msg, 'becomeMemberEmail');
     return Promise.resolve();
   }
 
@@ -236,47 +359,6 @@ exports.sendGardenRelistedEmail = ({ email, firstName, language, secret }) => {
 
   if (!canSendMail()) {
     devSend(msg, 'gardenRelistedEmail');
-    return Promise.resolve();
-  }
-
-  return send(msg);
-};
-
-/**
- * In SendGrid: Welcome Flow - Email #4 - Becoming a member
- * Fourth welcome flow email
- * @param {EmailConfig & SecretConfig} config
- */
-exports.sendBecomeMemberEmail = ({ email, firstName, language, secret }) => {
-  let templateId;
-  switch (language) {
-    case 'fr':
-      templateId = 'd-48634647feb5440e8529aff60b399b27';
-      break;
-    case 'nl':
-      templateId = 'd-6447239cc18d427c84aa0bc3e305be89';
-      break;
-    default:
-      templateId = 'd-f772a5b1a28648aca5b4745765faeef5';
-      break;
-  }
-  /**
-   * @satisfies {SendGrid.MailDataRequired}
-   */
-  const msg = {
-    to: email,
-    from: manonFrom(language),
-    templateId,
-    dynamicTemplateData: {
-      ...firstNameProps(firstName),
-      secret,
-      email
-    },
-    categories: [WELCOME_FLOW_CATEGORY]
-  };
-
-  if (!canSendMail()) {
-    devSend(msg, 'becomeMemberEmail');
     return Promise.resolve();
   }
 
@@ -1055,6 +1137,47 @@ or their <a href="${dashboardUrl()}/action/user-info?userId=${encodeURIComponent
   }
 
   // @ts-ignore
+  return send(msg);
+};
+
+/**
+ * In SendGrid: [WTMG] Thank you for becoming a host!
+ * Used to be an SendGrid Automation
+ * @param {EmailConfig & SecretConfig} config
+ */
+exports.sendNewHostEmail = ({ email, firstName, language, secret }) => {
+  let templateId;
+  switch (language) {
+    case 'fr':
+      templateId = 'd-b4d076b7676a4741a17023405e8bfabc';
+      break;
+    case 'nl':
+      templateId = 'd-0c72f8c73d9f4d068f42c25f7ba98e6c';
+      break;
+    default:
+      templateId = 'd-2f2f4f2feb2a4417b1d1bfecfc8e36c4';
+      break;
+  }
+  /**
+   * @satisfies {SendGrid.MailDataRequired}
+   */
+  const msg = {
+    to: email,
+    from: SUPPORT_FROM,
+    templateId,
+    dynamicTemplateData: {
+      ...firstNameProps(firstName),
+      secret,
+      email
+    },
+    categories: ['New host email']
+  };
+
+  if (!canSendMail()) {
+    devSend(msg, 'New host email');
+    return Promise.resolve();
+  }
+
   return send(msg);
 };
 

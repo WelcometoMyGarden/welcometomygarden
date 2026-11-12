@@ -1,11 +1,11 @@
 const { logger } = require('firebase-functions/v2');
-const { getUserDocRefs } = require('../firebase');
-const { sendWelcomeEmail } = require('../mail');
 const { sendAbandonedCartReminder } = require('./sendAbandonedCartReminder');
-const { sendBecomeMemberEmail } = require('./sendBecomeMemberEmail');
 const { sendMessageReminder } = require('./sendMessageReminder');
-const { getUser } = require('./util');
 const { sendPhotoReminderEmail } = require('./sendPhotoReminderEmail');
+const { sendWelcomeFlowEmail } = require('./sendWelcomeFlowEmail');
+const { sendNewHostEmail } = require('../mail');
+const { getUser } = require('./util');
+const { getUserDocRefsWithData } = require('../firebase');
 
 /**
  * @param {import('firebase-functions/v2/tasks').Request<QueuedMessage>} req
@@ -13,34 +13,32 @@ const { sendPhotoReminderEmail } = require('./sendPhotoReminderEmail');
  */
 exports.sendQueuedMessage = async (req) => {
   const { type, data } = req.data;
-  // No type or inner data is present, which means this is an old scheduled message_reminder event
-  // before we had types on this handler or enqueues
-  // @TODO: this should become irrelevant in 24 hours after the morning of March 4th
-  if (!type && !data) {
-    // @ts-ignore
-    return this.sendMessageReminder(req);
-  }
   if (type === 'message_reminder') {
     return sendMessageReminder({ ...req, data });
-  } else if (type === 'welcome') {
-    const user = await getUser(data.uid, 'welcome email');
-    if (user) {
-      const { privateUserProfileDocRef } = await getUserDocRefs(data.uid);
-      const { communicationLanguage, secret } = (await privateUserProfileDocRef.get()).data() ?? {};
-      logger.info('Sending welcome email', { uid: user.uid });
-      await sendWelcomeEmail({
-        email: /** @type {string} */ (user.email),
-        firstName: /** @type {string} */ (user.displayName),
-        language: communicationLanguage,
-        secret
-      });
-    }
-  } else if (type === 'become_member') {
-    return sendBecomeMemberEmail({ ...req, data });
+  } else if (type.startsWith('welcome') || type === 'become_member') {
+    return sendWelcomeFlowEmail(req);
   } else if (type === 'photo_reminder') {
     return sendPhotoReminderEmail({ ...req, data });
   } else if (type === 'abandoned_cart') {
     return sendAbandonedCartReminder({ ...req, data });
+  } else if (type === 'new_host') {
+    const { uid } = data;
+    const user = await getUser(uid, 'new host');
+    if (!user) {
+      return;
+    }
+    // Always sent (also with news=no), also when the garden is unlisted
+    const {
+      privateUserProfileData: { communicationLanguage, secret }
+    } = await getUserDocRefsWithData(uid);
+    const emailData = {
+      email: /** @type {string} */ (user.email),
+      firstName: /** @type {string} */ (user.displayName),
+      language: communicationLanguage,
+      secret
+    };
+    await sendNewHostEmail(emailData);
+    return;
   } else {
     logger.error(`Unhandled queued message type: ${type}`);
   }

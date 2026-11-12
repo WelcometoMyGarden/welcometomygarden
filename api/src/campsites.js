@@ -48,29 +48,48 @@ exports.onCampsiteCreate = async ({ data }) => {
   // Update statistics
   await statsDoc('campsites').set({ count: FieldValue.increment(1) }, { merge: true });
 
-  // Schedule the photo reminder email
+  // Schedule the new host email and photo reminder email
   const [resourceName, targetUri] = await getFunctionUrl('sendMessage');
   /**
    * @type {TaskQueue<QueuedMessage>}
    */
   const sendMessageQueue = getFunctions().taskQueue(resourceName);
-  await sendMessageQueue.enqueue(
-    {
-      type: 'photo_reminder',
-      data: {
-        uid: user.uid
+  await Promise.all([
+    sendMessageQueue.enqueue(
+      {
+        type: 'new_host',
+        data: {
+          uid: user.uid
+        }
+      },
+      {
+        // 2 hours
+        scheduleDelaySeconds: 2 * 3600,
+        ...(targetUri
+          ? {
+              uri: targetUri
+            }
+          : {})
       }
-    },
-    {
-      // 7 days
-      scheduleDelaySeconds: 7 * 24 * 3600,
-      ...(targetUri
-        ? {
-            uri: targetUri
-          }
-        : {})
-    }
-  );
+    ),
+    sendMessageQueue.enqueue(
+      {
+        type: 'photo_reminder',
+        data: {
+          uid: user.uid
+        }
+      },
+      {
+        // 7 days
+        scheduleDelaySeconds: 7 * 24 * 3600,
+        ...(targetUri
+          ? {
+              uri: targetUri
+            }
+          : {})
+      }
+    )
+  ]);
 };
 
 /**
