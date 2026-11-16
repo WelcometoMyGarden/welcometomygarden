@@ -39,7 +39,8 @@ Requirement: the devcontainers CLI: https://github.com/devcontainers/cli (or VS 
 2. Run:
 
    ```sh
-   # Build the base image locally
+   # Option 1: get access to the prebuilt private package ghcr.io/welcometomygarden/wtmg-e2e-ci:24-trixie the via `docker login` if you can, use a classic access token.
+   # Option 2: build the base image locally
    ./ci/local-build.sh --only-base
 
    # Build and start the dev container
