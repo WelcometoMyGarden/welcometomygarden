@@ -27,3 +27,28 @@ exports.buildMessageUrl = ({ displayName, chatId, host, language }) => {
   const senderNameParts = displayName.split(/[^A-Za-z-]/);
   return `${baseUrl}${langPrefix}/chat/${exports.normalizeName(senderNameParts[0])}/${chatId}`;
 };
+
+/**
+ * @typedef {Object} UnsubscribeURLConfig
+ * @property {string} email
+ * @property {string} secret
+ * @property {string} flow used as utm_source
+ * @property {string} content used as utm_content
+ */
+
+/**
+ * Creates an authenticated email preferences URL. A GET redirects to the email preferences page,
+ * a POST (RFC 8058 one-click) unsubscribes the user from news emails.
+ * See `handleUnsubscribeRouter` in ../sendgrid/manageEmailPreferences.js
+ * @param {UnsubscribeURLConfig} config
+ */
+exports.createUnsubscribeURL = ({ email, secret, flow, content }) => {
+  const params = new URLSearchParams({
+    e: email,
+    s: secret,
+    utm_source: flow,
+    utm_medium: 'email',
+    utm_content: content
+  });
+  return `${frontendUrl()}/email-preferences?${params}`;
+};

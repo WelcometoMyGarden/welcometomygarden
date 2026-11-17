@@ -3,6 +3,7 @@ const { sendgridMail } = require('./sendgrid/sendgrid');
 const devSend = require('./util/devMail');
 const { frontendUrl, canSendMail, dashboardUrl } = require('./sharedConfig');
 const { coerceToMainLanguage } = require('./util/translations');
+const { createUnsubscribeURL } = require('./util/mail');
 
 /**
  * @typedef {Object} EmailConfig
@@ -55,6 +56,26 @@ const firstNameProps = (name) => ({
 });
 
 const WELCOME_FLOW_CATEGORY = 'Welcome flow - March 2025';
+const WELCOME_FLOW_UTM_SOURCE = 'welcome_mar_25';
+
+/**
+ * Headers for RFC 8058 one-click unsubscribe.
+ *
+ * Only used in the Welcome Flow emails for now.
+ * While we include the same unsubscribe link (and secret param) as an interpolation
+ * in the footer of many Dynamic Templates, I don't want to add these headers to all
+ * emails, since they communicate to mail providers that the email is part of a
+ * "mailing list". It makes sense for the welcome flow, since unsubscribing prevents
+ * new flow emails from arriving. News=false will however not prevent the
+ * non-welcome-flow event-based emails or reminders.
+ *
+ * @param {import('./util/mail').UnsubscribeURLConfig} config
+ * @returns {Record<string, string>}
+ */
+const listUnsubscribeHeaders = (config) => ({
+  'List-Unsubscribe': `<${createUnsubscribeURL(config)}>`,
+  'List-Unsubscribe-Post': 'List-Unsubscribe=One-Click'
+});
 
 /**
  * @param {string} verificationLink
@@ -187,7 +208,13 @@ exports.sendWelcomeFlow1stEmail = ({ email, firstName, language, secret }) => {
       secret,
       email
     },
-    categories: [WELCOME_FLOW_CATEGORY]
+    categories: [WELCOME_FLOW_CATEGORY],
+    headers: listUnsubscribeHeaders({
+      email,
+      secret,
+      flow: WELCOME_FLOW_UTM_SOURCE,
+      content: '1_welcome'
+    })
   };
 
   if (!canSendMail()) {
@@ -228,7 +255,13 @@ exports.sendWelcomeFlow2ndEmail = ({ email, firstName, language, secret }) => {
       secret,
       email
     },
-    categories: [WELCOME_FLOW_CATEGORY]
+    categories: [WELCOME_FLOW_CATEGORY],
+    headers: listUnsubscribeHeaders({
+      email,
+      secret,
+      flow: WELCOME_FLOW_UTM_SOURCE,
+      content: '2_about'
+    })
   };
 
   if (!canSendMail()) {
@@ -269,7 +302,13 @@ exports.sendWelcomeFlow3rdEmail = ({ email, firstName, language, secret }) => {
       secret,
       email
     },
-    categories: [WELCOME_FLOW_CATEGORY]
+    categories: [WELCOME_FLOW_CATEGORY],
+    headers: listUnsubscribeHeaders({
+      email,
+      secret,
+      flow: WELCOME_FLOW_UTM_SOURCE,
+      content: '3_stories_europe'
+    })
   };
 
   if (!canSendMail()) {
@@ -310,7 +349,13 @@ exports.sendWelcomeFlow4thEmail = ({ email, firstName, language, secret }) => {
       secret,
       email
     },
-    categories: [WELCOME_FLOW_CATEGORY]
+    categories: [WELCOME_FLOW_CATEGORY],
+    headers: listUnsubscribeHeaders({
+      email,
+      secret,
+      flow: WELCOME_FLOW_UTM_SOURCE,
+      content: '4_Member'
+    })
   };
 
   if (!canSendMail()) {
