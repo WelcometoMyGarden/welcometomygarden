@@ -367,7 +367,8 @@ exports.sendWelcomeFlow4thEmail = ({ email, firstName, language, secret }) => {
 };
 
 /**
- * In SendGrid: Garden relisted - your garden is back on the map.
+ * In SendGrid: WTMG host - Relist garden
+ *
  * Sent by the `relistGardens` scheduled function when a temporarily unlisted garden is
  * automatically put back on the map on its chosen return date.
  *
