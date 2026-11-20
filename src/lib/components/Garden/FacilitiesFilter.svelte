@@ -2,7 +2,7 @@
   import { _ } from 'svelte-i18n';
   import { LabeledCheckbox, Button, Modal } from '$lib/components/UI';
   import { allListedGardens, filteredGardens } from '$lib/stores/garden';
-  import type { Garden } from '$lib/types/Garden';
+  import type { MapGarden } from '$lib/types/Garden';
   import { type CapacityFilterType, type FacilitiesFilterType } from './Filter.svelte';
   import { facilities } from '$lib/stores/facilities';
   import { MAX_GARDEN_CAPACITY, MOBILE_BREAKPOINT } from '$lib/constants';
@@ -31,14 +31,14 @@
     if (filter.capacity.min < MAX_GARDEN_CAPACITY) filter.capacity.min += 1;
   };
 
-  function gardenFilterFacilities(this: FacilitiesFilterType, garden: Garden) {
+  function gardenFilterFacilities(this: FacilitiesFilterType, garden: MapGarden) {
     for (const [key, value] of Object.entries(this)) {
       if (value && garden.facilities[key as keyof FacilitiesFilterType] !== value) return false;
     }
     return true;
   }
 
-  function gardenFilterCapacity(this: CapacityFilterType, garden: Garden) {
+  function gardenFilterCapacity(this: CapacityFilterType, garden: MapGarden) {
     const value = garden.facilities.capacity;
     return value >= this.min && value <= this.max;
   }

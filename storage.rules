@@ -25,6 +25,12 @@ service firebase.storage {
       allow read;
     }
 
+    // Precomputed public garden aggregates, like the listed gardens file for the map.
+    // Written only by Cloud Functions (admin SDK).
+    match /gardens-agg/{allPaths=**} {
+      allow read;
+    }
+
     function isValidTrailAccess(userId) {
       return isSignedIn() && isOwner(userId)
         && firestore.get(/databases/(default)/documents/users/$(requesterId())).data.superfan == true;

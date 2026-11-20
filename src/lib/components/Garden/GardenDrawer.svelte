@@ -1,21 +1,23 @@
 <script lang="ts">
-  import { tick, mount, onMount } from 'svelte';
+  import { tick, mount, onMount, untrack } from 'svelte';
   import { scale } from 'svelte/transition';
   import { _ } from 'svelte-i18n';
   import SkeletonDrawer from './SkeletonDrawer.svelte';
   import { addSavedGarden, getPublicUserProfile, removeSavedGarden } from '$lib/api/user';
   import {
+    getGarden,
     getGardenPhotoSmall,
     getGardenPhotoBig,
     getGardenResponseRate,
     type DisplayResponseRateTime
   } from '$lib/api/garden';
+  import { removeGardenLocally } from '$lib/stores/garden';
   import { user } from '$lib/stores/auth';
   import { clickOutside, swipeToClose } from '$lib/attachments';
   import { Text, Chip, Image, Button, Progress, DragHandle } from '../UI';
   import { tentPhosphor, heartIcon, heartIconFill, crossIcon, shareIcon } from '$lib/images/icons';
   import routes from '$lib/routes';
-  import type { Garden, GardenPhoto } from '$lib/types/Garden';
+  import { hasGardenDetails, type Garden, type MapGarden } from '$lib/types/Garden';
   import Icon from '$lib/components/UI/Icon.svelte';
   import trackEvent from '$lib/util/track-plausible';
   import { PlausibleEvent } from '$lib/types/Plausible';
@@ -35,7 +37,11 @@
   import { Share } from '@capacitor/share';
   import { PUBLIC_WTMG_HOST } from '$env/static/public';
   interface Props {
-    garden?: Garden | null;
+    /**
+     * The selected garden. If it doesn't carry the garden details (description, photo, ...),
+     * like the gardens loaded from the listed gardens file, they are fetched from Firestore.
+     */
+    garden?: MapGarden | null;
     isShowingMembershipModal?: boolean;
     onclose: () => void;
     onOpenMembershipModal: (continueUrl: string) => void;
@@ -82,75 +88,137 @@
   let photoUrl: string | null = $state(null);
   let biggerPhotoUrl: string | null = $state(null);
   let initialGardenInfoLoaded = $state(false);
-  let gardenCapacity = $state(1);
+
+  /** Details of the selected garden, if they had to be fetched (see `gardenDetails`) */
+  let fetchedGarden: Garden | null = $state(null);
+  /**
+   * The selected garden including its details (description, photo, ...),
+   * or `null` while they are still loading.
+   */
+  let gardenDetails: Garden | null = $derived.by(() => {
+    if (!garden) return null;
+    if (hasGardenDetails(garden)) return garden;
+    return fetchedGarden?.id === garden.id ? fetchedGarden : null;
+  });
+  // Converting the capacity field to a number prevents XSS attacks where
+  // the capacity field could be set to some HTML.
+  let gardenCapacity = $derived(Number(gardenDetails?.facilities.capacity) || 1);
 
   let responseRateTimeDataLoaded = $state(false);
   let responseRateTimeData: DisplayResponseRateTime | null = $state(null);
 
   /**
-   * Should only be called when garden has a value.
-   * Loads the garden owner and image thumbnail URL.
+   * Loads the garden owner, the garden details if they are missing, and the image thumbnail URL.
+   * Ignores the results if another garden was selected in the meantime.
    */
-  const loadInitialGardenInfo = async () => {
-    if (!garden) {
-      const msg = 'Garden unexpectedly falsy during initial load';
-      logger.warn(msg);
-      Sentry.captureMessage(msg);
-      return;
-    }
+  /**
+   * Resolves the thumbnail URL of a garden's photo, or `null` without photo.
+   * Failures are logged, but not thrown: a missing photo shouldn't block the drawer.
+   */
+  const loadSmallPhotoUrl = async ({
+    id,
+    photo,
+    localPhotoData
+  }: Pick<MapGarden, 'id' | 'photo' | 'localPhotoData'>) => {
+    if (localPhotoData) return localPhotoData;
+    if (!photo) return null;
     try {
-      userInfo = await getPublicUserProfile(garden!.id!);
-      if (garden!.localPhotoData) {
-        photoUrl = garden.localPhotoData;
-      } else if (garden!.photo) {
-        const id = garden!.id as string;
-        photoUrl = await getGardenPhotoSmall({ ...(garden as GardenPhoto), id });
+      return await getGardenPhotoSmall({ id, photo });
+    } catch (ex) {
+      logger.log(ex);
+      Sentry.captureException(ex);
+      return null;
+    }
+  };
+
+  /**
+   * Loads the garden owner, the garden details if they are missing, and the image thumbnail URL.
+   * Ignores the results if another garden was selected in the meantime.
+   */
+  const loadInitialGardenInfo = async (selected: MapGarden) => {
+    const isStillSelected = () => garden?.id === selected.id;
+    try {
+      const [profile, details, selectedPhotoUrl] = await Promise.all([
+        getPublicUserProfile(selected.id),
+        hasGardenDetails(selected) ? selected : getGarden(selected.id),
+        // Gardens from the listed gardens file include their photo name, so the photo can
+        // load in parallel with the details.
+        selected.photo !== undefined ? loadSmallPhotoUrl(selected) : Promise.resolve(undefined)
+      ]);
+      if (!isStillSelected()) return;
+      if (!details) {
+        // The garden was unlisted or deleted after the listed gardens were loaded.
+        logger.warn(`Garden ${selected.id} is not available anymore`);
+        removeGardenLocally(selected.id);
+        onclose();
+        return;
       }
+      if (!hasGardenDetails(selected)) {
+        fetchedGarden = details;
+      }
+      userInfo = profile;
+      // Prefer the photo of the (fresher) details if it differs from the listed gardens file
+      const smallPhotoUrl =
+        selectedPhotoUrl !== undefined && selected.photo === details.photo
+          ? selectedPhotoUrl
+          : await loadSmallPhotoUrl(details);
+      if (isStillSelected()) photoUrl = smallPhotoUrl;
     } catch (ex) {
       logger.log(ex);
       Sentry.captureException(ex);
     }
   };
 
-  const loadResponseRateTime = async () => {
+  const loadResponseRateTime = async (selected: MapGarden) => {
     try {
-      responseRateTimeData = await getGardenResponseRate(garden!.id!);
+      const data = await getGardenResponseRate(selected.id);
+      if (garden?.id === selected.id) responseRateTimeData = data;
     } catch (e) {
       logger.warn("Couldn't load response rate/time data");
       Sentry.captureException(e);
     }
   };
 
-  let previousGarden = $state<Partial<Garden>>({});
+  /**
+   * Id of the garden for which info was (or is being) loaded.
+   * Not reactive state: it only serves to detect selection changes.
+   */
+  let loadedGardenId: string | null = null;
 
   $effect(() => {
-    // Set the previous garden if it changed
-    if (garden && garden.id !== previousGarden.id) {
-      previousGarden = garden;
+    const selected = garden;
+    if (!selected) {
+      // Reload the info when the same garden is selected again later
+      loadedGardenId = null;
+      return;
     }
+    // Only (re)load when a different garden was selected. The `garden` object may also change
+    // without the selection changing, e.g. when the listed gardens are reloaded.
+    if (selected.id === loadedGardenId) {
+      return;
+    }
+    loadedGardenId = selected.id;
 
-    // Reset garden info if the garden changed
-    if (garden) {
+    untrack(() => {
+      // Reset garden info
       initialGardenInfoLoaded = false;
       responseRateTimeDataLoaded = false;
+      responseRateTimeData = null;
       userInfo = null;
       photoUrl = null;
       biggerPhotoUrl = null;
-      loadInitialGardenInfo().then(() => {
-        initialGardenInfoLoaded = true;
+      fetchedGarden = null;
+      loadInitialGardenInfo(selected).then(() => {
+        if (garden?.id === selected.id) initialGardenInfoLoaded = true;
       });
-      loadResponseRateTime()
-        .then(() => {
-          responseRateTimeDataLoaded = true;
-        })
+      loadResponseRateTime(selected)
         .catch((e) => {
           logger.warn('Internal error while loading response rate/time data', e);
-          responseRateTimeDataLoaded = true;
+        })
+        .finally(() => {
+          if (garden?.id === selected.id) responseRateTimeDataLoaded = true;
         });
-      // Converting the capacity field to a number prevents XSS attacks where
-      // the capacity field could be set to some HTML.
-      gardenCapacity = Number(garden.facilities.capacity) || 1;
-    }
+    });
   });
 
   let ownedByLoggedInUser = $derived($user && garden && $user.id === garden.id);
@@ -162,15 +230,18 @@
   let isGettingMagnifiedPhoto = $state(false);
 
   const magnifyPhoto = async () => {
-    if (!garden?.photo) {
+    if (!gardenDetails?.photo) {
       return;
     }
     isGettingMagnifiedPhoto = true;
     try {
-      if (garden?.localPhotoData) {
-        biggerPhotoUrl = garden?.localPhotoData;
-      } else if (garden?.photo) {
-        biggerPhotoUrl = await getGardenPhotoBig({ ...garden, id: garden!.id } as GardenPhoto);
+      if (gardenDetails.localPhotoData) {
+        biggerPhotoUrl = gardenDetails.localPhotoData;
+      } else {
+        biggerPhotoUrl = await getGardenPhotoBig({
+          id: gardenDetails.id,
+          photo: gardenDetails.photo
+        });
       }
     } catch (ex) {
       logger.error(ex);
@@ -259,7 +330,7 @@
   };
 
   let isPhoneNumberInDescription = $derived(
-    garden?.description ? phoneRegex.test(garden.description) : false
+    gardenDetails?.description ? phoneRegex.test(gardenDetails.description) : false
   );
 
   $effect(() => {
@@ -352,7 +423,7 @@
   onclickoutside={handleClickOutsideDrawer}
 >
   <DragHandle />
-  {#if gardenIsSelected && initialGardenInfoLoaded && userInfo && garden}
+  {#if gardenIsSelected && initialGardenInfoLoaded && userInfo && gardenDetails}
     <section class="main">
       <header>
         <div class="garden-title">
@@ -383,7 +454,7 @@
             </button>
           </div>
         </div>
-        {#if garden?.photo}
+        {#if gardenDetails.photo}
           <button onclick={magnifyPhoto} class="mb-l button-container image-wrapper">
             {#if photoUrl}
               <Image src={photoUrl} />
@@ -395,8 +466,8 @@
         <div class="description" bind:this={descriptionEl}>
           <Text
             >{$user?.superfan
-              ? garden?.description
-              : garden?.description.replaceAll(
+              ? gardenDetails.description
+              : (gardenDetails.description ?? '').replaceAll(
                   phoneRegex,
                   // With client-side code, we replace this with more aesthetic HTML & CSS (see above).
                   // We can not use the @html directive here, because of a high XSS injection risk.
@@ -412,12 +483,12 @@
         </div>
         <div class="chips-container">
           {#each $facilities as facility (facility.name)}
-            {#if garden.facilities[facility.name]}
+            {#if gardenDetails.facilities[facility.name]}
               <Chip icon={facility.icon}>{facility.label}</Chip>
             {/if}
           {/each}
         </div>
-        {#if garden.facilities.capacity}
+        {#if gardenDetails.facilities.capacity}
           <p class="mt-m capacity">
             <Icon icon={tentPhosphor} inline class="tent-icon"></Icon>
             {$_('garden.drawer.facilities.capacity', {

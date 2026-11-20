@@ -24,7 +24,7 @@
   import LayersAndTools from '$lib/components/LayersAndTools/LayersAndTools.svelte';
   import FileTrailModal from '$lib/components/Map/FileTrailModal.svelte';
   import FileTrails from '$lib/components/Map/FileTrails.svelte';
-  import type { Garden, LongLat } from '$lib/types/Garden';
+  import type { Garden, LongLat, MapGarden } from '$lib/types/Garden';
   import { savedGardens as savedGardenStore } from '$lib/stores/savedGardens';
   import TrainAndRails from '$lib/components/Map/TrainAndRails.svelte';
   import trackEvent from '$lib/util/track-plausible';
@@ -42,6 +42,7 @@
   import MembershipModal from '$lib/components/Membership/MembershipModal.svelte';
   import { lr } from '$lib/util/translation-helpers';
   import logger from '$lib/util/logger';
+  import * as Sentry from '@sentry/sveltekit';
   import { pushState } from '$app/navigation';
   import createUrl from '$lib/util/create-url';
   import VehicleNotice from './VehicleNotice.svelte';
@@ -136,7 +137,7 @@
   // Garden to preload when we are loading the app on its permalink URL
   let preloadedGarden: Garden | null = $state(null);
 
-  let selectedGarden: Garden | null = $derived.by(() => {
+  let selectedGarden: MapGarden | null = $derived.by(() => {
     // Select the preloaded garden if it matches the current URL
     if (preloadedGarden?.id === page.params.gardenId) {
       return preloadedGarden;
@@ -153,7 +154,7 @@
   // This is useful to not recenter the map after defocussing a selected garden
   let centerLocation = $state(LOCATION_WESTERN_EUROPE);
 
-  const setMapToGardenLocation = (garden: Garden) => {
+  const setMapToGardenLocation = (garden: MapGarden) => {
     centerLocation = garden.location!;
   };
 
@@ -164,7 +165,7 @@
 
   // FUNCTIONS
 
-  const selectGarden = (garden: Garden) => {
+  const selectGarden = (garden: Pick<MapGarden, 'id'>) => {
     // We're switching to non-direct loading by clicking a garden on the map
     isShowingGardenOnInit = false;
 
@@ -221,12 +222,19 @@
 
     const gardensAreEmpty = $allListedGardens.length === 0;
 
-    // If we open the map with a garden in the URL, and gardens aren't loaded yet (or loading),
-    // load that one immediately *before* all other gardens.
+    // (Re)load all gardens every time the map opens, to pick up the latest version of the
+    // listed gardens file. If gardens were loaded before, they remain visible while reloading.
+    const gardensLoaded = getAllListedGardens().catch((ex) => {
+      logger.error(ex);
+      Sentry.captureException(ex, { extra: { context: 'Fetching all listed gardens' } });
+    });
+
+    // If we open the map with a garden in the URL, and gardens aren't loaded yet,
+    // load that one immediately, in parallel with all other gardens.
     //
-    // Note that all gardens are fetched at the end of this function on a fresh/hard navigation, but it may also be possible that
-    // onMount() is called in a soft client-side navigation, after gardens have already been loaded.
-    if (gardensAreEmpty && !$isFetchingGardens && isShowingGardenOnInit) {
+    // Note that onMount() may also be called in a soft client-side navigation, after gardens
+    // have already been loaded.
+    if (gardensAreEmpty && isShowingGardenOnInit) {
       // non-null assertion: gardenId should be defined in onMount if isShowingGardenOnInit is true
       preloadedGarden = await getGarden(page.params.gardenId!);
     }
@@ -253,17 +261,10 @@
       centerLocation = lnglatToObject($mapState.center.toArray() as [number, number]);
     }
 
-    // Fetch all gardens if they are not loaded yet, every time the map opens
-    if (gardensAreEmpty && !$isFetchingGardens) {
-      await getAllListedGardens().catch((ex) => {
-        logger.error(ex);
-        isFetchingGardens.set(false);
-      });
-    }
+    await gardensLoaded;
   });
 
   onDestroy(() => {
-    isFetchingGardens.set(false);
     unsubscribeFromSavedGardens();
     if (unsubscribeFromTrailObserver) {
       unsubscribeFromTrailObserver();
