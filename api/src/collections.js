@@ -8,6 +8,8 @@ const USERS = 'users';
 const USERS_PRIVATE = 'users-private';
 const USERS_META = 'users-meta';
 const MESSAGES = 'messages';
+// Admin-only internal state (not readable by clients: no Firestore rules match it)
+const SYSTEM = 'system';
 // Subcollections of users-private/{uid}
 const TRAILS = 'trails';
 const PUSH_REGISTRATIONS = 'push-registrations';
@@ -60,6 +62,15 @@ const statsCol = () => /** @type {CollectionReference<StatCount>} */ (db.collect
 /** @param {string} id */
 const statsDoc = (id) => statsCol().doc(id);
 
+/**
+ * Documents in `system/` hold heterogeneous, admin-only internal state, so the
+ * model type is chosen per document by the caller.
+ * @template {DocumentData} T
+ * @param {string} id
+ * @returns {DocumentReference<T>}
+ */
+const systemDoc = (id) => /** @type {DocumentReference<T>} */ (db.collection(SYSTEM).doc(id));
+
 // Subcollections of users-private/{uid} — addressed by full path, cast once each
 // (a `.collection()` off a typed doc ref would reset the model type to `DocumentData`).
 
@@ -98,6 +109,7 @@ module.exports = {
   USERS_PRIVATE,
   USERS_META,
   MESSAGES,
+  SYSTEM,
   TRAILS,
   PUSH_REGISTRATIONS,
   UNREADS,
@@ -114,6 +126,7 @@ module.exports = {
   chatsDoc,
   statsCol,
   statsDoc,
+  systemDoc,
   messagesCol,
   messagesDoc,
   pushRegistrationsCol,

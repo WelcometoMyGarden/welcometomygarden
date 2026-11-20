@@ -18,31 +18,36 @@ import {
   uploadProgress,
   allListedGardens,
   isFetchingGardens,
-  updateGardenLocally
+  updateGardenLocally,
+  hasLoaded as gardenHasLoaded
 } from '$lib/stores/garden';
 import { supabase } from '$lib/stores/auth';
 import { db, storage } from './firebase';
 import { getDownloadURL, ref, uploadBytesResumable } from 'firebase/storage';
-import type {
-  FirebaseGarden,
-  Garden,
-  GardenFacilities,
-  GardenPhoto,
-  GardenToAdd
+import {
+  hasGardenDetails,
+  type FirebaseGarden,
+  type Garden,
+  type GardenFacilities,
+  type GardenPhoto,
+  type GardenToAdd,
+  type ListedGardensFile,
+  type MapGarden
 } from '$lib/types/Garden';
 import { get } from 'svelte/store';
 import logger from '$lib/util/logger';
+import { parseListedGardensFile } from '$lib/util/listed-gardens';
 
 /**
  * Get a single garden, if it exists and is listed. Returns `null` otherwise.
  * @param id  the garden id
  */
-export const getGarden = async (id: string) => {
+export const getGarden = async (id: string): Promise<Garden | null> => {
   const gardenDoc = await getDoc(
     doc(collection(db(), CAMPSITES) as CollectionReference<FirebaseGarden, FirebaseGarden>, id)
   );
-  const data = gardenDoc.data()!;
-  if (gardenDoc.exists() && data.listed) {
+  const data = gardenDoc.data();
+  if (gardenDoc.exists() && data?.listed) {
     return {
       id: gardenDoc.id,
       ...data
@@ -52,204 +57,103 @@ export const getGarden = async (id: string) => {
   }
 };
 
-// Presumably, doubles and integers are the only numbers allowed:
-// https://firebase.google.com/docs/firestore/manage-data/data-types
-type DoubleValue = {
-  doubleValue: number;
-};
-
-type IntegerValue = {
-  integerValue: number;
-};
-
-type StringValue = {
-  stringValue: string;
-};
-
-type BooleanValue = {
-  booleanValue: boolean;
-};
-
 /**
- * A single Firestore REST value. Exactly one of the `*Value` keys is present,
- * so we discriminate on key presence (`'doubleValue' in value`) rather than
- * optional chaining, which can't narrow this union.
+ * Path of the precomputed public listed gardens file in the default Storage bucket.
+ * It is regenerated (debounced) on garden changes by the `regenerateGardenIndex`
+ * Cloud Function. See api/src/gardenIndex/generate.js.
  */
-type RESTValue = StringValue | BooleanValue | DoubleValue | IntegerValue;
+export const LISTED_GARDENS_PATH = 'gardens-agg/listed-public.json';
 
-type MapValue = {
-  mapValue: {
-    fields: {
-      [key: string]: RESTValue;
-    };
-  };
-};
-
-/** Reads a Firestore REST numeric value (double or integer), if present. */
-const restNumber = (value: RESTValue | undefined): number | undefined => {
-  if (value && 'doubleValue' in value) return value.doubleValue;
-  if (value && 'integerValue' in value) return value.integerValue;
-  return undefined;
-};
-
-/**
- * Builds a typed {@link GardenFacilities} from a Firestore REST fields map.
- * Facilities are stored as booleans, except `capacity`, which is an integer.
- */
-const restFacilities = (fields: { [key: string]: RESTValue }): GardenFacilities => {
-  const facilities: GardenFacilities = { capacity: 1 };
-  const writable = facilities as Record<string, boolean | number>;
-  for (const [key, value] of Object.entries(fields)) {
-    if ('booleanValue' in value) writable[key] = value.booleanValue;
-    else {
-      const num = restNumber(value);
-      if (typeof num !== 'undefined') writable[key] = num;
-    }
+const fetchListedGardensFile = async (): Promise<ListedGardensFile> => {
+  // Resolve the URL every time: it carries a download token that changes with every
+  // regeneration of the file. Because of this, the (browser-cacheable) file content
+  // behind a given URL never changes.
+  const url = await getDownloadURL(ref(storage(), LISTED_GARDENS_PATH));
+  const response = await fetch(url);
+  if (!response.ok) {
+    throw new Error(`Fetching the listed gardens file failed with status ${response.status}`);
   }
-  return facilities;
+  return (await response.json()) as ListedGardensFile;
 };
 
-type RESTGardenDoc = {
-  document: {
-    /**
-     * Path
-     */
-    name: string;
-    fields: {
-      name: StringValue;
-      description: StringValue;
-      location: MapValue;
-      listed: BooleanValue;
-      facilities: MapValue;
-      photo: StringValue;
-      owner: StringValue;
-      createTime: string;
-      updateTime: string;
+/**
+ * The current user's own garden is kept up-to-date locally (via its Firestore listener and
+ * optimistic updates), while the file may lag behind by up to a minute after a change.
+ * Reflect the local state in the given list, so a host always sees their latest garden state.
+ *
+ * @param gardens will be mutated
+ * @param previousGardens the gardens before reloading, to retain local-only data
+ */
+const applyOwnGarden = (gardens: MapGarden[], previousGardens: MapGarden[]) => {
+  const currentUser = get(user);
+  if (!currentUser?.id) return;
+  const { id } = currentUser;
+
+  const previousOwn = previousGardens.find((g) => g.id === id);
+  let own: MapGarden | null = null;
+  if (currentUser.garden) {
+    own = {
+      ...currentUser.garden,
+      id,
+      // Retain a photo that was just uploaded, and of which the resized versions may not exist yet.
+      ...(previousOwn?.localPhotoData ? { localPhotoData: previousOwn.localPhotoData } : {})
     };
-    createTime: string;
-    updateTime: string;
-  };
-  /**
-   * ISO string
-   */
-  readTime: string;
+  } else if (!get(gardenHasLoaded)) {
+    // The user's garden state isn't known yet: retain local details if we had any.
+    if (previousOwn && hasGardenDetails(previousOwn)) own = previousOwn;
+  }
+  if (!own) return;
+
+  const index = gardens.findIndex((g) => g.id === id);
+  if (own.listed === false) {
+    if (index > -1) gardens.splice(index, 1);
+  } else if (index > -1) {
+    gardens[index] = own;
+  } else {
+    gardens.push(own);
+  }
 };
 
-function mapRestToGarden(doc: RESTGardenDoc): Garden {
-  const { name, fields } = doc.document;
-  const { description, location, listed, facilities, photo } = fields;
+let listedGardensRequest: Promise<MapGarden[]> | null = null;
 
-  return {
-    id: name.split('/').pop() as string,
-    description: description?.stringValue,
-    location: {
-      // Integer values are rare, but we have one in the db at the time of writing,
-      // with two integer values. It looks like a real location!
-      //
-      // The MapBox forward geocoding API we use indeed doesn't document its precision
-      // and only specifies "number", which could be floating-point or integer.
-      // https://docs.mapbox.com/api/search/geocoding/#geocoding-response-object
-      latitude: restNumber(location.mapValue.fields.latitude)!,
-      longitude: restNumber(location.mapValue.fields.longitude)!
-    },
-    listed: listed.booleanValue,
-    // Map facilities fields to boolean values, except the integer `capacity`.
-    facilities: restFacilities(facilities.mapValue.fields),
-    photo: photo?.stringValue
-  };
-}
-
-export const getAllListedGardens = async () => {
-  const CHUNK_SIZE = 1500;
-  // To prevent endless loops in case of unexpected problems or bugs
-  // Note: this leads to the loop breaking once this number of gardens is reached!
-  const LOOP_LIMIT_ITEMS = 100000;
-
-  logger.log('Starting to fetch all gardens...');
-  isFetchingGardens.set(true);
-
-  let startAfterDocRef = null;
-  let iteration = 1;
-  do {
-    iteration++;
-
-    const url = `${
-      // Change the REST API base URL depending on the environment
-      import.meta.env.VITE_FIREBASE_PROJECT_ID === 'demo-test'
-        ? `http://127.0.0.1:${Number(import.meta.env.VITE_EMULATOR_FIRESTORE_PORT) || 8080}/v1/projects/`
-        : 'https://firestore.googleapis.com/v1/projects/'
-    }${import.meta.env.VITE_FIREBASE_PROJECT_ID}/databases/(default)/documents:runQuery`;
-
-    // Query the chunk of gardens using the REST api
-    const gardensChunkResponse = (await fetch(url, {
-      method: 'POST',
-      body: JSON.stringify({
-        structuredQuery: {
-          from: [
-            {
-              collectionId: 'campsites',
-              allDescendants: false
-            }
-          ],
-          where: {
-            fieldFilter: {
-              field: {
-                fieldPath: 'listed'
-              },
-              op: 'EQUAL',
-              value: {
-                booleanValue: true
-              }
-            }
-          },
-          limit: CHUNK_SIZE,
-          // https://stackoverflow.com/a/71812269/4973029
-          orderBy: [
-            {
-              direction: 'ASCENDING',
-              field: { fieldPath: '__name__' }
-            }
-          ],
-          ...(startAfterDocRef
-            ? {
-                startAt: {
-                  before: false,
-                  values: [{ referenceValue: startAfterDocRef }]
-                }
-              }
-            : {})
-        }
-      })
-    }).then((r) => r.json())) as RESTGardenDoc[];
-
-    // Query the chunk of gardens
-    if (gardensChunkResponse.length === CHUNK_SIZE) {
-      // If a full chunk was fetched, there might be more gardens to fetch
-      startAfterDocRef = gardensChunkResponse[gardensChunkResponse.length - 1].document.name;
-    } else {
-      // If the chunk was not full, there are no more gardens to fetch
-      startAfterDocRef = null;
+/**
+ * (Re)load all listed gardens from the precomputed listed gardens file, and replace the
+ * contents of the `allListedGardens` store with them.
+ *
+ * Call this every time the gardens are needed (e.g. when opening the map), so that newer versions
+ * of the file are picked up. Concurrent calls share the same request.
+ *
+ * Note that the loaded gardens are {@link MapGarden}s that don't have their details (like
+ * `description` or `photo`): use {@link getGarden} to fetch those.
+ */
+export const getAllListedGardens = (): Promise<MapGarden[]> => {
+  if (listedGardensRequest) {
+    return listedGardensRequest;
+  }
+  listedGardensRequest = (async () => {
+    logger.log('Starting to fetch all gardens...');
+    isFetchingGardens.set(true);
+    try {
+      let file: ListedGardensFile;
+      try {
+        file = await fetchListedGardensFile();
+      } catch (e) {
+        // The file may have been replaced between resolving its URL and fetching it,
+        // which invalidates the old URL's token. Retry once with a fresh URL.
+        logger.warn('Fetching the listed gardens file failed, retrying once', e);
+        file = await fetchListedGardensFile();
+      }
+      const gardens: MapGarden[] = parseListedGardensFile(file);
+      applyOwnGarden(gardens, get(allListedGardens));
+      allListedGardens.set(gardens);
+      logger.log(`Fetched ${gardens.length} gardens (generated at ${file.generatedAt})`);
+      return gardens;
+    } finally {
+      isFetchingGardens.set(false);
+      listedGardensRequest = null;
     }
-
-    // Merge the map with the existing gardens, "in place"
-    allListedGardens.update((existingGardens) => {
-      // Merge the fetched gardens with the existing ones; without creating a new array in memory
-      // (attempt to reduce memory usage)
-      gardensChunkResponse.forEach((restDoc) => {
-        if (restDoc.document) {
-          // If the document has contents. This is normally the case, but on an empty
-          // local dev env, it might not be (there may be one document with only a read time, but no contents then).
-          existingGardens.push(mapRestToGarden(restDoc));
-        }
-      });
-      return existingGardens;
-    });
-  } while (startAfterDocRef != null && iteration < LOOP_LIMIT_ITEMS / CHUNK_SIZE);
-
-  logger.log('Fetched all gardens');
-
-  isFetchingGardens.set(false);
-  return get(allListedGardens);
+  })();
+  return listedGardensRequest;
 };
 
 const doUploadGardenPhoto = async (photo: File, currentUser: User) => {

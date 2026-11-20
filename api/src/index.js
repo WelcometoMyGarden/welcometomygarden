@@ -71,6 +71,10 @@ const { onTaskDispatched } = require('firebase-functions/tasks');
 const checkContactCreation = require('./sendgrid/checkContactCreation');
 const { sendQueuedMessage } = require('./queued/sendQueuedMessage');
 const syncCampsiteStatus = require('./sendgrid/syncCampsiteStatus');
+const {
+  onCampsiteWriteRegenerateIndex,
+  regenerateGardenIndex
+} = require('./gardenIndex/regenerate');
 const { errorLogTunnel } = require('./errorLogTunnel');
 
 onInit(() => {
@@ -212,7 +216,9 @@ exports.onCampsiteWriteV2 = onDocumentWritten(
       whenSupabaseReplicating(onCampsitesWriteReplicate),
       onCampsiteListedChange
     ]),
-    whenSendGridSyncing(syncCampsiteStatus)
+    whenSendGridSyncing(syncCampsiteStatus),
+    // Debounced regeneration of the public listed gardens file (gardens-agg/listed-public.json)
+    onCampsiteWriteRegenerateIndex
   ])
 );
 exports.onChatWriteV2 = onDocumentWritten(
@@ -262,6 +268,27 @@ exports.sendMessage = onTaskDispatched(
     cpu: 1
   },
   sendQueuedMessage
+);
+
+// Regenerates the public listed gardens file. Scheduled (debounced) by onCampsiteWriteV2.
+// See api/src/gardenIndex/regenerate.js.
+exports.regenerateGardenIndex = onTaskDispatched(
+  {
+    rateLimits: {
+      // Required by the debounce logic: regenerations must not run concurrently.
+      maxConcurrentDispatches: 1
+    },
+    retryConfig: {
+      maxAttempts: 5,
+      minBackoffSeconds: 10
+    },
+    region: 'europe-west1',
+    cpu: 1,
+    // Holds all listed gardens (location + facilities) in memory a few times over.
+    memory: '512MiB',
+    timeoutSeconds: 120
+  },
+  regenerateGardenIndex
 );
 
 // Firebase Auth scheduled replication

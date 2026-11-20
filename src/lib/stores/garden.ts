@@ -1,6 +1,6 @@
 import { writable, get, type Writable } from 'svelte/store';
 import { getAllListedGardens } from '$lib/api/garden';
-import type { Garden } from '../types/Garden';
+import type { Garden, MapGarden } from '../types/Garden';
 import * as Sentry from '@sentry/sveltekit';
 import logger from '$lib/util/logger';
 
@@ -8,22 +8,29 @@ export const hasLoaded = writable(false);
 export const isUploading = writable(false);
 export const uploadProgress = writable(0);
 export const isFetchingGardens = writable(false);
-export const allListedGardens: Writable<Garden[]> = writable([]);
-export const filteredGardens: Writable<Garden[]> = writable([]);
+/**
+ * All listed gardens, as loaded from the precomputed listed gardens file.
+ * Most entries don't carry garden details (description, photo): see {@link MapGarden}.
+ */
+export const allListedGardens: Writable<MapGarden[]> = writable([]);
+export const filteredGardens: Writable<MapGarden[]> = writable([]);
+
+/** Remove a garden from the local listed gardens store, if it is present. */
+export const removeGardenLocally = (gardenId: string) => {
+  if (get(allListedGardens).some((g) => g.id === gardenId)) {
+    allListedGardens.update((gardens) => gardens.filter((g) => g.id !== gardenId));
+  }
+};
 
 export const upsertInAllListedGardens = async (garden: Garden) => {
   // If the garden passed in is unlisted, and it is found in the listed gardens store
   // then remove it from the store
   if (!garden.listed) {
-    const index = get(allListedGardens).findIndex((g) => g.id === garden.id);
-    if (index > -1) {
-      allListedGardens.update((gardens) => gardens.filter((_, i) => i !== index));
-    }
+    removeGardenLocally(garden.id);
     return;
   }
 
   if (get(allListedGardens).length === 0 && !get(isFetchingGardens)) {
-    isFetchingGardens.set(true);
     try {
       await getAllListedGardens();
     } catch (ex) {
@@ -31,21 +38,18 @@ export const upsertInAllListedGardens = async (garden: Garden) => {
       Sentry.captureException(ex, {
         extra: { context: 'Fetching all listed gardens' }
       });
-      isFetchingGardens.set(false);
     }
-    isFetchingGardens.set(false);
-  } else {
-    // Update the the specific garden in the local store of gardens
-    allListedGardens.update((gardens) => {
-      const index = gardens.findIndex((g) => g.id === garden.id);
-      if (index > -1) {
-        gardens[index] = garden;
-      } else {
-        gardens.push(garden);
-      }
-      return gardens;
-    });
   }
+  // Update the the specific garden in the local store of gardens
+  allListedGardens.update((gardens) => {
+    const index = gardens.findIndex((g) => g.id === garden.id);
+    if (index > -1) {
+      gardens[index] = garden;
+    } else {
+      gardens.push(garden);
+    }
+    return gardens;
+  });
 };
 export const addGardenLocally = (garden: Garden) => upsertInAllListedGardens(garden);
 export const updateGardenLocally = (garden: Garden) => upsertInAllListedGardens(garden);

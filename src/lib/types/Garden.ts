@@ -46,6 +46,64 @@ export type Garden = {
 } & FirebaseGarden;
 
 /**
+ * The minimal, public projection of a listed garden, as decoded from the
+ * precomputed listed gardens file (see {@link ListedGardenRow}).
+ */
+export type GardenSummary = {
+  id: string;
+  location: LongLat;
+  facilities: GardenFacilities;
+  /** Like 'garden.jpg', or null without photo. */
+  photo: string | null;
+};
+
+/**
+ * A garden in the precomputed listed gardens file: a compact row without field names.
+ *
+ * - `lat`, `lng`: rounded to 5 fractional digits (~1m)
+ * - `facilityBits`: bit `i` is set when the boolean facility at index `i` of
+ *   `FACILITY_BITS_ORDER` (`src/lib/util/listed-gardens.ts`) is true
+ * - `ext`: the photo file extension without period (the photo name is always `garden.<ext>`),
+ *   or `''` when the garden has no photo
+ */
+export type ListedGardenRow = [
+  id: string,
+  lat: number,
+  lng: number,
+  facilityBits: number,
+  capacity: number,
+  ext: string
+];
+
+/**
+ * Shape of the precomputed `gardens-agg/listed-public.json` file in Cloud Storage.
+ * See `api/src/gardenIndex/generate.js`.
+ */
+export type ListedGardensFile = {
+  /** Format version, bump on breaking changes to this shape */
+  version: 1;
+  /** ISO timestamp of when the file was generated */
+  generatedAt: string;
+  gardens: ListedGardenRow[];
+};
+
+/**
+ * A garden as held in the map's listed gardens store.
+ *
+ * This is at least a {@link GardenSummary} (from the precomputed file), but it may
+ * carry the full garden details in some cases, like the logged-in user's own garden.
+ * Check for `description` to know whether the details are present; if not,
+ * fetch the full garden with `getGarden()`.
+ */
+export type MapGarden = GardenSummary & Partial<Omit<Garden, keyof GardenSummary>>;
+
+/**
+ * Whether the given map garden carries the full garden details.
+ */
+export const hasGardenDetails = (garden: MapGarden): garden is Garden =>
+  typeof garden.description === 'string';
+
+/**
  * Subset of fields of a Garden that has a photo
  */
 export type GardenPhoto = { id: string; photo: string };

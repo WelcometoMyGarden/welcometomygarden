@@ -1,5 +1,5 @@
 <script lang="ts">
-  import type { Garden } from '$lib/types/Garden';
+  import type { MapGarden } from '$lib/types/Garden';
   import type { ContextType } from './Map.svelte';
   import type GeoJSON from 'geojson';
   import type { GeoJSONSource, MapMouseEvent } from 'mapbox-gl/esm';
@@ -12,12 +12,12 @@
   import * as Sentry from '@sentry/sveltekit';
   import logger from '$lib/util/logger';
 
-  type GardenFeatureProperties = Garden & {
+  type GardenFeatureProperties = MapGarden & {
     icon: string;
     lnglat: [number, number];
   };
   interface Props {
-    allGardens: Garden[];
+    allGardens: MapGarden[];
     selectedGardenId?: string | null;
     showGardens: boolean;
     showSavedGardens: boolean;
@@ -65,7 +65,7 @@
     fcAllGardens.features = [];
     fcSavedGardens.features = [];
 
-    allGardens.forEach((garden: Garden) => {
+    allGardens.forEach((garden: MapGarden) => {
       if (!garden.id) return;
 
       const gardenId = garden.id;
