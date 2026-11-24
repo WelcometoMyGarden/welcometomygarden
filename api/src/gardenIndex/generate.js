@@ -18,7 +18,7 @@ const { campsitesCol } = require('../collections');
 
 /** Storage path the frontend reads from. Keep in sync with `src/lib/api/garden.ts`. */
 const LISTED_GARDENS_PATH = 'gardens-agg/listed-public.json';
-/** Coordinate decimal places kept in the output (5 ≈ 1m). */
+/** Coordinate decimal places kept in the output (5 ≈ 0.5-1m). */
 const PRECISION = 5;
 /**
  * Browsers may cache the file this long. The download URL carries a fresh token
@@ -139,7 +139,7 @@ function buildListedGardensFile(docs, now = new Date()) {
     .map((d) => toGardenRow(d.id, d.data()))
     .filter(/** @returns {g is ListedGardenRow} */ (g) => g != null)
     // Deterministic output: identical data produces an identical file.
-    .sort(([a], [b]) => (a < b ? -1 : a > b ? 1 : 0));
+    .sort(([idA], [idB]) => (idA < idB ? -1 : idA > idB ? 1 : 0));
   return { version: FILE_VERSION, generatedAt: now.toISOString(), gardens };
 }
 
@@ -166,7 +166,7 @@ async function generateListedGardensFile() {
   }
 
   // Don't overwrite a good previous version with an empty file on a fluke.
-  // Local (demo) emulator environments legitimately start without gardens.
+  // Local (demo) emulator environments can legitimately start without gardens.
   if (file.gardens.length === 0 && !projectID.value().startsWith('demo-')) {
     throw new Error('generateListedGardensFile: no listed gardens with a valid location found.');
   }
@@ -194,11 +194,12 @@ async function generateListedGardensFile() {
       }
     });
 
+  const bytes = Buffer.byteLength(body);
   logger.info(
     `generateListedGardensFile: uploaded ${LISTED_GARDENS_PATH} with ${file.gardens.length} gardens ` +
-      `(${(body.length / 1024).toFixed(0)} KB uncompressed)`
+      `(${(bytes / 1024).toFixed(0)} KiB uncompressed)`
   );
-  return { count: file.gardens.length, bytes: body.length };
+  return { count: file.gardens.length, bytes };
 }
 
 module.exports = {

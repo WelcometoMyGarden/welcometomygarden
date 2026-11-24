@@ -66,8 +66,7 @@ export const LISTED_GARDENS_PATH = 'gardens-agg/listed-public.json';
 
 const fetchListedGardensFile = async (): Promise<ListedGardensFile> => {
   // Resolve the URL every time: it carries a download token that changes with every
-  // regeneration of the file. Because of this, the (browser-cacheable) file content
-  // behind a given URL never changes.
+  // regeneration of the file. Prior tokens will not be valid anymore.
   const url = await getDownloadURL(ref(storage(), LISTED_GARDENS_PATH));
   const response = await fetch(url);
   if (!response.ok) {

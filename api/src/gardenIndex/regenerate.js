@@ -1,7 +1,11 @@
 const { createHash } = require('node:crypto');
 const { logger } = require('firebase-functions/v2');
 const { projectID } = require('firebase-functions/params');
-const { getFunctions } = require('firebase-admin/functions');
+const {
+  getFunctions,
+  FirebaseFunctionsError,
+  FunctionsErrorCode
+} = require('firebase-admin/functions');
 const { db, changeData, getFunctionUrl } = require('../firebase');
 const { systemDoc } = require('../collections');
 const { generateListedGardensFile, isPublicProjectionChanged } = require('./generate');
@@ -67,6 +71,7 @@ const getStateRef = () => systemDoc(STATE_DOC_ID);
 async function enqueue({ taskSeq, at }) {
   // Deterministic id: if this trigger is retried after enqueueing, the duplicate is rejected.
   // Hashed, because sequential task names hurt Cloud Tasks performance.
+  // https://docs.cloud.google.com/tasks/docs/manage-cloud-task-scaling#named_tasks
   const id = createHash('sha256').update(`garden-regen-${taskSeq}`).digest('hex');
   const [resourceName, targetUri] = await getFunctionUrl(TASK_FUNCTION_NAME);
   /** @type {TaskQueue<RegenTaskData>} */
@@ -77,7 +82,9 @@ async function enqueue({ taskSeq, at }) {
       { id, scheduleTime: new Date(at), ...(targetUri ? { uri: targetUri } : {}) }
     );
   } catch (e) {
-    if (/** @type {any} */ (e)?.code !== 'functions/task-already-exists') throw e;
+    const alreadyEnqueued =
+      e instanceof FirebaseFunctionsError && e.hasCode(FunctionsErrorCode.TASK_ALREADY_EXISTS);
+    if (!alreadyEnqueued) throw e;
   }
 }
 
@@ -98,6 +105,7 @@ async function scheduleRegeneration() {
       if (s.pending && !stale) {
         tx.set(ref, { ...s, changeSeq });
         // The scheduled or running regeneration covers this write
+        // (see checks at the trailing edge)
         return null;
       }
       if (stale) {
@@ -177,10 +185,14 @@ exports.regenerateGardenIndex = async (req) => {
         // Stale recovery took over
         return null;
       }
+
       if (s.changeSeq === claim.seenSeq) {
+        // There were no changes: just mark the state as not pending anymore
         tx.update(ref, { pending: false });
         return null;
       }
+
+      // There were changes: schedule the next regeneration
       const next = { taskSeq: s.taskSeq + 1, at: claim.startedAt + windowMs() };
       tx.update(ref, { taskSeq: next.taskSeq, scheduledFor: next.at });
       return next;
