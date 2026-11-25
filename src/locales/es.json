@@ -976,9 +976,9 @@
       "chat": "Reciba un nuevo mensaje de chat",
       "news": "<span class=\"notranslate\">Welcome To My Garden</span> tenga novedades que compartir",
       "chat-required": {
-        "title": "Se requieren notificaciones móviles",
-        "description": "Para garantizar la capacidad de respuesta y la accesibilidad tanto de anfitriones como de viajeros en <span class=\"notranslate\">Welcome To My Garden</span>, solo puedes desactivar las notificaciones por correo electrónico de los nuevos mensajes de chat si tienes activadas las notificaciones móviles.",
-        "install": "Para activar las notificaciones móviles, instala la aplicación:"
+        "title": "No te pierdas ningún mensaje",
+        "description": "Una comunicación fluida entre anfitriones/as y viajeros/as lentos/as es esencial, por eso necesitamos al menos una forma de contactarte. Solo puedes desactivar estas notificaciones por correo electrónico si las notificaciones móviles están activadas.",
+        "install": "Instala nuestra aplicación para activar las notificaciones móviles:"
       }
     },
     "garden": {

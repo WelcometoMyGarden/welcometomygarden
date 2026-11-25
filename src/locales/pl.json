@@ -962,9 +962,9 @@
       "chat": "Otrzymam nową wiadomość na czacie",
       "news": "<span class=\"notranslate\">Welcome To My Garden</span> ma nowe wiadomości do przekazania",
       "chat-required": {
-        "title": "Wymagane powiadomienia na telefonie",
-        "description": "Aby zapewnić szybkie odpowiedzi i dostępność zarówno gospodarzy, jak i podróżnych w <span class=\"notranslate\">Welcome To My Garden</span>, powiadomienia e-mail o nowych wiadomościach na czacie możesz wyłączyć tylko wtedy, gdy masz włączone powiadomienia na telefonie.",
-        "install": "Aby włączyć powiadomienia na telefonie, zainstaluj aplikację:"
+        "title": "Nie przegap wiadomości na czacie",
+        "description": "Sprawna komunikacja między gospodarzami a świadomymi podróżnikami jest kluczowa, dlatego potrzebujemy co najmniej jednego sposobu, aby się z Tobą skontaktować. Te powiadomienia e-mail możesz wyłączyć tylko wtedy, gdy powiadomienia na telefonie są włączone.",
+        "install": "Zainstaluj naszą aplikację, aby włączyć powiadomienia na telefonie:"
       }
     },
     "garden": {

@@ -962,9 +962,9 @@
       "chat": "Primesc un mesaj nou pe chat",
       "news": "<span class=\"notranslate\">Welcome To My Garden</span> are noutăți de împărtășit",
       "chat-required": {
-        "title": "Sunt necesare notificările pe mobil",
-        "description": "Pentru a asigura promptitudinea și disponibilitatea atât a gazdelor, cât și a călătorilor pe <span class=\"notranslate\">Welcome To My Garden</span>, poți dezactiva notificările prin e-mail pentru mesajele noi din chat doar dacă ai activate notificările pe mobil.",
-        "install": "Pentru a activa notificările pe mobil, instalează aplicația:"
+        "title": "Nu rata niciun mesaj din chat",
+        "description": "O comunicare fluentă între gazde și cei care aleg călătoria lentă este esențială, așa că avem nevoie de cel puțin o modalitate de a te contacta. Poți dezactiva aceste notificări prin e-mail doar dacă notificările pe mobil sunt activate.",
+        "install": "Instalează aplicația noastră pentru a activa notificările pe mobil:"
       }
     },
     "garden": {
