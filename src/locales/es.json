@@ -974,7 +974,12 @@
       "title": "Preferencias de correo electrónico",
       "text": "Enviarme correos electrónicos cuando:",
       "chat": "Reciba un nuevo mensaje de chat",
-      "news": "<span class=\"notranslate\">Welcome To My Garden</span> tenga novedades que compartir"
+      "news": "<span class=\"notranslate\">Welcome To My Garden</span> tenga novedades que compartir",
+      "chat-required": {
+        "title": "No te pierdas ningún mensaje",
+        "description": "Una comunicación fluida entre anfitriones/as y viajeros/as lentos/as es esencial, por eso necesitamos al menos una forma de contactarte. Solo puedes desactivar estas notificaciones por correo electrónico si las notificaciones móviles están activadas.",
+        "install": "Instala nuestra aplicación para activar las notificaciones móviles:"
+      }
     },
     "garden": {
       "title": "Tu jardín",

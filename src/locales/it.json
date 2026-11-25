@@ -960,7 +960,12 @@
       "title": "Preferenze email",
       "text": "Inviami un'email quando:",
       "chat": "Ricevo un nuovo messaggio in chat",
-      "news": "<span class=\"notranslate\">Welcome To My Garden</span> ha delle novità da condividere"
+      "news": "<span class=\"notranslate\">Welcome To My Garden</span> ha delle novità da condividere",
+      "chat-required": {
+        "title": "Non perdere nessun messaggio",
+        "description": "Una comunicazione fluida tra host e viaggiatori lenti è essenziale, per questo abbiamo bisogno di almeno un modo per raggiungerti. Puoi disattivare queste notifiche email solo se le notifiche sul cellulare sono attive.",
+        "install": "Installa la nostra app per attivare le notifiche sul cellulare:"
+      }
     },
     "garden": {
       "title": "Il tuo giardino",

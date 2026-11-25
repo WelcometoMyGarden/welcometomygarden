@@ -1011,7 +1011,12 @@
       "text": "M'envoyer des courriels quand :",
       "title": "Préférences de courriel",
       "news": "<span class=\"notranslate\">Welcome To My Garden</span> a des nouvelles à partager",
-      "chat": "Je reçois un nouveau message de discussion"
+      "chat": "Je reçois un nouveau message de discussion",
+      "chat-required": {
+        "title": "Ne manquez aucun message",
+        "description": "Une communication fluide entre les hôtes et les voyageurs lents est essentielle, c'est pourquoi nous avons besoin d'au moins un moyen de vous joindre. Vous ne pouvez désactiver ces notifications par e-mail que si les notifications mobiles sont activées.",
+        "install": "Installez notre app pour activer les notifications mobiles :"
+      }
     },
     "title": "Compte",
     "delete": {

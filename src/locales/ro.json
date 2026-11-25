@@ -960,7 +960,12 @@
       "title": "Preferințe e-mail",
       "text": "Trimite-mi e-mailuri când:",
       "chat": "Primesc un mesaj nou pe chat",
-      "news": "<span class=\"notranslate\">Welcome To My Garden</span> are noutăți de împărtășit"
+      "news": "<span class=\"notranslate\">Welcome To My Garden</span> are noutăți de împărtășit",
+      "chat-required": {
+        "title": "Nu rata niciun mesaj din chat",
+        "description": "O comunicare fluentă între gazde și cei care aleg călătoria lentă este esențială, așa că avem nevoie de cel puțin o modalitate de a te contacta. Poți dezactiva aceste notificări prin e-mail doar dacă notificările pe mobil sunt activate.",
+        "install": "Instalează aplicația noastră pentru a activa notificările pe mobil:"
+      }
     },
     "garden": {
       "title": "Grădina ta",

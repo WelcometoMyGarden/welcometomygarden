@@ -960,7 +960,12 @@
       "title": "E-postinställningar",
       "text": "Skicka e-post till mig när:",
       "chat": "Jag får ett nytt chattmeddelande",
-      "news": "<span class=\"notranslate\">Welcome To My Garden</span> har nyheter att dela"
+      "news": "<span class=\"notranslate\">Welcome To My Garden</span> har nyheter att dela",
+      "chat-required": {
+        "title": "Missa inga chattmeddelanden",
+        "description": "Smidig kommunikation mellan värdar och slow travellers är viktig, så vi behöver minst ett sätt att nå dig. Du kan bara stänga av de här e-postaviseringarna när mobilaviseringar är påslagna.",
+        "install": "Installera vår app för att slå på mobilaviseringar:"
+      }
     },
     "garden": {
       "title": "Din trädgård",

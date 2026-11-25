@@ -107,4 +107,87 @@ describe('onPushRegistrationWrite', () => {
       'Native push registration should still be active'
     );
   }).timeout(totalTimeout);
+
+  describe('restoring the newChat email preference', () => {
+    const nativeRegistration = {
+      fcmToken: 'native-fcm-token',
+      deviceId: 'test-device-id-abc123',
+      status: 'active',
+      ua: { os: 'Android', browser: null, device: {} },
+      createdAt: Timestamp.now(),
+      refreshedAt: Timestamp.now()
+    };
+
+    /** @returns {DocumentReference<UserPrivate>} */
+    const userPrivateRef = () =>
+      /** @type {DocumentReference<UserPrivate>} */ (db.collection('users-private').doc(user.uid));
+
+    /** @returns {Promise<boolean | undefined>} */
+    const getNewChatPreference = async () =>
+      (await userPrivateRef().get()).data()?.emailPreferences?.newChat;
+
+    beforeEach(async () => {
+      // Opting out is only possible with an active mobile registration, so start from
+      // the state the frontend would have allowed.
+      await userPrivateRef().update({ 'emailPreferences.newChat': false });
+    });
+
+    it('keeps newChat off while an active mobile push registration remains', async () => {
+      await pushRegistrationsRef.add(nativeRegistration);
+      await wait(waitForTriggersTimeout);
+
+      assert.strictEqual(
+        await getNewChatPreference(),
+        false,
+        'newChat should stay off while the user is reachable on mobile'
+      );
+    }).timeout(totalTimeout);
+
+    it('restores newChat when the last active mobile registration is deactivated', async () => {
+      const registrationRef = await pushRegistrationsRef.add(nativeRegistration);
+      await wait(waitForTriggersTimeout);
+
+      await registrationRef.update({ status: 'marked_for_deletion' });
+      await wait(waitForTriggersTimeout);
+
+      assert.strictEqual(
+        await getNewChatPreference(),
+        true,
+        'newChat should be restored when no active mobile registration is left'
+      );
+    }).timeout(totalTimeout * 2);
+
+    it('restores newChat when the last mobile registration is deleted', async () => {
+      const registrationRef = await pushRegistrationsRef.add(nativeRegistration);
+      await wait(waitForTriggersTimeout);
+
+      await registrationRef.delete();
+      await wait(waitForTriggersTimeout);
+
+      assert.strictEqual(
+        await getNewChatPreference(),
+        true,
+        'newChat should be restored when the registration is gone'
+      );
+    }).timeout(totalTimeout * 2);
+
+    it('restores newChat for a user who only ever had web push', async () => {
+      await pushRegistrationsRef.add({
+        fcmToken: 'web-fcm-token-1',
+        status: 'active',
+        subscription: { endpoint: 'https://example.com/push/1', keys: {} },
+        host: 'welcometomygarden.org',
+        ua: { os: 'Linux', browser: 'Chrome', device: {} },
+        createdAt: Timestamp.now(),
+        refreshedAt: Timestamp.now()
+      });
+      await wait(waitForTriggersTimeout);
+
+      assert.strictEqual(
+        await getNewChatPreference(),
+        true,
+        'web push does not count as a mobile push registration'
+      );
+    }).timeout(totalTimeout);
+  });
 });
