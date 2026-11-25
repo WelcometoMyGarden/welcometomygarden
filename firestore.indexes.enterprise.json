@@ -1,0 +1,130 @@
+{
+  "indexes": [
+    {
+      "collectionGroup": "campsites",
+      "queryScope": "COLLECTION",
+      "density": "DENSE",
+      "fields": [
+        {
+          "fieldPath": "listed",
+          "order": "ASCENDING"
+        },
+        {
+          "fieldPath": "__name__",
+          "order": "ASCENDING"
+        }
+      ]
+    },
+    {
+      "collectionGroup": "chats",
+      "queryScope": "COLLECTION",
+      "density": "DENSE",
+      "fields": [
+        {
+          "fieldPath": "users",
+          "arrayConfig": "CONTAINS"
+        },
+        {
+          "fieldPath": "__name__",
+          "order": "ASCENDING"
+        }
+      ]
+    },
+    {
+      "collectionGroup": "chats",
+      "queryScope": "COLLECTION",
+      "density": "DENSE",
+      "fields": [
+        {
+          "fieldPath": "users",
+          "arrayConfig": "CONTAINS"
+        },
+        {
+          "fieldPath": "createdAt",
+          "order": "ASCENDING"
+        },
+        {
+          "fieldPath": "__name__",
+          "order": "ASCENDING"
+        }
+      ]
+    },
+    {
+      "collectionGroup": "users-private",
+      "queryScope": "COLLECTION",
+      "density": "DENSE",
+      "fields": [
+        {
+          "fieldPath": "relistGardenAt",
+          "order": "ASCENDING"
+        },
+        {
+          "fieldPath": "__name__",
+          "order": "ASCENDING"
+        }
+      ]
+    },
+    {
+      "collectionGroup": "users-private",
+      "queryScope": "COLLECTION",
+      "density": "DENSE",
+      "fields": [
+        {
+          "fieldPath": "stripeCustomerId",
+          "order": "ASCENDING"
+        },
+        {
+          "fieldPath": "__name__",
+          "order": "ASCENDING"
+        }
+      ]
+    },
+    {
+      "collectionGroup": "users-private",
+      "queryScope": "COLLECTION",
+      "density": "DENSE",
+      "fields": [
+        {
+          "fieldPath": "stripeSubscription.collectionMethod",
+          "order": "ASCENDING"
+        },
+        {
+          "fieldPath": "stripeSubscription.status",
+          "order": "ASCENDING"
+        },
+        {
+          "fieldPath": "stripeSubscription.cancelAt",
+          "order": "ASCENDING"
+        },
+        {
+          "fieldPath": "__name__",
+          "order": "ASCENDING"
+        }
+      ]
+    },
+    {
+      "collectionGroup": "users-private",
+      "queryScope": "COLLECTION",
+      "density": "DENSE",
+      "fields": [
+        {
+          "fieldPath": "stripeSubscription.collectionMethod",
+          "order": "ASCENDING"
+        },
+        {
+          "fieldPath": "stripeSubscription.status",
+          "order": "ASCENDING"
+        },
+        {
+          "fieldPath": "stripeSubscription.canceledAt",
+          "order": "ASCENDING"
+        },
+        {
+          "fieldPath": "__name__",
+          "order": "ASCENDING"
+        }
+      ]
+    }
+  ],
+  "fieldOverrides": []
+}
