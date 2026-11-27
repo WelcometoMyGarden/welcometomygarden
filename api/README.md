@@ -168,6 +168,7 @@ functions:onUserWriteV2,\
 functions:parseInboundEmailV2,\
 functions:sendMessage,\
 functions:updateEmail,\
+functions:regenerateGardenIndex,\
 functions:onAuthUserCreate,\
 functions:onAuthUserDelete
 ```
