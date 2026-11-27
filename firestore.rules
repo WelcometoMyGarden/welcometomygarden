@@ -219,7 +219,9 @@ service cloud.firestore {
     // Garden collection
 
     match /campsites/{userId} {
-      allow read;
+      allow get:
+      if existingData().listed == true || isOwner(userId);
+      // `list` is disallowed, see api/src/gardenIndex for the the way gardens are listed
       allow create:
       if isSignedIn() &&
       validateGardenState(request.resource.data) &&
